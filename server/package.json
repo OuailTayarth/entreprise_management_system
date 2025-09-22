@@ -11,7 +11,10 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.10.1",
     "@types/node": "^24.5.2",
+    "prisma-erd-generator": "^2.1.0",
+    "puppeteer": "^23.11.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
