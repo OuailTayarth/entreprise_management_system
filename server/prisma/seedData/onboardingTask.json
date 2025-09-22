@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "title": "Complete HR Paperwork",
+    "description": "Sign all required documents in DocuSign",
+    "dueDate": "2023-01-20T00:00:00.000Z",
+    "completed": true,
+    "completedAt": "2023-01-18T00:00:00.000Z",
+    "assigneeId": 2
+  },
+  {
+    "id": 2,
+    "title": "Set Up Development Environment",
+    "description": "Install Node.js, VS Code, and clone repos",
+    "dueDate": "2023-03-15T00:00:00.000Z",
+    "completed": true,
+    "completedAt": "2023-03-12T00:00:00.000Z",
+    "assigneeId": 3
+  },
+  {
+    "id": 3,
+    "title": "Attend Security Training",
+    "description": "Complete mandatory infosec module",
+    "dueDate": "2023-04-10T00:00:00.000Z",
+    "completed": false,
+    "assigneeId": 5
+  }
+]
