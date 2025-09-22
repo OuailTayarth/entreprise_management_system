@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// TODO: add the DATABASe URL
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// 👤 EMPLOYEE
+model Employee {
+  id                Int       @id @default(autoincrement())
+  cognitoId         String    @unique
+  username          String    @unique
+  email             String    @unique
+  firstName         String
+  lastName          String
+  profilePictureUrl String?
+  jobTitle          String?
+  startDate         DateTime
+  endDate           DateTime?
+  employmentType    String?   // "Full-time", "Contract", "Intern"
+  leaveBalance      Float     @default(20.0) // Annual PTO days
+  departmentId      Int?
+  managerId         Int?
+  teamId            Int?
+  // Employee has a manager with managerId(which it self an employee)// point to the manager
+  manager       Employee?     @relation("ManagerEmployees", fields: [managerId], references: [id])
+  // If the employee a manager then find all employyes whole managers this employyes id  
+  managedTeam   Employee[]    @relation("ManagerEmployees")
+  department    Department?
+  team          Team?
+  documents     Document[] // assigned documents 
+  leaves        Leave[]
+  onboardingTasks OnboardingTask[]
+  uploadedDocs  Document[]    @relation("Uploader")
+}
+
+// 🏢 DEPARTMENT — e.g., Engineering, Marketing, HR
+model Department {
+  id Int @id @default(autoincrement())
+  name String @unique // "Engineering", "Product", etc
+  managerId Int?
+  employees Employee[]
+  teams Team[]
+}
+
+// 👥 TEAM — e.g., Frontend, AI Research, Growth
+model Team {
+  id Int @id @default(autoincrement())
+  name String
+  departmentId Int
+  managerId Int?
+  
+  department Department @relation(fields: [departmentId], references: [id])
+  manager Employee? @relation(fields: [managerId], references: [id])
+  employees Employee[]
+}
+
+// 📄 DOCUMENT — Contracts, NDAs, Offer Letters
+model Document {
+  id Int @id @default(autoincrement())
+  title String
+  fileURL String
+  type String    // "Offer Letter", "NDA", "Policy", "ID"
+  signed Boolean  @default(false)
+  signedAt DateTime?
+  uploadedById Int
+  employeeId Int
+
+  uploadedBy Employee @relation("Uploader", fields: [uploadedById], references: [id])
+  employee   Employee @relation(fields: [employeeId], references: [id])
+}
+
+// 🛌 LEAVE — Sick, Parental, Vacation
+model Leave {
+  id Int @id @default(autoincrement())
+  type String    // "Sick", "Parental", "Vacation", "Bereavement"
+  startDate DateTime
+  endDate DateTime
+  status String @default("PENDING") // "APPROVED", "REJECTED", "CANCELLED"
+  reason String?
+  employeeId Int
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+
+// ✅ ONBOARDING TASK — Checklist for new hires
+model OnboardingTask {
+  id Int @id @default(autoincrement())
+  title String
+  description String?
+  dueDate DateTime?
+  completed Boolean @default(false)
+  completedAt DateTime?
+  assigneeId Int
+
+  assignee Employee @relation(fields: [assigneeId], references: [id])
+}
+
