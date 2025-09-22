@@ -1,14 +1,15 @@
 import React from "react";
-import { Menu, Search, Settings, Sun } from "lucide-react";
+import { Menu, Search, Settings, Sun, Moon } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import Link from "next/link";
-import { setIsSidebarCollapsed } from "@/app/state";
+import { setIsDarkMode, setIsSidebarCollapsed } from "@/app/state";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
+  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   return (
     <div className="flex items-center justify-between bg-white px-4 py-3 dark:bg-black">
       {/* Search Bar */}
@@ -33,8 +34,15 @@ const Navbar = () => {
 
       {/* Icons */}
       <div className="flex items-center">
-        <button className="rounded p-2 dark:hover:bg-gray-700">
-          <Sun className="h-6 w-6 cursor-pointer dark:text-white" />
+        <button
+          onClick={() => dispatch(setIsDarkMode(!isDarkMode))}
+          className={`rounded p-2 ${isDarkMode ? "dark:hover:bg-gray-700" : "hover:bg-gray-100"}`}
+        >
+          {isDarkMode ? (
+            <Sun className="h-6 w-6 cursor-pointer text-yellow-300" />
+          ) : (
+            <Moon className="h-6 w-6 cursor-pointer text-gray-700" />
+          )}
         </button>
         <Link
           href="/"
