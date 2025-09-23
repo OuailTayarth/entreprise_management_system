@@ -3,13 +3,17 @@
   "compilerOptions": {
     // File Layout
     // "rootDir": "./src",
-    // "outDir": "./dist",
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
-    "target": "esnext",
+    "target": "es2016",
     "types": [],
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -34,12 +38,12 @@
 
     // Recommended Options
     "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true
+    // "jsx": "react-jsx",
+    // "verbatimModuleSyntax": true,
+    // "isolatedModules": true,
+    // "noUncheckedSideEffectImports": true,
+    // "moduleDetection": "force",
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": ["src/**/*", "src/data/**/*.json", "prisma/**/*"]
 }
