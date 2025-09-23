@@ -1,14 +1,5 @@
 [
-  {
-    "name": "Engineering",
-    "managerId": 2
-  },
-  {
-    "name": "Human Resources",
-    "managerId": 4
-  },
-  {
-    "name": "Marketing",
-    "managerId": 6
-  }
+  { "id": 1, "name": "Engineering" },
+  { "id": 2, "name": "Human Resources" },
+  { "id": 3, "name": "Marketing" }
 ]

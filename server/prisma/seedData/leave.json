@@ -1,26 +1,20 @@
 [
   {
+    "id": 1,
     "type": "Vacation",
     "startDate": "2025-07-01T00:00:00.000Z",
     "endDate": "2025-07-07T00:00:00.000Z",
     "status": "APPROVED",
     "reason": "Family trip",
-    "employeeId": 3
+    "employeeId": 1
   },
   {
+    "id": 2,
     "type": "Sick",
     "startDate": "2025-08-15T00:00:00.000Z",
     "endDate": "2025-08-16T00:00:00.000Z",
     "status": "APPROVED",
     "reason": "Flu",
-    "employeeId": 5
-  },
-  {
-    "type": "Parental",
-    "startDate": "2025-09-01T00:00:00.000Z",
-    "endDate": "2025-11-30T00:00:00.000Z",
-    "status": "PENDING",
-    "reason": "Newborn arrival",
     "employeeId": 2
   }
 ]

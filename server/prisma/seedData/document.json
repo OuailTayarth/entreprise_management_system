@@ -1,28 +1,12 @@
 [
   {
+    "id": 1,
     "title": "Offer Letter - Alice Smith",
     "fileURL": "/assets/docs/offer_alice.pdf",
     "type": "Offer Letter",
     "signed": true,
-    "signedAt": "2023-01-10T00:00:00.000Z",
+    "signedAt": "2025-01-10T00:00:00.000Z",
     "uploadedById": 1,
     "employeeId": 1
-  },
-  {
-    "title": "NDA - Bob Johnson",
-    "fileURL": "/assets/docs/nda_bob.pdf",
-    "type": "NDA",
-    "signed": true,
-    "signedAt": "2023-01-25T00:00:00.000Z",
-    "uploadedById": 2,
-    "employeeId": 2
-  },
-  {
-    "title": "Employee Handbook",
-    "fileURL": "/assets/docs/handbook.pdf",
-    "type": "Policy",
-    "signed": false,
-    "uploadedById": 4,
-    "employeeId": 3
   }
 ]

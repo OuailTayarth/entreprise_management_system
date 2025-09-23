@@ -1,0 +1,4 @@
+[
+  { "departmentId": 1, "employeeId": 2 },
+  { "departmentId": 2, "employeeId": 1 }
+]

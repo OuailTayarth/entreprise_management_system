@@ -1,17 +1,4 @@
 [
-  {
-    "name": "Frontend Team",
-    "departmentId": 1,
-    "managerId": 2
-  },
-  {
-    "name": "Recruitment Team",
-    "departmentId": 2,
-    "managerId": 4
-  },
-  {
-    "name": "Growth Team",
-    "departmentId": 3,
-    "managerId": 6
-  }
+  { "id": 1, "name": "Frontend", "departmentId": 1 },
+  { "id": 2, "name": "PeopleOps", "departmentId": 2 }
 ]

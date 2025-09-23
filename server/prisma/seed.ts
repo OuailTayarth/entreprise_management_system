@@ -24,8 +24,15 @@ async function deleteAllData(orderedFileNames: string[]) {
 async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
-  // Define seed order: parents before children (e.g., Team before User)
-  const orderedFileNames = ["department.json", "team.json", "employee.json"];
+  const orderedFileNames = [
+    "department.json",
+    "team.json",
+    "employee.json",
+    "departmentManager.json",
+    "document.json",
+    "leave.json",
+    "onboardingTask.json",
+  ];
 
   // Clear existing data before seeding
   await deleteAllData(orderedFileNames);
