@@ -9,14 +9,14 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "es2016",
-    "types": [],
+    "types": ["node"],
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
     // For nodejs:
-    // "lib": ["esnext"],
-    // "types": ["node"],
+    "lib": ["esnext", "es2020", "dom"],
+
     // and npm install -D @types/node
 
     // Other Outputs

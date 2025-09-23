@@ -1,18 +1,15 @@
 [
   {
-    "id": 1,
     "name": "Frontend Team",
     "departmentId": 1,
     "managerId": 2
   },
   {
-    "id": 2,
     "name": "Recruitment Team",
     "departmentId": 2,
     "managerId": 4
   },
   {
-    "id": 3,
     "name": "Growth Team",
     "departmentId": 3,
     "managerId": 6

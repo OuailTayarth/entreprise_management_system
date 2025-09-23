@@ -17,6 +17,3 @@ export const getEmployees = async (
       .json({ message: `Error retrieving projects: ${error.message}` });
   }
 };
-
-
-export createEmployee = async ()

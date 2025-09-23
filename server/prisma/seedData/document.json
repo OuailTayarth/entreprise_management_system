@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "title": "Offer Letter - Alice Smith",
     "fileURL": "/assets/docs/offer_alice.pdf",
     "type": "Offer Letter",
@@ -10,7 +9,6 @@
     "employeeId": 1
   },
   {
-    "id": 2,
     "title": "NDA - Bob Johnson",
     "fileURL": "/assets/docs/nda_bob.pdf",
     "type": "NDA",
@@ -20,7 +18,6 @@
     "employeeId": 2
   },
   {
-    "id": 3,
     "title": "Employee Handbook",
     "fileURL": "/assets/docs/handbook.pdf",
     "type": "Policy",
