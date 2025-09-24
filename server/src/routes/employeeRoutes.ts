@@ -1,8 +1,14 @@
 import { Router } from "express";
-import { getEmployees } from "../controllers/employeeController.js";
+import {
+  createEmployee,
+  getEmployees,
+  getEmployeeById,
+} from "../controllers/employeeController";
 
 const router = Router();
 
-router.get("/", getEmployees); // GET /employees
+router.get("/", getEmployees); // GET /all employees
+router.get("/:id", getEmployeeById);
+router.post("/", createEmployee); // POST / employees
 
 export default router;

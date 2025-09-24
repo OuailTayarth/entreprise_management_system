@@ -6,7 +6,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 // ROUTE IMPORTS
-import employeeRoutes from "./routes/employeeRoutes.js";
+import employeeRoutes from "./routes/employeeRoutes";
 
 // CONFIGURATION
 dotenv.config();
@@ -20,6 +20,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 // ROUTES
+app.get("/", (req, res) => {
+  res.send("Home route!");
+});
+
 app.use("/employees", employeeRoutes);
 
 // SERVER
