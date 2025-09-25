@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../src/prismaClient";
 import {
   EmployeeCreateSchema,
   EmployeeUpdateSchema,
   IdParamSchema,
   zodErrorFormatter,
 } from "../validation";
-
-const prisma = new PrismaClient();
 
 // Get all employees list : / GET /employees
 export const getEmployees = async (
@@ -56,8 +54,8 @@ export const getEmployeeById = async (
   }
 };
 
-// Update an employee by ID : PUT /employees/:id
-export const updateEmployee = async (
+// Update an employee fields by ID : PATCH /employees/:id
+export const updateEmployeeById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -91,7 +89,7 @@ export const updateEmployee = async (
   }
 };
 
-// Create new employee: : / PUT /employees/:id
+// Create new employee: : / POST /employees/:id
 export const createEmployee = async (
   req: Request,
   res: Response
@@ -115,5 +113,30 @@ export const createEmployee = async (
     res
       .status(500)
       .json({ message: `Error creating employee: ${error.message}` });
+  }
+};
+
+// Delete an employee DELETE /employees/:id
+export const deleteEmployeeById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const idParsed = IdParamSchema.safeParse(req.params);
+    if (!idParsed.success) {
+      res.status(400).json({
+        message: "Invalid id type",
+        errors: zodErrorFormatter(idParsed.error),
+      });
+      return;
+    }
+
+    await prisma.employee.delete({ where: { id: idParsed.data.id } });
+
+    res.status(200).json({ message: "Employee deleted" });
+  } catch (e: any) {
+    res
+      .status(500)
+      .json({ message: `Error terminating employee: ${e.message}` });
   }
 };

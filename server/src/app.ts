@@ -7,10 +7,11 @@ import morgan from "morgan";
 
 // ROUTE IMPORTS
 import employeeRoutes from "./routes/employeeRoutes";
+import teamRoutes from "./routes/teamRoutes";
 
 // CONFIGURATION
 dotenv.config();
-const app = express();
+export const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -25,9 +26,4 @@ app.get("/", (req, res) => {
 });
 
 app.use("/employees", employeeRoutes);
-
-// SERVER
-const port = Number(process.env.PORT) || 3000;
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on part ${port}`);
-});
+app.use("/teams", teamRoutes);

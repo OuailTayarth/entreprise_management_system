@@ -9,14 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createEmployee = exports.updateEmployee = exports.getEmployeeById = exports.getEmployees = void 0;
-const client_1 = require("@prisma/client");
+exports.deleteEmployeeById = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.getEmployees = void 0;
+const prismaClient_1 = require("../../src/prismaClient");
 const validation_1 = require("../validation");
-const prisma = new client_1.PrismaClient();
 // Get all employees list : / GET /employees
 const getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const employees = yield prisma.employee.findMany();
+        const employees = yield prismaClient_1.prisma.employee.findMany();
         res.json(employees);
     }
     catch (error) {
@@ -37,7 +36,7 @@ const getEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function
             });
             return;
         }
-        const employee = yield prisma.employee.findUnique({
+        const employee = yield prismaClient_1.prisma.employee.findUnique({
             where: { id: result.data.id },
         });
         if (!employee) {
@@ -53,8 +52,8 @@ const getEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getEmployeeById = getEmployeeById;
-// Update an employee by ID : PUT /employees/:id
-const updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Update an employee fields by ID : PATCH /employees/:id
+const updateEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const parsedId = validation_1.IdParamSchema.safeParse(req.params);
         if (!parsedId.success) {
@@ -72,7 +71,7 @@ const updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
             return;
         }
-        const employee = yield prisma.employee.update({
+        const employee = yield prismaClient_1.prisma.employee.update({
             where: { id: parsedId.data.id },
             data: result.data,
         });
@@ -82,8 +81,8 @@ const updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json({ message: `Error updating employee: ${e.message}` });
     }
 });
-exports.updateEmployee = updateEmployee;
-// Create new employee: : / PUT /employees/:id
+exports.updateEmployeeById = updateEmployeeById;
+// Create new employee: : / POST /employees/:id
 const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = validation_1.EmployeeCreateSchema.safeParse(req.body);
@@ -94,7 +93,7 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
             return;
         }
-        const newEmployee = yield prisma.employee.create({
+        const newEmployee = yield prismaClient_1.prisma.employee.create({
             data: result.data,
         });
         res.status(201).json(newEmployee);
@@ -106,4 +105,25 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.createEmployee = createEmployee;
+// Delete an employee DELETE /employees/:id
+const deleteEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const idParsed = validation_1.IdParamSchema.safeParse(req.params);
+        if (!idParsed.success) {
+            res.status(400).json({
+                message: "Invalid id type",
+                errors: (0, validation_1.zodErrorFormatter)(idParsed.error),
+            });
+            return;
+        }
+        yield prismaClient_1.prisma.employee.delete({ where: { id: idParsed.data.id } });
+        res.status(200).json({ message: "Employee deleted" });
+    }
+    catch (e) {
+        res
+            .status(500)
+            .json({ message: `Error terminating employee: ${e.message}` });
+    }
+});
+exports.deleteEmployeeById = deleteEmployeeById;
 //# sourceMappingURL=employeeController.js.map

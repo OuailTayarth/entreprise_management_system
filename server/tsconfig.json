@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "es2016",
-    "types": ["node"],
+    "types": ["vitest/globals", "node"],
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
