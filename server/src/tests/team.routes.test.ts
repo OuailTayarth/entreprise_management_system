@@ -2,9 +2,14 @@ import request from "supertest";
 import { app } from "../app";
 import { prisma } from "../prismaClient";
 
-afterAll(async () => await prisma.$disconnect());
-
 let createdTeamId: number | undefined;
+
+afterAll(async () => {
+  if (createdTeamId) {
+    await prisma.team.deleteMany({ where: { id: createdTeamId } });
+  }
+  await prisma.$disconnect();
+});
 
 /* GET /teams */
 test("GET /teams -> 200 & array", async () => {

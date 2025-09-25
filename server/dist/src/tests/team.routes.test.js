@@ -15,8 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const app_1 = require("../app");
 const prismaClient_1 = require("../prismaClient");
-afterAll(() => __awaiter(void 0, void 0, void 0, function* () { return yield prismaClient_1.prisma.$disconnect(); }));
 let createdTeamId;
+afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    if (createdTeamId) {
+        yield prismaClient_1.prisma.team.deleteMany({ where: { id: createdTeamId } });
+    }
+    yield prismaClient_1.prisma.$disconnect();
+}));
 /* GET /teams */
 test("GET /teams -> 200 & array", () => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield (0, supertest_1.default)(app_1.app).get("/teams");

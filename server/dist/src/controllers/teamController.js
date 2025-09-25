@@ -26,16 +26,16 @@ exports.getTeams = getTeams;
 // GET /teams/:id
 const getTeamById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const parsed = validation_1.IdParamSchema.safeParse(req.params);
-        if (!parsed.success) {
+        const result = validation_1.IdParamSchema.safeParse(req.params);
+        if (!result.success) {
             res.status(400).json({
                 message: "Invalid id type",
-                errors: (0, validation_1.zodErrorFormatter)(parsed.error),
+                errors: (0, validation_1.zodErrorFormatter)(result.error),
             });
             return;
         }
         const team = yield prismaClient_1.prisma.team.findUnique({
-            where: { id: parsed.data.id },
+            where: { id: result.data.id },
         });
         if (!team) {
             res.status(404).json({ message: "Team not found" });
@@ -51,15 +51,15 @@ exports.getTeamById = getTeamById;
 // POST /teams
 const createTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const parsed = validation_1.TeamCreateSchema.safeParse(req.body);
-        if (!parsed.success) {
+        const result = validation_1.TeamCreateSchema.safeParse(req.body);
+        if (!result.success) {
             res.status(400).json({
                 message: "Invalid input",
-                errors: (0, validation_1.zodErrorFormatter)(parsed.error),
+                errors: (0, validation_1.zodErrorFormatter)(result.error),
             });
             return;
         }
-        const team = yield prismaClient_1.prisma.team.create({ data: parsed.data });
+        const team = yield prismaClient_1.prisma.team.create({ data: result.data });
         res.status(201).json(team);
     }
     catch (e) {
@@ -78,17 +78,17 @@ const updateTeamById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
             return;
         }
-        const bodyParsed = validation_1.TeamUpdateSchema.safeParse(req.body);
-        if (!bodyParsed.success) {
+        const result = validation_1.TeamUpdateSchema.safeParse(req.body);
+        if (!result.success) {
             res.status(400).json({
                 message: "Invalid input",
-                errors: (0, validation_1.zodErrorFormatter)(bodyParsed.error),
+                errors: (0, validation_1.zodErrorFormatter)(result.error),
             });
             return;
         }
         const team = yield prismaClient_1.prisma.team.update({
             where: { id: idParsed.data.id },
-            data: bodyParsed.data,
+            data: result.data,
         });
         res.json(team);
     }

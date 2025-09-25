@@ -23,17 +23,17 @@ export const getTeamById = async (
   res: Response
 ): Promise<void> => {
   try {
-    const parsed = IdParamSchema.safeParse(req.params);
-    if (!parsed.success) {
+    const result = IdParamSchema.safeParse(req.params);
+    if (!result.success) {
       res.status(400).json({
         message: "Invalid id type",
-        errors: zodErrorFormatter(parsed.error),
+        errors: zodErrorFormatter(result.error),
       });
       return;
     }
 
     const team = await prisma.team.findUnique({
-      where: { id: parsed.data.id },
+      where: { id: result.data.id },
     });
     if (!team) {
       res.status(404).json({ message: "Team not found" });
@@ -52,16 +52,16 @@ export const createTeam = async (
   res: Response
 ): Promise<void> => {
   try {
-    const parsed = TeamCreateSchema.safeParse(req.body);
-    if (!parsed.success) {
+    const result = TeamCreateSchema.safeParse(req.body);
+    if (!result.success) {
       res.status(400).json({
         message: "Invalid input",
-        errors: zodErrorFormatter(parsed.error),
+        errors: zodErrorFormatter(result.error),
       });
       return;
     }
 
-    const team = await prisma.team.create({ data: parsed.data });
+    const team = await prisma.team.create({ data: result.data });
     res.status(201).json(team);
   } catch (e: any) {
     res.status(500).json({ message: `Error creating team: ${e.message}` });
@@ -83,18 +83,18 @@ export const updateTeamById = async (
       return;
     }
 
-    const bodyParsed = TeamUpdateSchema.safeParse(req.body);
-    if (!bodyParsed.success) {
+    const result = TeamUpdateSchema.safeParse(req.body);
+    if (!result.success) {
       res.status(400).json({
         message: "Invalid input",
-        errors: zodErrorFormatter(bodyParsed.error),
+        errors: zodErrorFormatter(result.error),
       });
       return;
     }
 
     const team = await prisma.team.update({
       where: { id: idParsed.data.id },
-      data: bodyParsed.data,
+      data: result.data,
     });
 
     res.json(team);

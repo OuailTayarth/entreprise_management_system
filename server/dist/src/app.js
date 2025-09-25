@@ -13,6 +13,9 @@ const morgan_1 = __importDefault(require("morgan"));
 // ROUTE IMPORTS
 const employeeRoutes_1 = __importDefault(require("./routes/employeeRoutes"));
 const teamRoutes_1 = __importDefault(require("./routes/teamRoutes"));
+const departmentRoutes_1 = __importDefault(require("./routes/departmentRoutes"));
+const leaveRoutes_1 = __importDefault(require("./routes/leaveRoutes"));
+const onboardingRoutes_1 = __importDefault(require("./routes/onboardingRoutes"));
 // CONFIGURATION
 dotenv_1.default.config();
 exports.app = (0, express_1.default)();
@@ -29,4 +32,7 @@ exports.app.get("/", (req, res) => {
 });
 exports.app.use("/employees", employeeRoutes_1.default);
 exports.app.use("/teams", teamRoutes_1.default);
+exports.app.use("/departments", departmentRoutes_1.default);
+exports.app.use("/leaves", leaveRoutes_1.default);
+exports.app.use("/onboarding-tasks", onboardingRoutes_1.default);
 //# sourceMappingURL=app.js.map

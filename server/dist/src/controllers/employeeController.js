@@ -30,7 +30,7 @@ const getEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         const result = validation_1.IdParamSchema.safeParse(req.params);
         if (!result.success) {
-            res.status(404).json({
+            res.status(400).json({
                 message: "Invalid id type",
                 errors: (0, validation_1.zodErrorFormatter)(result.error),
             });
@@ -115,6 +115,12 @@ const deleteEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 errors: (0, validation_1.zodErrorFormatter)(idParsed.error),
             });
             return;
+        }
+        const found = yield prismaClient_1.prisma.leave.findUnique({
+            where: { id: idParsed.data.id },
+        });
+        if (!found) {
+            res.status(404).json({ message: "Employee not found" });
         }
         yield prismaClient_1.prisma.employee.delete({ where: { id: idParsed.data.id } });
         res.status(200).json({ message: "Employee deleted" });

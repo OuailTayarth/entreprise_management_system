@@ -8,6 +8,9 @@ import morgan from "morgan";
 // ROUTE IMPORTS
 import employeeRoutes from "./routes/employeeRoutes";
 import teamRoutes from "./routes/teamRoutes";
+import departmentRoutes from "./routes/departmentRoutes";
+import leaveRoutes from "./routes/leaveRoutes";
+import onboardingRoutes from "./routes/onboardingRoutes";
 
 // CONFIGURATION
 dotenv.config();
@@ -27,3 +30,6 @@ app.get("/", (req, res) => {
 
 app.use("/employees", employeeRoutes);
 app.use("/teams", teamRoutes);
+app.use("/departments", departmentRoutes);
+app.use("/leaves", leaveRoutes);
+app.use("/onboarding-tasks", onboardingRoutes);

@@ -30,7 +30,7 @@ export const getEmployeeById = async (
   try {
     const result = IdParamSchema.safeParse(req.params);
     if (!result.success) {
-      res.status(404).json({
+      res.status(400).json({
         message: "Invalid id type",
         errors: zodErrorFormatter(result.error),
       });
@@ -129,6 +129,14 @@ export const deleteEmployeeById = async (
         errors: zodErrorFormatter(idParsed.error),
       });
       return;
+    }
+
+    const found = await prisma.leave.findUnique({
+      where: { id: idParsed.data.id },
+    });
+
+    if (!found) {
+      res.status(404).json({ message: "Employee not found" });
     }
 
     await prisma.employee.delete({ where: { id: idParsed.data.id } });
