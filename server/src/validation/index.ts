@@ -5,3 +5,4 @@ export * from "./department";
 export * from "./leave";
 export * from "./common";
 export * from "./onboarding";
+export * from "./document";

@@ -131,7 +131,7 @@ export const deleteEmployeeById = async (
       return;
     }
 
-    const found = await prisma.leave.findUnique({
+    const found = await prisma.employee.findUnique({
       where: { id: idParsed.data.id },
     });
 
