@@ -15,10 +15,9 @@ A scalable HR portal for managing employees, departments, teams, documents, leav
 
 ## 🛠️ Tech Stack
 
-**Frontend**: Next.js 14, Tailwind CSS, Redux Toolkit, React Query  
-**Backend**: Node.js + Express.js REST API  
-**Database**: PostgreSQL + Prisma ORM  
-**Auth**: AWS Cognito (planned)  
-**Deployment**: AWS EC2 + RDS (planned)
+**Frontend**: Next.js 14, Tailwind CSS, Redux Toolkit, React Query _(in progress)_  
+**Backend**: Node.js + Express.js REST API _(completed)_  
+**Database**: PostgreSQL + Prisma ORM _(completed)_  
+**Tests**: Vitest + Supertest for route and API testing _(completed)_
 
-the project still under development
+> The project is still under development. Backend and database are complete; the frontend (Next.js + Redux Toolkit) is in progress.
