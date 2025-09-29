@@ -5,7 +5,7 @@ import {
   EmployeeUpdateSchema,
   IdParamSchema,
   zodErrorFormatter,
-} from "../validation";
+} from "@shared/validation";
 
 // Get all employees list : / GET /employees
 export const getEmployees = async (

@@ -5,7 +5,7 @@ import {
   zodErrorFormatter,
   LeaveCreateSchema,
   LeaveStatusUpdateSchema,
-} from "../validation";
+} from "@shared/validation";
 
 // GET /leaves
 export const getLeaves = async (req: Request, res: Response): Promise<void> => {

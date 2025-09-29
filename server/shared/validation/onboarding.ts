@@ -1,4 +1,3 @@
-// validation/onboarding.ts
 import { z } from "zod";
 
 export const OnboardingCreateSchema = z.object({

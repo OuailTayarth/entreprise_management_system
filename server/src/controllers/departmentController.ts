@@ -5,7 +5,7 @@ import {
   zodErrorFormatter,
   DepartmentCreateSchema,
   DepartmentUpdateSchema,
-} from "../validation";
+} from "@shared/validation";
 
 // GET /departments
 export const getDepartments = async (

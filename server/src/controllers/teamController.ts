@@ -5,7 +5,7 @@ import {
   zodErrorFormatter,
   TeamCreateSchema,
   TeamUpdateSchema,
-} from "../validation";
+} from "@shared/validation";
 
 // GET /teams
 export const getTeams = async (req: Request, res: Response): Promise<void> => {

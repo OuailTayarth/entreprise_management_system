@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const EmployeeCreateSchema = z.object({
+const BaseEmployeeSchema = z.object({
   username: z
     .string()
     .trim()
@@ -20,7 +20,7 @@ export const EmployeeCreateSchema = z.object({
   teamId: z.coerce.number().int().positive().optional(),
 });
 
-export const EmployeeUpdateSchema = EmployeeCreateSchema.pick({
+export const EmployeeUpdateSchema = BaseEmployeeSchema.pick({
   username: true,
   email: true,
   firstName: true,
@@ -34,7 +34,8 @@ export const EmployeeUpdateSchema = EmployeeCreateSchema.pick({
   .partial()
   .refine((obj) => Object.keys(obj).length > 0, {
     message: "At least one field is required",
-  })
-  .transform((o) =>
-    Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined))
-  );
+  });
+
+export const EmployeeCreateSchema = BaseEmployeeSchema.transform((o) =>
+  Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined))
+);

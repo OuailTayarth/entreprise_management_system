@@ -2,8 +2,8 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": ".",
-    "outDir": "dist" /* Specify an output folder for all emitted files. */,
+    // "rootDir": "src",
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -43,8 +43,11 @@
     // "isolatedModules": true,
     // "noUncheckedSideEffectImports": true,
     // "moduleDetection": "force",
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["shared/*"]
+    }
   },
-  "include": ["src/**/*.ts", "prisma/**/*.ts", "src/data/**/*.json"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "src/data/**/*.json", "prisma/**/*"]
 }

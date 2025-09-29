@@ -5,7 +5,7 @@ import {
   zodErrorFormatter,
   OnboardingCreateSchema,
   OnboardingUpdateSchema,
-} from "../validation";
+} from "@shared/validation";
 
 // GET /onboarding-tasks
 export const getOnboardingTasks = async (

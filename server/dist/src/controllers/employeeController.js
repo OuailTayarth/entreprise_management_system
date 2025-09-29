@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEmployeeById = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.getEmployees = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
-const validation_1 = require("../validation");
+const validation_1 = require("@shared/validation");
 // Get all employees list : / GET /employees
 const getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
