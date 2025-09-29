@@ -116,7 +116,7 @@ const deleteEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, funct
             });
             return;
         }
-        const found = yield prismaClient_1.prisma.leave.findUnique({
+        const found = yield prismaClient_1.prisma.employee.findUnique({
             where: { id: idParsed.data.id },
         });
         if (!found) {

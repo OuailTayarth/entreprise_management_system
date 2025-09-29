@@ -13,8 +13,11 @@ export const EmployeeCreateSchema = z.object({
   jobTitle: z.string().min(1),
   startDate: z.coerce.date(),
   employmentType: z.string().min(1),
-  departmentId: z.coerce.number().int().positive(),
-  teamId: z.coerce.number().int().positive(),
+
+  profilePictureUrl: z.string().url().optional(),
+  endDate: z.string().datetime().optional(),
+  departmentId: z.coerce.number().int().positive().optional(),
+  teamId: z.coerce.number().int().positive().optional(),
 });
 
 export const EmployeeUpdateSchema = EmployeeCreateSchema.pick({

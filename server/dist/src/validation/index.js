@@ -21,4 +21,5 @@ __exportStar(require("./department"), exports);
 __exportStar(require("./leave"), exports);
 __exportStar(require("./common"), exports);
 __exportStar(require("./onboarding"), exports);
+__exportStar(require("./document"), exports);
 //# sourceMappingURL=index.js.map

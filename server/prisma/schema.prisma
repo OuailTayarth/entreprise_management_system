@@ -1,8 +1,6 @@
-
 // TODO: add the DATABASe URL
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -19,10 +17,10 @@ model Employee {
   firstName         String
   lastName          String
   profilePictureUrl String?
-  jobTitle          String?
+  jobTitle          String
   startDate         DateTime
   endDate           DateTime?
-  employmentType    String?
+  employmentType    String
   leaveBalance      Float     @default(20.0)
   departmentId      Int?
   teamId            Int?
@@ -30,61 +28,57 @@ model Employee {
   department Department? @relation(fields: [departmentId], references: [id])
   team       Team?       @relation(fields: [teamId], references: [id])
 
-  documents       Document[]
-  leaves          Leave[]
-  onboardingTasks OnboardingTask[]
-  uploadedDocs    Document[] @relation("Uploader")
+  documents          Document[]
+  leaves             Leave[]
+  onboardingTasks    OnboardingTask[]
+  uploadedDocs       Document[]          @relation("Uploader")
   managerAssignments DepartmentManager[]
 }
 
 // 🏢 DEPARTMENT — e.g., Engineering, Marketing, HR
 model Department {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  teams Team[]
+  id        Int                 @id @default(autoincrement())
+  name      String              @unique
+  teams     Team[]
   employees Employee[]
   managers  DepartmentManager[]
 }
 
-
 // 👥 TEAM — e.g., Frontend, AI Research, Growth
 model Team {
-  id           Int    @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
   departmentId Int
   department   Department @relation(fields: [departmentId], references: [id])
   employees    Employee[]
-  
 }
 
-model DepartmentManager {    
-  id           Int      @id @default(autoincrement())
+model DepartmentManager {
+  id           Int       @id @default(autoincrement())
   departmentId Int
   employeeId   Int
-  from         DateTime @default(now())
+  from         DateTime  @default(now())
   to           DateTime?
 
   department Department @relation(fields: [departmentId], references: [id])
   employee   Employee   @relation(fields: [employeeId], references: [id])
 
-  @@unique([departmentId, to])         
+  @@unique([departmentId, to])
 }
 
 // 📄 DOCUMENT — Contracts, NDAs, Offer Letters
 model Document {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   title        String
   fileURL      String
   type         String
-  signed       Boolean  @default(false)
+  signed       Boolean   @default(false)
   signedAt     DateTime?
   uploadedById Int
   employeeId   Int
-  uploadedBy   Employee @relation("Uploader", fields: [uploadedById], references: [id])
-  employee     Employee @relation(fields: [employeeId], references: [id])
+  uploadedBy   Employee  @relation("Uploader", fields: [uploadedById], references: [id])
+  employee     Employee  @relation(fields: [employeeId], references: [id])
 }
-
-
 
 // 🛌 LEAVE — Sick, Parental, Vacation
 model Leave {
@@ -93,19 +87,19 @@ model Leave {
   startDate  DateTime
   endDate    DateTime
   status     String   @default("PENDING")
-  reason     String?
+  reason     String
   employeeId Int
   employee   Employee @relation(fields: [employeeId], references: [id])
 }
 
 // ✅ ONBOARDING TASK — Checklist for new hires
 model OnboardingTask {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   description String?
   dueDate     DateTime?
-  completed   Boolean  @default(false)
+  completed   Boolean   @default(false)
   completedAt DateTime?
   assigneeId  Int
-  assignee    Employee @relation(fields: [assigneeId], references: [id])
+  assignee    Employee  @relation(fields: [assigneeId], references: [id])
 }
