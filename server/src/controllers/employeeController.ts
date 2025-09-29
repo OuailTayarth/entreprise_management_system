@@ -5,6 +5,7 @@ import {
   EmployeeUpdateSchema,
   IdParamSchema,
   zodErrorFormatter,
+  removeUndefined,
 } from "@shared/validation";
 
 // Get all employees list : / GET /employees
@@ -80,7 +81,7 @@ export const updateEmployeeById = async (
 
     const employee = await prisma.employee.update({
       where: { id: parsedId.data.id },
-      data: result.data,
+      data: removeUndefined(result.data),
     });
 
     res.json(employee);
@@ -105,7 +106,7 @@ export const createEmployee = async (
     }
 
     const newEmployee = await prisma.employee.create({
-      data: result.data,
+      data: removeUndefined(result.data),
     });
 
     res.status(201).json(newEmployee);

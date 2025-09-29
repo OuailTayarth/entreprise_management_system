@@ -73,7 +73,7 @@ const updateEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, funct
         }
         const employee = yield prismaClient_1.prisma.employee.update({
             where: { id: parsedId.data.id },
-            data: result.data,
+            data: (0, validation_1.removeUndefined)(result.data),
         });
         res.json(employee);
     }
@@ -94,7 +94,7 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
             return;
         }
         const newEmployee = yield prismaClient_1.prisma.employee.create({
-            data: result.data,
+            data: (0, validation_1.removeUndefined)(result.data),
         });
         res.status(201).json(newEmployee);
     }

@@ -11,3 +11,13 @@ export const DepartmentUpdateSchema = DepartmentCreateSchema.partial()
   .transform((o) =>
     Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined))
   );
+
+// inferred types
+export type createDepartmentInput = z.infer<typeof DepartmentCreateSchema>;
+export type updateDepartmentInput = z.infer<typeof DepartmentUpdateSchema>;
+
+export const DepartmentRespSchema = DepartmentCreateSchema.extend({
+  id: z.number().int().positive(),
+});
+
+export type DepartmentResp = z.infer<typeof DepartmentRespSchema>;

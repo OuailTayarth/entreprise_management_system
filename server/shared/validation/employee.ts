@@ -36,6 +36,6 @@ export const EmployeeUpdateSchema = BaseEmployeeSchema.pick({
     message: "At least one field is required",
   });
 
-export const EmployeeCreateSchema = BaseEmployeeSchema.transform((o) =>
-  Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined))
-);
+export const EmployeeCreateSchema = BaseEmployeeSchema;
+
+
