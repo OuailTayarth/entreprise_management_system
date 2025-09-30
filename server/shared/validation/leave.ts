@@ -19,3 +19,13 @@ export const LeaveStatusUpdateSchema = z.object({
     .transform((s) => s.toUpperCase())
     .pipe(z.enum(["PENDING", "APPROVED", "REJECTED"])),
 });
+
+// --- inferred types ---
+export type CreateLeaveInput = z.infer<typeof LeaveCreateSchema>;
+export type UpdateLeaveStatusInput = z.infer<typeof LeaveStatusUpdateSchema>;
+
+export const LeaveRespSchema = LeaveCreateSchema.extend({
+  id: z.number().int().positive(),
+  status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+});
+export type LeaveResp = z.infer<typeof LeaveRespSchema>;

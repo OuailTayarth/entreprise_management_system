@@ -38,4 +38,12 @@ export const EmployeeUpdateSchema = BaseEmployeeSchema.pick({
 
 export const EmployeeCreateSchema = BaseEmployeeSchema;
 
+// --- inferred types ---
+export type CreateEmployeeInput = z.infer<typeof EmployeeCreateSchema>;
+export type UpdateEmployeeInput = z.infer<typeof EmployeeUpdateSchema>;
 
+export const EmployeeRespSchema = BaseEmployeeSchema.extend({
+  id: z.number().int().positive(),
+  leaveBalance: z.number(),
+});
+export type EmployeeResp = z.infer<typeof EmployeeRespSchema>;

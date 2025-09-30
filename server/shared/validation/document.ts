@@ -24,3 +24,15 @@ export const DocumentUpdateSchema = z
   .transform((o) =>
     Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined))
   );
+
+// inferred types
+export type CreateDocumentInput = z.infer<typeof DocumentCreateSchema>;
+export type UpdateDocumentInput = z.infer<typeof DocumentUpdateSchema>;
+
+export const DocumentResSchema = DocumentCreateSchema.extend({
+  id: z.number().int().positive(),
+  signed: z.boolean().optional(),
+  signedAt: z.coerce.date().nullable().optional(),
+});
+
+export type DocumentResp = z.infer<typeof DocumentResSchema>;

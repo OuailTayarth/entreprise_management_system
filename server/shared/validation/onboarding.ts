@@ -22,3 +22,14 @@ export const OnboardingUpdateSchema = z
   .transform((o) =>
     Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined))
   );
+
+// --- inferred types ---
+export type CreateOnboardingInput = z.infer<typeof OnboardingCreateSchema>;
+export type UpdateOnboardingInput = z.infer<typeof OnboardingUpdateSchema>;
+
+export const OnboardingRespSchema = OnboardingCreateSchema.extend({
+  id: z.number().int().positive(),
+  completed: z.boolean(),
+  completedAt: z.coerce.date().nullable(),
+});
+export type OnboardingResp = z.infer<typeof OnboardingRespSchema>;

@@ -13,8 +13,8 @@ export const DepartmentUpdateSchema = DepartmentCreateSchema.partial()
   );
 
 // inferred types
-export type createDepartmentInput = z.infer<typeof DepartmentCreateSchema>;
-export type updateDepartmentInput = z.infer<typeof DepartmentUpdateSchema>;
+export type CreateDepartmentInput = z.infer<typeof DepartmentCreateSchema>;
+export type UpdateDepartmentInput = z.infer<typeof DepartmentUpdateSchema>;
 
 export const DepartmentRespSchema = DepartmentCreateSchema.extend({
   id: z.number().int().positive(),
