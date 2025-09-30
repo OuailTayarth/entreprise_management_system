@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DocumentUpdateSchema = exports.DocumentCreateSchema = void 0;
+exports.DocumentResSchema = exports.DocumentUpdateSchema = exports.DocumentCreateSchema = void 0;
 const zod_1 = require("zod");
 exports.DocumentCreateSchema = zod_1.z.object({
     title: zod_1.z.string().min(1),
@@ -23,4 +23,9 @@ exports.DocumentUpdateSchema = zod_1.z
     message: "At least one field is required",
 })
     .transform((o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)));
+exports.DocumentResSchema = exports.DocumentCreateSchema.extend({
+    id: zod_1.z.number().int().positive(),
+    signed: zod_1.z.boolean().optional(),
+    signedAt: zod_1.z.coerce.date().nullable().optional(),
+});
 //# sourceMappingURL=document.js.map

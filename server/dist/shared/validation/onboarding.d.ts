@@ -22,4 +22,16 @@ export declare const OnboardingUpdateSchema: z.ZodPipe<z.ZodObject<{
     completed?: boolean | undefined;
     completedAt?: Date | null | undefined;
 }>>;
+export type CreateOnboardingInput = z.infer<typeof OnboardingCreateSchema>;
+export type UpdateOnboardingInput = z.infer<typeof OnboardingUpdateSchema>;
+export declare const OnboardingRespSchema: z.ZodObject<{
+    title: z.ZodString;
+    description: z.ZodString;
+    dueDate: z.ZodCoercedDate<unknown>;
+    assigneeId: z.ZodCoercedNumber<unknown>;
+    id: z.ZodNumber;
+    completed: z.ZodBoolean;
+    completedAt: z.ZodNullable<z.ZodCoercedDate<unknown>>;
+}, z.core.$strip>;
+export type OnboardingResp = z.infer<typeof OnboardingRespSchema>;
 //# sourceMappingURL=onboarding.d.ts.map

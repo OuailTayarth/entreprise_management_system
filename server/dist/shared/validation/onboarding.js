@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OnboardingUpdateSchema = exports.OnboardingCreateSchema = void 0;
+exports.OnboardingRespSchema = exports.OnboardingUpdateSchema = exports.OnboardingCreateSchema = void 0;
 const zod_1 = require("zod");
 exports.OnboardingCreateSchema = zod_1.z.object({
     title: zod_1.z.string().min(1),
@@ -21,4 +21,9 @@ exports.OnboardingUpdateSchema = zod_1.z
     message: "At least one field is required",
 })
     .transform((o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)));
+exports.OnboardingRespSchema = exports.OnboardingCreateSchema.extend({
+    id: zod_1.z.number().int().positive(),
+    completed: zod_1.z.boolean(),
+    completedAt: zod_1.z.coerce.date().nullable(),
+});
 //# sourceMappingURL=onboarding.js.map

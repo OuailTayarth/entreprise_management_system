@@ -7,16 +7,66 @@ import {
   useSelector,
   Provider,
 } from "react-redux";
-import { combineScaleFunction } from "recharts/types/state/selectors/axisSelectors";
+import { useRef } from "react";
+
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 import globalReducer from "@/app/state";
+import { api } from "@/app/state/api";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import { PersistGate } from "redux-persist/integration/react";
+
+const createNoopStorage = () => {
+  return {
+    getItem(_key: any) {
+      return Promise.resolve(null);
+    },
+    setItem(_key: any, value: any) {
+      return Promise.resolve(value);
+    },
+    removeItem(_key: any) {
+      return Promise.resolve();
+    },
+  };
+};
+
+const storage =
+  typeof window === "undefined"
+    ? createNoopStorage()
+    : createWebStorage("local");
+
+// redux persist setup
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["global"],
+};
 
 const rootReducer = combineReducers({
   global: globalReducer,
+  [api.reducerPath]: api.reducer,
 });
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// REDUX STORE
 export const makeStore = () => {
   return configureStore({
-    reducer: rootReducer,
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }).concat(api.middleware),
   });
 };
 
@@ -28,12 +78,20 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 // Provider
-
 export default function StoreProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const store = makeStore();
-  return <Provider store={store}>{children}</Provider>;
+  const storeRef = useRef<AppStore>();
+  if (!storeRef.current) storeRef.current = makeStore();
+  const persistor = persistStore(storeRef.current);
+
+  return (
+    <Provider store={storeRef.current}>
+      <PersistGate loading={null} persistor={persistor}>
+        {children}
+      </PersistGate>
+    </Provider>
+  );
 }

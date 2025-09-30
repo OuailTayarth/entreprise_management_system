@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EmployeeCreateSchema = exports.EmployeeUpdateSchema = void 0;
+exports.EmployeeRespSchema = exports.EmployeeCreateSchema = exports.EmployeeUpdateSchema = void 0;
 const zod_1 = require("zod");
 const BaseEmployeeSchema = zod_1.z.object({
     username: zod_1.z
@@ -36,4 +36,8 @@ exports.EmployeeUpdateSchema = BaseEmployeeSchema.pick({
     message: "At least one field is required",
 });
 exports.EmployeeCreateSchema = BaseEmployeeSchema;
+exports.EmployeeRespSchema = BaseEmployeeSchema.extend({
+    id: zod_1.z.number().int().positive(),
+    leaveBalance: zod_1.z.number(),
+});
 //# sourceMappingURL=employee.js.map

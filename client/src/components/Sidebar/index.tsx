@@ -2,11 +2,14 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/app/state";
+import { useGetDepartmentsQuery, useGetDocumentsQuery } from "@/app/state/api";
 
 import {
   AlertCircle,
   AlertOctagon,
   AlertTriangle,
+  Building,
+  FileText,
   Briefcase,
   ChevronDown,
   ChevronUp,
@@ -27,8 +30,11 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
-  const [showProjects, setShowProjects] = useState(true);
-  const [showPriority, setShowPriority] = useState(true);
+  const { data: departments } = useGetDepartmentsQuery();
+  const { data: documents } = useGetDocumentsQuery();
+
+  const [showDepartments, setShowDepartments] = useState(true);
+  const [showDocuments, setShowDocuments] = useState(true);
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
@@ -44,7 +50,7 @@ const Sidebar = () => {
       <div className="flex h-full w-full flex-col justify-start">
         <div className="z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black">
           <div className="text-xl font-bold text-gray-800 dark:text-white">
-            EMS
+            Engineering
           </div>
           {isSidebarCollapsed ? null : (
             <button
@@ -69,7 +75,7 @@ const Sidebar = () => {
           />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
-              Mercury TEAM
+              Ouail Tayarth
             </h3>
             <div className="mt-1 flex items-start gap-2">
               <LockIcon className="mt-[0.1rem] h-3 w-3 text-gray-500 dark:text-gray-400" />
@@ -84,83 +90,56 @@ const Sidebar = () => {
           <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
           <SidebarLink icon={Search} label="Search" href="/search" />
           <SidebarLink icon={Settings} label="Settings" href="/settings" />
-          <SidebarLink icon={User} label="Users" href="/users" />
+          <SidebarLink icon={User} label="Employees" href="/employees" />
           <SidebarLink icon={Users} label="Teams" href="/teams" />
         </nav>
 
-        {/* PROJECTS SECTION */}
+        {/* DEPARTMENT SECTION */}
         <button
-          onClick={() => setShowProjects((prev) => !prev)}
+          onClick={() => setShowDepartments((prev) => !prev)}
           className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
         >
-          <span>Projects</span>
-          {showProjects ? (
+          <span>Departments</span>
+          {showDepartments ? (
             <ChevronUp className="h-5 w-5" />
           ) : (
             <ChevronDown className="h-5 w-5" />
           )}
         </button>
 
-        {/* STATIC PROJECT LIST */}
-        {/* Todo: make the Project retrievable through API */}
-        {showProjects && (
-          <>
+        {/* Departments List */}
+        {showDepartments &&
+          departments?.map((department) => (
             <SidebarLink
-              icon={Briefcase}
-              label="Project Alpha"
-              href="/projects/1"
+              key={department.id}
+              icon={Building}
+              label={department.name}
+              href={`/departments/${department.id}`}
             />
-            <SidebarLink
-              icon={Briefcase}
-              label="Project Beta"
-              href="/projects/2"
-            />
-            <SidebarLink
-              icon={Briefcase}
-              label="Project Gamma"
-              href="/projects/3"
-            />
-          </>
-        )}
+          ))}
 
         <button
           className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
-          onClick={() => setShowPriority((prev) => !prev)}
+          onClick={() => setShowDocuments((prev) => !prev)}
         >
-          <span>Priority</span>
-          {showPriority ? (
+          <span>Documents</span>
+          {showDocuments ? (
             <ChevronUp className="h-5 w-5" />
           ) : (
             <ChevronDown className="h-5 w-5" />
           )}
         </button>
 
-        {/* STATIC PRIORITY LINKS */}
-        {showPriority && (
-          <>
+        {/* OnBoarding Tasks */}
+        {showDocuments &&
+          documents?.map((document) => (
             <SidebarLink
-              icon={AlertCircle}
-              label="Urgent"
-              href="/priority/urgent"
+              key={document.id}
+              icon={FileText}
+              label={document.type}
+              href={`/documents/${document.id}`}
             />
-            <SidebarLink
-              icon={ShieldAlert}
-              label="High"
-              href="/priority/high"
-            />
-            <SidebarLink
-              icon={AlertTriangle}
-              label="Medium"
-              href="/priority/medium"
-            />
-            <SidebarLink icon={AlertOctagon} label="Low" href="/priority/low" />
-            <SidebarLink
-              icon={Layers3}
-              label="Backlog"
-              href="/priority/backlog"
-            />
-          </>
-        )}
+          ))}
       </div>
     </div>
   );

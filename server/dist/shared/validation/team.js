@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TeamUpdateSchema = exports.TeamCreateSchema = void 0;
+exports.TeamRespSchema = exports.TeamUpdateSchema = exports.TeamCreateSchema = void 0;
 const zod_1 = require("zod");
 exports.TeamCreateSchema = zod_1.z.object({
     name: zod_1.z.string().min(1),
@@ -11,4 +11,7 @@ exports.TeamUpdateSchema = exports.TeamCreateSchema.partial()
     message: "At least one field is required",
 })
     .transform((o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)));
+exports.TeamRespSchema = exports.TeamCreateSchema.extend({
+    id: zod_1.z.number().int().positive(),
+});
 //# sourceMappingURL=team.js.map

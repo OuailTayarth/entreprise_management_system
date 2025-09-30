@@ -24,4 +24,23 @@ export declare const EmployeeCreateSchema: z.ZodObject<{
     departmentId: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
     teamId: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
 }, z.core.$strip>;
+export type CreateEmployeeInput = z.infer<typeof EmployeeCreateSchema>;
+export type UpdateEmployeeInput = z.infer<typeof EmployeeUpdateSchema>;
+export declare const EmployeeRespSchema: z.ZodObject<{
+    username: z.ZodPipe<z.ZodString, z.ZodTransform<string, string>>;
+    cognitoId: z.ZodString;
+    email: z.ZodString;
+    firstName: z.ZodString;
+    lastName: z.ZodString;
+    jobTitle: z.ZodString;
+    startDate: z.ZodCoercedDate<unknown>;
+    employmentType: z.ZodString;
+    profilePictureUrl: z.ZodOptional<z.ZodString>;
+    endDate: z.ZodOptional<z.ZodString>;
+    departmentId: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+    teamId: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+    id: z.ZodNumber;
+    leaveBalance: z.ZodNumber;
+}, z.core.$strip>;
+export type EmployeeResp = z.infer<typeof EmployeeRespSchema>;
 //# sourceMappingURL=employee.d.ts.map
