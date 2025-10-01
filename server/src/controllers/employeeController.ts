@@ -6,6 +6,7 @@ import {
   IdParamSchema,
   zodErrorFormatter,
   removeUndefined,
+  IdSchema,
 } from "@shared/validation";
 
 // Get all employees list : / GET /employees
@@ -23,7 +24,35 @@ export const getEmployees = async (
   }
 };
 
-// Get a single employee by ID : / GET /employees/:id
+// GET /employees/by-department/:departmentId
+export const getEmployeesByDepartmentId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const parsedDepartmentId = IdParamSchema.safeParse(req.params);
+
+    if (!parsedDepartmentId.success) {
+      res.status(400).json({
+        message: "Invalid departmentId: must be a positive integer",
+        errors: zodErrorFormatter(parsedDepartmentId.error),
+      });
+      return;
+    }
+
+    const employees = await prisma.employee.findMany({
+      where: { departmentId: parsedDepartmentId.data.id },
+    });
+
+    res.json(employees);
+  } catch (error: any) {
+    res.status(500).json({
+      message: `Error retrieving employees by department: ${error.message}`,
+    });
+  }
+};
+
+// GET /employees/:id
 export const getEmployeeById = async (
   req: Request,
   res: Response
@@ -55,7 +84,7 @@ export const getEmployeeById = async (
   }
 };
 
-// Update an employee fields by ID : PATCH /employees/:id
+// PATCH /employees/:id
 export const updateEmployeeById = async (
   req: Request,
   res: Response
@@ -90,7 +119,7 @@ export const updateEmployeeById = async (
   }
 };
 
-// Create new employee: : / POST /employees/:id
+// POST /employees/:id
 export const createEmployee = async (
   req: Request,
   res: Response
@@ -117,7 +146,7 @@ export const createEmployee = async (
   }
 };
 
-// Delete an employee DELETE /employees/:id
+// DELETE /employees/:id
 export const deleteEmployeeById = async (
   req: Request,
   res: Response

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteEmployeeById = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.getEmployees = void 0;
+exports.deleteEmployeeById = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
 const validation_1 = require("@shared/validation");
 // Get all employees list : / GET /employees
@@ -25,7 +25,30 @@ const getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.getEmployees = getEmployees;
-// Get a single employee by ID : / GET /employees/:id
+// GET /employees/by-department/:departmentId
+const getEmployeesByDepartmentId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const parsedDepartmentId = validation_1.IdParamSchema.safeParse(req.params);
+        if (!parsedDepartmentId.success) {
+            res.status(400).json({
+                message: "Invalid departmentId: must be a positive integer",
+                errors: (0, validation_1.zodErrorFormatter)(parsedDepartmentId.error),
+            });
+            return;
+        }
+        const employees = yield prismaClient_1.prisma.employee.findMany({
+            where: { departmentId: parsedDepartmentId.data.id },
+        });
+        res.json(employees);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Error retrieving employees by department: ${error.message}`,
+        });
+    }
+});
+exports.getEmployeesByDepartmentId = getEmployeesByDepartmentId;
+// GET /employees/:id
 const getEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = validation_1.IdParamSchema.safeParse(req.params);
@@ -52,7 +75,7 @@ const getEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getEmployeeById = getEmployeeById;
-// Update an employee fields by ID : PATCH /employees/:id
+// PATCH /employees/:id
 const updateEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const parsedId = validation_1.IdParamSchema.safeParse(req.params);
@@ -82,7 +105,7 @@ const updateEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.updateEmployeeById = updateEmployeeById;
-// Create new employee: : / POST /employees/:id
+// POST /employees/:id
 const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = validation_1.EmployeeCreateSchema.safeParse(req.body);
@@ -105,7 +128,7 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.createEmployee = createEmployee;
-// Delete an employee DELETE /employees/:id
+// DELETE /employees/:id
 const deleteEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idParsed = validation_1.IdParamSchema.safeParse(req.params);

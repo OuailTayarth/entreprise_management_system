@@ -113,6 +113,12 @@ export const api = createApi({
       query: (id) => `/employees/${id}`,
       providesTags: (result, error, id) => [{ type: "Employees", id }],
     }),
+    getEmployeesByDepartmentId: build.query<EmployeeResp[], number>({
+      query: (departmentId) => `/employees/by-department/${departmentId}`,
+      providesTags: (result, error, departmentId) => [
+        { type: "Employees", departmentId: `DEPT_${departmentId}` },
+      ],
+    }),
     createEmployee: build.mutation<EmployeeResp, CreateEmployeeInput>({
       query: (body) => ({
         url: `/employees`,
@@ -244,6 +250,7 @@ export const {
   useDeleteDocumentMutation,
   // Employees
   useGetEmployeesQuery,
+  useGetEmployeesByDepartmentIdQuery,
   useGetEmployeeByIdQuery,
   useCreateEmployeeMutation,
   useUpdateEmployeeMutation,
