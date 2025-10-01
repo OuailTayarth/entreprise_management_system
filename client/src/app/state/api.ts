@@ -153,6 +153,12 @@ export const api = createApi({
       query: () => `/leaves`,
       providesTags: ["Leaves"],
     }),
+    getLeavesByEmployeeId: build.query<LeaveResp[], number>({
+      query: (employeeId) => `/leaves/${employeeId}`,
+      providesTags: (result, error, employeeId) => [
+        { type: "Leaves", employeeId: `EMP_${employeeId}` },
+      ],
+    }),
     createLeave: build.mutation<LeaveResp, CreateLeaveInput>({
       query: (body) => ({
         url: `/leaves`,
@@ -257,6 +263,7 @@ export const {
   useDeleteEmployeeMutation,
   // Leaves
   useGetLeavesQuery,
+  useGetLeavesByEmployeeIdQuery,
   useCreateLeaveMutation,
   useUpdateLeaveStatusMutation,
   // Onboarding Tasks

@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ["var(--font-poppins)", "system-ui", "sans-serif"],
+      },
       colors: {
         white: "#ffffff",
         gray: {

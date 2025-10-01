@@ -17,6 +17,34 @@ export const getLeaves = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// GET /employees/:employeeId
+export const getLeavesByEmployeeId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const parsedEmployeeId = IdParamSchema.safeParse(req.params);
+
+    if (!parsedEmployeeId.success) {
+      res.status(400).json({
+        message: "Invalid employeeId: must be a positive integer",
+        errors: zodErrorFormatter(parsedEmployeeId.error),
+      });
+      return;
+    }
+
+    const employees = await prisma.leave.findMany({
+      where: { employeeId: parsedEmployeeId.data.id },
+    });
+
+    res.json(employees);
+  } catch (error: any) {
+    res.status(500).json({
+      message: `Error retrieving Leaves by EmployeeId: ${error.message}`,
+    });
+  }
+};
+
 // POST /leaves
 export const createLeave = async (
   req: Request,

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateLeaveStatusById = exports.createLeave = exports.getLeaves = void 0;
+exports.updateLeaveStatusById = exports.createLeave = exports.getLeavesByEmployeeId = exports.getLeaves = void 0;
 const prismaClient_1 = require("../prismaClient");
 const validation_1 = require("@shared/validation");
 // GET /leaves
@@ -23,6 +23,29 @@ const getLeaves = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getLeaves = getLeaves;
+// GET /employees/:employeeId
+const getLeavesByEmployeeId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const parsedEmployeeId = validation_1.IdParamSchema.safeParse(req.params);
+        if (!parsedEmployeeId.success) {
+            res.status(400).json({
+                message: "Invalid employeeId: must be a positive integer",
+                errors: (0, validation_1.zodErrorFormatter)(parsedEmployeeId.error),
+            });
+            return;
+        }
+        const employees = yield prismaClient_1.prisma.leave.findMany({
+            where: { employeeId: parsedEmployeeId.data.id },
+        });
+        res.json(employees);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Error retrieving Leaves by EmployeeId: ${error.message}`,
+        });
+    }
+});
+exports.getLeavesByEmployeeId = getLeavesByEmployeeId;
 // POST /leaves
 const createLeave = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

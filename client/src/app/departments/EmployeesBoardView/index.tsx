@@ -1,11 +1,14 @@
 "use client";
 
 import React from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+// import { DndProvider, useDrag, useDrop } from "react-dnd";
+// import { HTML5Backend } from "react-dnd-html5-backend";
 import { EmployeeResp } from "@shared/validation";
-import { useGetEmployeesByDepartmentIdQuery } from "@/app/state/api";
-import { Briefcase, User, Users } from "lucide-react";
+import {
+  useGetEmployeesByDepartmentIdQuery,
+  useGetLeavesQuery,
+} from "@/app/state/api";
+import { User } from "lucide-react";
 import { format } from "date-fns";
 
 type BoardProps = {
@@ -29,19 +32,17 @@ const EmployeesBoardView = ({
   if (error) return <div>An error occurred while fetching employees</div>;
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-3">
-        {employeeStatus.map((status) => (
-          <EmployeeColumn
-            key={status}
-            status={status}
-            employees={employees || []}
-            departmentId={departmentId}
-            setIsModalNewEmployeeOpen={setIsModalNewEmployeeOpen}
-          />
-        ))}
-      </div>
-    </DndProvider>
+    <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-3">
+      {employeeStatus.map((status) => (
+        <EmployeeColumn
+          key={status}
+          status={status}
+          employees={employees || []}
+          departmentId={departmentId}
+          setIsModalNewEmployeeOpen={setIsModalNewEmployeeOpen}
+        />
+      ))}
+    </div>
   );
 };
 
@@ -58,40 +59,45 @@ const EmployeeColumn = ({
   departmentId,
   setIsModalNewEmployeeOpen,
 }: EmployeeColumnProps) => {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "employee",
-    collect: (monitor: any) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  }));
+  const { data: allLeaves } = useGetLeavesQuery();
+  // check if the the leaves data includes employeesId with status.leaves === "APPROVED" and date within the leave period
+  const employeesOnLeaves = new Set<number>();
+
+  if (allLeaves) {
+    const now = new Date();
+    allLeaves.forEach((leave) => {
+      if (
+        leave.status === "APPROVED" &&
+        now >= new Date(leave.startDate) &&
+        now <= new Date(leave.endDate)
+      ) {
+        employeesOnLeaves.add(leave.employeeId);
+      }
+    });
+  }
 
   const employeesCount = employees.filter((emp) => {
     if (status === "Active") return !emp.endDate;
-    if (status === "On Leave") return false; // You'll need to implement your own logic here
+    if (status === "On Leave") return employeesOnLeaves.has(emp.id);
     if (status === "Inactive") return emp.endDate !== null;
     return false;
   }).length;
 
   const statusColor: any = {
     Active: "#2563EB",
-    OnLeave: "#059669",
+    "On Leave": "#059669",
     Inactive: "#D97706",
   };
 
   return (
-    <div
-      ref={(instance) => {
-        drop(instance);
-      }}
-      className={`sl:py-4 rounded-lg py-2 xl:px-2 ${isOver ? "bg-blue-100 dark:bg-neutral-950" : ""}`}
-    >
+    <div className={`sl:py-4 rounded-lg py-2 xl:px-2`}>
       <div className="mb-3 flex w-full">
         <div
           className={`w-2 !bg-[${statusColor[status]}] rounded-s-lg`}
           style={{ backgroundColor: statusColor[status] }}
         />
         <div className="flex w-full items-center justify-between rounded-e-lg bg-white px-5 py-4 dark:bg-dark-secondary">
-          <h3 className="flex items-center text-lg font-semibold dark:text-white">
+          <h3 className="flex items-center text-[17px] font-medium dark:text-white">
             {status}{" "}
             <span
               className="ml-2 inline-block rounded-full bg-gray-200 p-1 text-center text-sm leading-none dark:bg-dark-tertiary"
@@ -100,25 +106,14 @@ const EmployeeColumn = ({
               {employeesCount}
             </span>
           </h3>
-          <div className="flex items-center gap-1">
-            <button className="flex h-6 w-5 items-center justify-center dark:text-neutral-500">
-              <Users size={26} />
-            </button>
-            <button
-              className="flex h-6 w-6 items-center justify-center rounded bg-gray-200 dark:bg-dark-tertiary dark:text-white"
-              onClick={() => setIsModalNewEmployeeOpen(true)}
-            >
-              <Briefcase size={16} />
-            </button>
-          </div>
         </div>
       </div>
 
       {employees
         .filter((emp) => {
           if (status === "Active") return !emp.endDate;
-          if (status === "On Leave") return false;
-          if (status === "Inactive") return !!emp.endDate;
+          if (status === "On Leave") return employeesOnLeaves.has(emp.id);
+          if (status === "Inactive") return emp.endDate !== null;
           return false;
         })
         .map((employee) => (
@@ -133,73 +128,92 @@ type EmployeeCardProps = {
 };
 
 const EmployeeCard = ({ employee }: EmployeeCardProps) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "employee",
-    item: { id: employee.id },
-    collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
-
   const formattedStartDate = employee.startDate
-    ? format(new Date(employee.startDate), "P")
-    : "";
+    ? format(new Date(employee.startDate), "PP")
+    : "N/A";
   const formattedEndDate = employee.endDate
-    ? format(new Date(employee.endDate), "P")
-    : "";
+    ? format(new Date(employee.endDate), "PP")
+    : "N/A";
 
   return (
     <div
-      ref={(instance) => {
-        drag(instance);
-      }}
-      className={`mb-4 rounded-md bg-white shadow dark:bg-dark-secondary ${
-        isDragging ? "opacity-50" : "opacity-100"
-      }`}
+      className={`mb-4 rounded-xl bg-white shadow-lg transition-all dark:bg-dark-secondary`}
     >
-      <div className="p-4 md:p-6">
-        <div className="flex items-start justify-between">
-          <div className="flex flex-1 flex-wrap items-center gap-2">
-            <div className="rounded-full bg-blue-100 px-2 py-1 text-xs">
+      <div className="p-5 md:p-7">
+        <div className="mb-4 flex items-start justify-between">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
               {employee.employmentType}
-            </div>
+            </span>
+            {employee.endDate && (
+              <span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800">
+                Inactive
+              </span>
+            )}
           </div>
-          <button className="flex h-6 w-4 flex-shrink-0 items-center justify-center dark:text-neutral-500">
-            <Users size={26} />
+          <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-dark-tertiary">
+            <User size={20} className="text-gray-600 dark:text-gray-300" />
           </button>
         </div>
 
-        <div className="my-3 flex justify-between">
-          <h4 className="text-md font-bold dark:text-white">
-            {employee.firstName} {employee.lastName}
-          </h4>
-        </div>
+        <h3 className="mb-2 text-xl font-medium dark:text-white">
+          {employee.firstName} {employee.lastName}
+        </h3>
 
-        <div className="text-xs text-gray-500 dark:text-neutral-500">
-          {formattedStartDate && <span>{formattedStartDate} - </span>}
-          {formattedEndDate && <span>{formattedEndDate}</span>}
-        </div>
-        <p className="text-sm text-gray-600 dark:text-neutral-500">
-          {employee.jobTitle}
-        </p>
-        <div className="mt-4 border-t border-gray-200 dark:border-stroke-dark" />
-
-        <div className="mt-3 flex items-center justify-between">
-          <div className="flex -space-x-[6px] overflow-hidden">
-            {employee.profilePictureUrl && (
-              <div className="h-8 w-8 overflow-hidden rounded-full border-2 border-white dark:border-dark-secondary">
-                <img
-                  src={employee.profilePictureUrl}
-                  alt={`${employee.firstName} ${employee.lastName}`}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            )}
-          </div>
-          <div className="flex items-center text-gray-500 dark:text-neutral-500">
-            <span className="ml-1 text-sm dark:text-neutral-400">
-              {employee.email}
+        <div className="mb-4 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center">
+            <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
+              {employee.jobTitle}
             </span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center">
+            <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[6px]">
+              Start Date:
+            </span>
+            <span className="text-[14px] text-gray-800 dark:text-gray-200">
+              {formattedStartDate}
+            </span>
+          </div>
+
+          {employee.endDate && (
+            <div className="flex flex-col sm:flex-row sm:items-center">
+              <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[8px]">
+                End Date:
+              </span>
+              <span className="text-lg text-gray-800 dark:text-gray-200">
+                {formattedEndDate}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
+          <div className="flex items-center justify-between">
+            <div className="flex -space-x-2 overflow-hidden">
+              {employee.profilePictureUrl ? (
+                <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white dark:border-dark-tertiary">
+                  <img
+                    src={employee.profilePictureUrl}
+                    alt={`${employee.firstName} ${employee.lastName}`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-200 dark:border-dark-tertiary">
+                  <span className="font-medium text-gray-600 dark:text-gray-400">
+                    {employee.firstName[0]}
+                    {employee.lastName[0]}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className="text-right">
+              <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {employee.email}
+              </div>
+            </div>
           </div>
         </div>
       </div>
