@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-// import { DndProvider, useDrag, useDrop } from "react-dnd";
-// import { HTML5Backend } from "react-dnd-html5-backend";
 import { EmployeeResp } from "@shared/validation";
 import {
   useGetEmployeesByDepartmentIdQuery,
@@ -10,6 +8,7 @@ import {
 } from "@/app/state/api";
 import { User } from "lucide-react";
 import { format } from "date-fns";
+import { keyToUrl } from "@/lib/utils";
 
 type BoardProps = {
   departmentId: string;
@@ -97,7 +96,7 @@ const EmployeeColumn = ({
           style={{ backgroundColor: statusColor[status] }}
         />
         <div className="flex w-full items-center justify-between rounded-e-lg bg-white px-5 py-4 dark:bg-dark-secondary">
-          <h3 className="flex items-center text-[17px] font-medium dark:text-white">
+          <h3 className="flex items-center text-[15px] font-medium dark:text-white">
             {status}{" "}
             <span
               className="ml-2 inline-block rounded-full bg-gray-200 p-1 text-center text-sm leading-none dark:bg-dark-tertiary"
@@ -156,13 +155,13 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
           </button>
         </div>
 
-        <h3 className="mb-2 text-xl font-medium dark:text-white">
+        <h3 className="mb-2 text-[16px] font-medium dark:text-white">
           {employee.firstName} {employee.lastName}
         </h3>
 
         <div className="mb-4 space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center">
-            <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
+            <span className="text-sm font-[400] text-gray-800 dark:text-gray-200">
               {employee.jobTitle}
             </span>
           </div>
@@ -181,7 +180,7 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
               <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[8px]">
                 End Date:
               </span>
-              <span className="text-lg text-gray-800 dark:text-gray-200">
+              <span className="text-[14px] text-gray-800 dark:text-gray-200">
                 {formattedEndDate}
               </span>
             </div>
@@ -194,7 +193,7 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
               {employee.profilePictureUrl ? (
                 <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white dark:border-dark-tertiary">
                   <img
-                    src={employee.profilePictureUrl}
+                    src={keyToUrl(employee.profilePictureUrl)}
                     alt={`${employee.firstName} ${employee.lastName}`}
                     className="h-full w-full object-cover"
                   />

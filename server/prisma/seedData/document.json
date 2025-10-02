@@ -2,11 +2,31 @@
   {
     "id": 1,
     "title": "Offer Letter - Alice Smith",
-    "fileURL": "/assets/docs/offer_alice.pdf",
+    "fileURL": "EmployeesDoc/Offer_Letter_Alice_Smith.pdf",
     "type": "Offer Letter",
     "signed": true,
     "signedAt": "2025-01-10T00:00:00.000Z",
     "uploadedById": 1,
     "employeeId": 1
+  },
+  {
+    "id": 2,
+    "title": "Offer Letter - Bob Johnson",
+    "fileURL": "EmployeesDoc/Offer_Letter_Bob_Johnson.pdf",
+    "type": "Offer Letter",
+    "signed": true,
+    "signedAt": "2025-02-15T00:00:00.000Z",
+    "uploadedById": 2,
+    "employeeId": 2
+  },
+  {
+    "id": 3,
+    "title": "NDA - Carol Williams",
+    "fileURL": "EmployeesDoc/NDA_Carol_Williams.pdf",
+    "type": "NDA",
+    "signed": true,
+    "signedAt": "2025-02-25T00:00:00.000Z",
+    "uploadedById": 3,
+    "employeeId": 3
   }
 ]

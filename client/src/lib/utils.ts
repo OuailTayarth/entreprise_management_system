@@ -30,3 +30,8 @@ export const dataGridSxStyles = (isDarkMode: boolean) => {
     },
   };
 };
+
+export const keyToUrl = (key?: string | null | undefined) => {
+  if (!key) return "/placeholder.jpg";
+  return `https://${process.env.NEXT_PUBLIC_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_S3_REGION}.amazonaws.com/${key}`;
+};
