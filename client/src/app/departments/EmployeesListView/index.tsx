@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useGetEmployeesByDepartmentIdQuery } from "@/app/state/api";
-import EmployeeCard from "@/components/EmployeeCard";
+import EmployeeCard from "@/components/EmployeeCardList";
 import Header from "@/components/Header";
 
 type Props = {

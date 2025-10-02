@@ -1,12 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import { EmployeeResp } from "@shared/validation";
+import { keyToUrl } from "@/lib/utils";
 
 interface EmployeeCardProps {
   employee: EmployeeResp;
 }
 
-const EmployeeCard: React.FC<EmployeeCardProps> = ({ employee }) => {
+const EmployeeCardList: React.FC<EmployeeCardProps> = ({ employee }) => {
   return (
     <div className="mb-4 rounded-md bg-white shadow dark:bg-dark-secondary">
       <div className="p-4 md:p-6">
@@ -36,7 +37,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({ employee }) => {
           <div className="flex -space-x-[6px] overflow-hidden">
             {employee.profilePictureUrl && (
               <Image
-                src={employee.profilePictureUrl}
+                src={keyToUrl(employee.profilePictureUrl)}
                 alt={`${employee.firstName} ${employee.lastName}`}
                 width={40}
                 height={40}
@@ -55,4 +56,4 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({ employee }) => {
   );
 };
 
-export default EmployeeCard;
+export default EmployeeCardList;

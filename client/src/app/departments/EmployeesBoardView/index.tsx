@@ -134,12 +134,19 @@ type EmployeeCardProps = {
 };
 
 const EmployeeCard = ({ employee, leave, status }: EmployeeCardProps) => {
-  const formattedStartDate = employee.startDate
+  const formattedHireDate = employee?.startDate
     ? format(new Date(employee.startDate), "PP")
-    : "N/A";
-  const formattedEndDate = employee.endDate
+    : "null";
+  const formattedTerminationDate = employee?.endDate
     ? format(new Date(employee.endDate), "PP")
-    : "N/A";
+    : "null";
+
+  const formattedLeaveStartDate = leave?.startDate
+    ? format(new Date(leave.startDate), "PP")
+    : "null";
+  const formattedLeaveEndDate = leave?.endDate
+    ? format(new Date(leave.endDate), "PP")
+    : "null";
 
   return (
     <div
@@ -177,9 +184,15 @@ const EmployeeCard = ({ employee, leave, status }: EmployeeCardProps) => {
             <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[6px]">
               Start Date:
             </span>
-            <span className="text-[12px] text-gray-800 dark:text-gray-200">
-              {formattedStartDate}
-            </span>
+            {status === "On Leave" ? (
+              <span className="text-[12px] text-gray-800 dark:text-gray-200">
+                {formattedLeaveStartDate}
+              </span>
+            ) : (
+              <span className="text-[12px] text-gray-800 dark:text-gray-200">
+                {formattedHireDate}
+              </span>
+            )}
           </div>
 
           {employee.endDate && (
@@ -188,7 +201,7 @@ const EmployeeCard = ({ employee, leave, status }: EmployeeCardProps) => {
                 End Date:
               </span>
               <span className="text-[12px] text-gray-800 dark:text-gray-200">
-                {formattedEndDate}
+                {formattedTerminationDate}
               </span>
             </div>
           )}
@@ -199,7 +212,7 @@ const EmployeeCard = ({ employee, leave, status }: EmployeeCardProps) => {
                 Ends:
               </span>
               <span className="text-[12px] text-gray-800 dark:text-gray-200">
-                {formattedStartDate}
+                {formattedLeaveEndDate}
               </span>
               <div className="ml-2 text-gray-800 dark:text-gray-200">
                 <span>|</span>

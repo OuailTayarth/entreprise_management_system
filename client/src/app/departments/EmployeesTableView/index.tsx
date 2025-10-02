@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 import { useGetEmployeesByDepartmentIdQuery } from "@/app/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { format } from "date-fns";
 import React from "react";
 
 type Props = {
@@ -16,17 +17,17 @@ const columns: GridColDef[] = [
   {
     field: "firstName",
     headerName: "First Name",
-    width: 100,
+    width: 140,
   },
   {
     field: "lastName",
     headerName: "Last Name",
-    width: 100,
+    width: 150,
   },
   {
     field: "email",
     headerName: "Email",
-    width: 200,
+    width: 120,
   },
   {
     field: "jobTitle",
@@ -36,16 +37,18 @@ const columns: GridColDef[] = [
   {
     field: "employmentType",
     headerName: "Employment Type",
-    width: 120,
+    width: 180,
   },
   {
     field: "startDate",
     headerName: "Start Date",
-    width: 130,
+    valueFormatter: (value) => (value ? format(new Date(value), "P") : ""),
+    width: 200,
   },
   {
     field: "endDate",
     headerName: "End Date",
+    valueFormatter: (value) => (value ? format(new Date(value), "P") : ""),
     width: 130,
   },
 ];
@@ -82,7 +85,7 @@ const EmployeesTableView = ({
         />
       </div>
       <DataGrid
-        rows={employees || []}
+        rows={employees}
         columns={columns}
         className={dataGridClassNames}
         sx={dataGridSxStyles(isDarkMode)}
