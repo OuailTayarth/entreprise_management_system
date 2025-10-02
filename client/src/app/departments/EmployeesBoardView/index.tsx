@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { EmployeeResp } from "@shared/validation";
+import { EmployeeResp, LeaveResp } from "@shared/validation";
 import {
   useGetEmployeesByDepartmentIdQuery,
   useGetLeavesQuery,
@@ -59,8 +59,8 @@ const EmployeeColumn = ({
   setIsModalNewEmployeeOpen,
 }: EmployeeColumnProps) => {
   const { data: allLeaves } = useGetLeavesQuery();
-  // check if the the leaves data includes employeesId with status.leaves === "APPROVED" and date within the leave period
-  const employeesOnLeaves = new Set<number>();
+
+  const employeeLeaveMap = new Map<number, LeaveResp>();
 
   if (allLeaves) {
     const now = new Date();
@@ -70,14 +70,14 @@ const EmployeeColumn = ({
         now >= new Date(leave.startDate) &&
         now <= new Date(leave.endDate)
       ) {
-        employeesOnLeaves.add(leave.employeeId);
+        employeeLeaveMap.set(leave.employeeId, leave);
       }
     });
   }
 
   const employeesCount = employees.filter((emp) => {
     if (status === "Active") return !emp.endDate;
-    if (status === "On Leave") return employeesOnLeaves.has(emp.id);
+    if (status === "On Leave") return employeeLeaveMap.has(emp.id);
     if (status === "Inactive") return emp.endDate !== null;
     return false;
   }).length;
@@ -111,12 +111,17 @@ const EmployeeColumn = ({
       {employees
         .filter((emp) => {
           if (status === "Active") return !emp.endDate;
-          if (status === "On Leave") return employeesOnLeaves.has(emp.id);
+          if (status === "On Leave") return employeeLeaveMap.has(emp.id);
           if (status === "Inactive") return emp.endDate !== null;
           return false;
         })
         .map((employee) => (
-          <EmployeeCard key={employee.id} employee={employee} />
+          <EmployeeCard
+            key={employee.id}
+            employee={employee}
+            leave={employeeLeaveMap.get(employee.id)}
+            status={status}
+          />
         ))}
     </div>
   );
@@ -124,9 +129,11 @@ const EmployeeColumn = ({
 
 type EmployeeCardProps = {
   employee: EmployeeResp;
+  leave?: LeaveResp;
+  status: string;
 };
 
-const EmployeeCard = ({ employee }: EmployeeCardProps) => {
+const EmployeeCard = ({ employee, leave, status }: EmployeeCardProps) => {
   const formattedStartDate = employee.startDate
     ? format(new Date(employee.startDate), "PP")
     : "N/A";
@@ -170,19 +177,34 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
             <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[6px]">
               Start Date:
             </span>
-            <span className="text-[14px] text-gray-800 dark:text-gray-200">
+            <span className="text-[12px] text-gray-800 dark:text-gray-200">
               {formattedStartDate}
             </span>
           </div>
 
           {employee.endDate && (
             <div className="flex flex-col sm:flex-row sm:items-center">
-              <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[8px]">
+              <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[6px]">
                 End Date:
               </span>
-              <span className="text-[14px] text-gray-800 dark:text-gray-200">
+              <span className="text-[12px] text-gray-800 dark:text-gray-200">
                 {formattedEndDate}
               </span>
+            </div>
+          )}
+
+          {status === "On Leave" && leave && (
+            <div className="flex flex-col sm:flex-row sm:items-center">
+              <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[6px]">
+                Ends:
+              </span>
+              <span className="text-[12px] text-gray-800 dark:text-gray-200">
+                {formattedStartDate}
+              </span>
+              <div className="ml-2 text-gray-800 dark:text-gray-200">
+                <span>|</span>
+                <span className="ml-2">{leave?.reason}</span>
+              </div>
             </div>
           )}
         </div>
