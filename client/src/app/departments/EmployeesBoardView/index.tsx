@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import React from "react";
 import { EmployeeResp, LeaveResp } from "@shared/validation";
 import {
@@ -8,7 +8,7 @@ import {
 } from "@/app/state/api";
 import { User } from "lucide-react";
 import { format } from "date-fns";
-import { keyToUrl } from "@/lib/utils";
+import { keyToUrl, formatSalary } from "@/lib/utils";
 
 type BoardProps = {
   departmentId: string;
@@ -194,7 +194,16 @@ const EmployeeCard = ({ employee, leave, status }: EmployeeCardProps) => {
               </span>
             )}
           </div>
-
+          {status === "Active" && (
+            <div className="flex flex-col sm:flex-row sm:items-center">
+              <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[6px]">
+                Salary:
+              </span>
+              <span className="text-[12px] text-gray-800 dark:text-gray-200">
+                {formatSalary(employee.salary)}
+              </span>
+            </div>
+          )}
           {employee.endDate && (
             <div className="flex flex-col sm:flex-row sm:items-center">
               <span className="mb-1 font-medium text-gray-500 dark:text-gray-400 sm:mb-0 sm:mr-[6px]">
@@ -226,11 +235,16 @@ const EmployeeCard = ({ employee, leave, status }: EmployeeCardProps) => {
           <div className="flex items-center justify-between">
             <div className="flex -space-x-2 overflow-hidden">
               {employee.profilePictureUrl ? (
-                <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white dark:border-dark-tertiary">
-                  <img
+                <div className="h-11 w-11 overflow-hidden rounded-full border-2 border-white dark:border-dark-tertiary">
+                  <Image
                     src={keyToUrl(employee.profilePictureUrl)}
                     alt={`${employee.firstName} ${employee.lastName}`}
+                    width={40}
+                    height={40}
+                    sizes="40px"
+                    quality={90}
                     className="h-full w-full object-cover"
+                    priority
                   />
                 </div>
               ) : (

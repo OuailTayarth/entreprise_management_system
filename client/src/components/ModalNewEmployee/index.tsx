@@ -1,6 +1,11 @@
 import Modal from "@/components/Modal";
-import { useCreateEmployeeMutation } from "@/app/state/api";
+import { useCreateEmployeeMutation, useGetTeamsQuery } from "@/app/state/api";
 import React, { useState } from "react";
+import { CreateEmployeeInput } from "@shared/validation";
+import { Upload } from "lucide-react";
+import { normalizeSalary } from "@/lib/utils";
+import { uploadImage } from "@/lib/s3";
+import { v4 as uuidv4 } from "uuid";
 
 type Props = {
   isOpen: boolean;
@@ -8,34 +13,123 @@ type Props = {
   departmentId: string;
 };
 
+// add Errors message based on success or failure
+
 const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
   const [createEmployee, { isLoading }] = useCreateEmployeeMutation();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
+  const { data: allTeams } = useGetTeamsQuery();
+  const [isUploading, setIsUploading] = useState(false);
+
+  const [newEmployeeData, setNewEmployeeData] = useState<CreateEmployeeInput>({
+    firstName: "",
+    lastName: "",
+    cognitoId: "c-005",
+    username: "",
+    salary: 0,
+    email: "",
+    jobTitle: "",
+    startDate: "",
+    profilePictureUrl: "",
+    employmentType: "",
+    departmentId: undefined,
+    teamId: undefined,
+  });
+
+  const handleFieldChange = (field: keyof CreateEmployeeInput, value: any) => {
+    setNewEmployeeData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || isUploading) return;
+
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Upload failed");
+
+      const { key } = await response.json();
+
+      handleFieldChange("profilePictureUrl", key);
+    } catch (error) {
+      console.log("Error uploadImage image:", error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const handleSubmit = async () => {
-    if (!firstName || !lastName || !email || !jobTitle || !startDate) return;
+    if (
+      !newEmployeeData.firstName ||
+      !newEmployeeData.lastName ||
+      !newEmployeeData.email ||
+      !newEmployeeData.jobTitle ||
+      !newEmployeeData.startDate ||
+      !newEmployeeData.salary
+    )
+      return;
 
-    await createEmployee({
-      firstName,
-      lastName,
-      email,
-      jobTitle,
-      startDate,
-      departmentId: Number(departmentId),
-    });
+    const generatedUserName = `${newEmployeeData.firstName.toLocaleLowerCase()}.${newEmployeeData.lastName.toLocaleLowerCase()}`;
+
+    // prepare the body data for the API
+    const newEmployee = {
+      firstName: newEmployeeData.firstName,
+      lastName: newEmployeeData.lastName,
+      username: generatedUserName,
+      salary: newEmployeeData.salary,
+      cognitoId: newEmployeeData.cognitoId,
+      email: newEmployeeData.email,
+      jobTitle: newEmployeeData.jobTitle,
+      startDate: newEmployeeData.startDate,
+      employmentType: newEmployeeData.employmentType,
+      profilePictureUrl: newEmployeeData.profilePictureUrl,
+      teamId: newEmployeeData.teamId,
+      departmentId: newEmployeeData.departmentId,
+    };
+
+    await createEmployee(newEmployee);
     onClose();
   };
 
+  /**
+   * "id": 1,
+    "username": "alice.smith",
+    "cognitoId": "c-001",
+    "email": "alice@corp.com",
+    "firstName": "Alice",
+    "lastName": "Smith",
+    "jobTitle": "CEO",
+    "startDate": "2025-01-15T00:00:00.000Z",
+    "employmentType": "Full-time",
+    "departmentId": 1,
+    "teamId": null,
+    "profilePictureUrl": "EmployeesPhotos/employee_001_profile.jpg"
+   */
+
   const isFormValid = () => {
-    return firstName && lastName && email && jobTitle && startDate;
+    return (
+      newEmployeeData.firstName &&
+      newEmployeeData.lastName &&
+      newEmployeeData.email &&
+      newEmployeeData.jobTitle &&
+      newEmployeeData.startDate &&
+      newEmployeeData.salary
+    );
   };
 
-  const inputStyles =
-    "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+  // const inputStyles =
+  //   "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} name="Create New Employee">
@@ -46,50 +140,123 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
           handleSubmit();
         }}
       >
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-        <input
-          type="email"
-          className={inputStyles}
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="Job Title"
-          value={jobTitle}
-          onChange={(e) => setJobTitle(e.target.value)}
-        />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <input
-            type="date"
-            className={inputStyles}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            type="text"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
+            placeholder="First Name"
+            value={newEmployeeData.firstName}
+            onChange={(e) => handleFieldChange("firstName", e.target.value)}
+          />
+          <input
+            type="text"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
+            placeholder="Last Name"
+            value={newEmployeeData.lastName}
+            onChange={(e) => handleFieldChange("lastName", e.target.value)}
           />
         </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <input
+            type="text"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
+            placeholder="Job Title"
+            value={newEmployeeData.jobTitle}
+            onChange={(e) => handleFieldChange("jobTitle", e.target.value)}
+          />
+
+          <select
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white"
+            value={newEmployeeData.employmentType}
+            onChange={(e) =>
+              handleFieldChange("employmentType", e.target.value)
+            }
+          >
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Contractor">Contractor</option>
+            <option value="Intern">Intern</option>
+          </select>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <input
+            type="email"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
+            placeholder="Email"
+            value={newEmployeeData.email}
+            onChange={(e) => handleFieldChange("email", e.target.value)}
+          />
+
+          <input
+            type="text"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
+            placeholder="Annual Salary"
+            value={newEmployeeData.salary}
+            onChange={(e) =>
+              handleFieldChange("salary", normalizeSalary(e.target.value))
+            }
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <input
+            type="date"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
+            value={newEmployeeData.startDate}
+            onChange={(e) => handleFieldChange("startDate", e.target.value)}
+          />
+
+          <select
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white"
+            value={newEmployeeData.teamId ?? ""}
+            onChange={(e) =>
+              handleFieldChange(
+                "teamId",
+                e.target.value ? Number(e.target.value) : null,
+              )
+            }
+          >
+            {allTeams?.map((team) => (
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-8 dark:border-gray-600">
+          <label className="flex cursor-pointer flex-col items-center">
+            <Upload className="mb-2 h-12 w-12 text-gray-500 dark:text-gray-400" />
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              {newEmployeeData.profilePictureUrl
+                ? "Change Picture"
+                : "Upload Profile Picture"}
+            </span>
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*"
+              onChange={handleUpload}
+            />
+          </label>
+        </div>
+
         <button
           type="submit"
           className={`focus-offset-2 mt-4 flex w-full justify-center rounded-md border border-transparent bg-blue-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-            !isFormValid() || isLoading ? "cursor-not-allowed opacity-50" : ""
+            isUploading || !isFormValid() || isLoading
+              ? "cursor-not-allowed opacity-50"
+              : ""
           }`}
-          disabled={!isFormValid() || isLoading}
+          disabled={isUploading || !isFormValid() || isLoading}
         >
-          {isLoading ? "Creating..." : "Create Employee"}
+          {isUploading
+            ? " Uploading..."
+            : isLoading
+              ? "Creating..."
+              : "Create Employee"}
         </button>
       </form>
     </Modal>

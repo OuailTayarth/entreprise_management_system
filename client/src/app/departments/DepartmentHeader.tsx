@@ -23,6 +23,7 @@ const DepartmentHeader: React.FC<DepartmentHeaderProps> = ({
   departmentId,
 }) => {
   const { data: departments } = useGetDepartmentsQuery();
+
   const department = departments?.find(
     (dep) => dep.id === Number(departmentId),
   );

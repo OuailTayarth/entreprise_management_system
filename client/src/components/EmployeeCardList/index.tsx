@@ -41,6 +41,10 @@ const EmployeeCardList: React.FC<EmployeeCardProps> = ({ employee }) => {
                 alt={`${employee.firstName} ${employee.lastName}`}
                 width={40}
                 height={40}
+                sizes="40px"
+                quality={90}
+                className="h-full w-full object-cover"
+                priority
                 className="h-10 w-10 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
               />
             )}

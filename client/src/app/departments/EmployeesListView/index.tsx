@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useGetEmployeesByDepartmentIdQuery } from "@/app/state/api";
-import EmployeeCard from "@/components/EmployeeCardList";
+import EmployeeCardList from "@/components/EmployeeCardList";
 import Header from "@/components/Header";
 
 type Props = {
@@ -41,7 +41,7 @@ const EmployeesListView = ({
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {employees?.map((employee) => (
-          <EmployeeCard key={employee.id} employee={employee} />
+          <EmployeeCardList key={employee.id} employee={employee} />
         ))}
       </div>
     </div>

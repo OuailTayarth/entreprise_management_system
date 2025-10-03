@@ -16,6 +16,7 @@ model Employee {
   email             String    @unique
   firstName         String
   lastName          String
+  salary            Decimal   @db.Decimal(10, 2)
   profilePictureUrl String?
   jobTitle          String
   startDate         DateTime

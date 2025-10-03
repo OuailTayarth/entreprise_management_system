@@ -28,7 +28,8 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.2.0",
     "recharts": "^3.2.1",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -11,11 +11,12 @@ const BaseEmployeeSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   jobTitle: z.string().min(1),
-  startDate: z.coerce.date(),
+  salary: z.coerce.number().positive().max(99999999.99),
+  startDate: z.iso.date(),
   employmentType: z.string().min(1),
 
   profilePictureUrl: z.string().url().optional(),
-  endDate: z.string().datetime().optional(),
+  endDate: z.iso.date().optional(),
   departmentId: z.coerce.number().int().positive().optional(),
   teamId: z.coerce.number().int().positive().optional(),
 });
@@ -23,6 +24,7 @@ const BaseEmployeeSchema = z.object({
 export const EmployeeUpdateSchema = BaseEmployeeSchema.pick({
   username: true,
   email: true,
+  salary: true,
   firstName: true,
   lastName: true,
   jobTitle: true,

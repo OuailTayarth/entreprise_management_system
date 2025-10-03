@@ -2,9 +2,14 @@
 
 import { useAppSelector } from "@/app/redux";
 import Header from "@/components/Header";
-import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import {
+  dataGridClassNames,
+  dataGridSxStyles,
+  formatSalary,
+} from "@/lib/utils";
 import { useGetEmployeesByDepartmentIdQuery } from "@/app/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
 import { format } from "date-fns";
 import React from "react";
 
@@ -39,6 +44,14 @@ const columns: GridColDef[] = [
     headerName: "Employment Type",
     width: 180,
   },
+
+  {
+    field: "salary",
+    headerName: "Salary",
+    valueFormatter: (value) => (value ? formatSalary(value) : ""),
+    width: 130,
+  },
+
   {
     field: "startDate",
     headerName: "Start Date",
