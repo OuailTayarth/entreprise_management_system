@@ -14,10 +14,10 @@ const BaseEmployeeSchema = zod_1.z.object({
     lastName: zod_1.z.string().min(1),
     jobTitle: zod_1.z.string().min(1),
     salary: zod_1.z.coerce.number().positive().max(99999999.99),
-    startDate: zod_1.z.iso.date(),
+    startDate: zod_1.z.coerce.date(),
     employmentType: zod_1.z.string().min(1),
-    profilePictureUrl: zod_1.z.string().url().optional(),
-    endDate: zod_1.z.iso.date().optional(),
+    profilePictureUrl: zod_1.z.string().optional(),
+    endDate: zod_1.z.coerce.date().optional(),
     departmentId: zod_1.z.coerce.number().int().positive().optional(),
     teamId: zod_1.z.coerce.number().int().positive().optional(),
 });

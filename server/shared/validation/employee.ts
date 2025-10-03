@@ -12,11 +12,11 @@ const BaseEmployeeSchema = z.object({
   lastName: z.string().min(1),
   jobTitle: z.string().min(1),
   salary: z.coerce.number().positive().max(99999999.99),
-  startDate: z.iso.date(),
+  startDate: z.coerce.date(),
   employmentType: z.string().min(1),
 
-  profilePictureUrl: z.string().url().optional(),
-  endDate: z.iso.date().optional(),
+  profilePictureUrl: z.string().optional(),
+  endDate: z.coerce.date().optional(),
   departmentId: z.coerce.number().int().positive().optional(),
   teamId: z.coerce.number().int().positive().optional(),
 });

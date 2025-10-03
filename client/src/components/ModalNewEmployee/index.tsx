@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { CreateEmployeeInput } from "@shared/validation";
 import { Upload } from "lucide-react";
 import { normalizeSalary } from "@/lib/utils";
-import { uploadImage } from "@/lib/s3";
 import { v4 as uuidv4 } from "uuid";
 
 type Props = {
@@ -23,7 +22,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
   const [newEmployeeData, setNewEmployeeData] = useState<CreateEmployeeInput>({
     firstName: "",
     lastName: "",
-    cognitoId: "c-005",
+    cognitoId: "",
     username: "",
     salary: 0,
     email: "",
@@ -31,7 +30,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
     startDate: "",
     profilePictureUrl: "",
     employmentType: "",
-    departmentId: undefined,
+    departmentId: Number(departmentId),
     teamId: undefined,
   });
 
@@ -60,6 +59,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
       if (!response.ok) throw new Error("Upload failed");
 
       const { key } = await response.json();
+      console.log(key);
 
       handleFieldChange("profilePictureUrl", key);
     } catch (error) {
@@ -81,22 +81,27 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
       return;
 
     const generatedUserName = `${newEmployeeData.firstName.toLocaleLowerCase()}.${newEmployeeData.lastName.toLocaleLowerCase()}`;
+    const formattedStartDate = new Date(
+      newEmployeeData.startDate,
+    ).toISOString();
 
     // prepare the body data for the API
     const newEmployee = {
       firstName: newEmployeeData.firstName,
       lastName: newEmployeeData.lastName,
       username: generatedUserName,
-      salary: newEmployeeData.salary,
-      cognitoId: newEmployeeData.cognitoId,
+      salary: normalizeSalary(newEmployeeData.salary),
+      cognitoId: uuidv4(),
       email: newEmployeeData.email,
       jobTitle: newEmployeeData.jobTitle,
-      startDate: newEmployeeData.startDate,
+      startDate: formattedStartDate,
       employmentType: newEmployeeData.employmentType,
       profilePictureUrl: newEmployeeData.profilePictureUrl,
       teamId: newEmployeeData.teamId,
       departmentId: newEmployeeData.departmentId,
     };
+
+    console.log(newEmployee);
 
     await createEmployee(newEmployee);
     onClose();
@@ -173,6 +178,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
               handleFieldChange("employmentType", e.target.value)
             }
           >
+            <option value="">Employment Type</option>
             <option value="Full-time">Full-time</option>
             <option value="Part-time">Part-time</option>
             <option value="Contractor">Contractor</option>
@@ -194,9 +200,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
             className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="Annual Salary"
             value={newEmployeeData.salary}
-            onChange={(e) =>
-              handleFieldChange("salary", normalizeSalary(e.target.value))
-            }
+            onChange={(e) => handleFieldChange("salary", e.target.value)}
           />
         </div>
 
@@ -214,10 +218,11 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
             onChange={(e) =>
               handleFieldChange(
                 "teamId",
-                e.target.value ? Number(e.target.value) : null,
+                e.target.value ? Number(e.target.value) : undefined,
               )
             }
           >
+            <option value="">Select Team</option>
             {allTeams?.map((team) => (
               <option key={team.id} value={team.id}>
                 {team.name}

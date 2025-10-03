@@ -30,6 +30,7 @@ test("POST /employees -> 201 (create employee)", async () => {
       cognitoId: `c-${uniqueSuffix}`,
       email: `test${uniqueSuffix}@corp.com`,
       firstName: "Test",
+      salary: 10000,
       lastName: "User",
       jobTitle: "Engineer",
       startDate: "2025-03-01",

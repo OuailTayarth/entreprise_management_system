@@ -25,6 +25,8 @@ export async function POST(req: Request) {
       Body: buffer,
       ContentType: file.type,
     });
+
+    return NextResponse.json({ key });
   } catch (error) {
     console.error("Error uploading file", error);
     return NextResponse.json(

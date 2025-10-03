@@ -74,6 +74,6 @@ export const formatSalary = (value: string | number) => {
   return `${Number(value).toLocaleString()} €`;
 };
 
-export const normalizeSalary = (value: string): number => {
+export const normalizeSalary = (value: number): number => {
   return Number(value.replace(/[^0-9]/g, ""));
 };
