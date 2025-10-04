@@ -2,33 +2,35 @@
 import Image from "next/image";
 import React from "react";
 import { EmployeeResp, LeaveResp } from "@shared/validation";
-import {
-  useGetEmployeesByDepartmentIdQuery,
-  useGetLeavesQuery,
-} from "@/app/state/api";
+import { useGetLeavesQuery } from "@/app/state/api";
 import { User } from "lucide-react";
 import { format } from "date-fns";
 import { keyToUrl, formatSalary } from "@/lib/utils";
 
 type BoardProps = {
-  departmentId: string;
   setIsModalNewEmployeeOpen: (isOpen: boolean) => void;
+  departmentId: string;
+  employees: EmployeeResp[];
+  isLoading: boolean;
 };
 
 const employeeStatus = ["Active", "On Leave", "Inactive"];
 
 const EmployeesBoardView = ({
-  departmentId,
   setIsModalNewEmployeeOpen,
+  departmentId,
+  employees,
+  isLoading,
 }: BoardProps) => {
-  const {
-    data: employees,
-    isLoading,
-    error,
-  } = useGetEmployeesByDepartmentIdQuery(Number(departmentId));
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred while fetching employees</div>;
+  if (isLoading) {
+    return (
+      <div className="p-4">
+        <div className="flex h-64 items-center justify-center">
+          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-3">

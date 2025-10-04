@@ -1,28 +1,30 @@
 "use client";
 
 import React from "react";
-import { useGetEmployeesByDepartmentIdQuery } from "@/app/state/api";
 import EmployeeCardList from "@/components/EmployeeCardList";
 import Header from "@/components/Header";
+import { EmployeeResp } from "@shared/validation";
 
 type Props = {
-  departmentId: string;
   setIsModalNewEmployeeOpen: (isOpen: boolean) => void;
+  employees: EmployeeResp[];
+  isLoading: boolean;
 };
 
 const EmployeesListView = ({
-  departmentId,
   setIsModalNewEmployeeOpen,
+  employees,
+  isLoading,
 }: Props) => {
-  const {
-    data: employees,
-    isLoading,
-    error,
-  } = useGetEmployeesByDepartmentIdQuery(Number(departmentId));
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred while fetching employees</div>;
-
+  if (isLoading) {
+    return (
+      <div className="p-4">
+        <div className="flex h-64 items-center justify-center">
+          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="px-4 pb-8 xl:px-6">
       <div className="pt-5">

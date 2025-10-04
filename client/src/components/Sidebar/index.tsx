@@ -11,6 +11,7 @@ import {
   Building,
   FileText,
   Briefcase,
+  ChartNoAxesCombined,
   ChevronDown,
   ChevronUp,
   Home,
@@ -28,6 +29,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
+
+// @TODO :Add Reports tab on th sidebar with different tabs(e,g board, list) can be salary, performance, hiring
+// where is tab represent specific topic
+// @TODO: In home should be a mix of Chart employee and teams
 
 const Sidebar = () => {
   const { data: departments } = useGetDepartmentsQuery();
@@ -87,7 +92,11 @@ const Sidebar = () => {
         {/* NAVBAR LINKS */}
         <nav className="z-10 w-full">
           <SidebarLink icon={Home} label="Home" href="/" />
-          <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
+          <SidebarLink
+            icon={ChartNoAxesCombined}
+            label="Reports"
+            href="/reports"
+          />
           <SidebarLink icon={Search} label="Search" href="/search" />
           <SidebarLink icon={Settings} label="Settings" href="/settings" />
           <SidebarLink icon={User} label="Employees" href="/employees" />

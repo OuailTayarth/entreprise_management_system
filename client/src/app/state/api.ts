@@ -19,6 +19,7 @@ import {
   CreateTeamInput,
   UpdateTeamInput,
   TeamResp,
+  SearchQueryInput,
 } from "@shared/validation";
 
 export const api = createApi({
@@ -119,6 +120,7 @@ export const api = createApi({
         { type: "Employees", departmentId: `DEPT_${departmentId}` },
       ],
     }),
+
     createEmployee: build.mutation<EmployeeResp, CreateEmployeeInput>({
       query: (body) => ({
         url: `/employees`,
@@ -126,6 +128,23 @@ export const api = createApi({
         body,
       }),
       invalidatesTags: ["Employees"],
+    }),
+    searchEmployees: build.query<EmployeeResp[], SearchQueryInput>({
+      query: (params) => ({
+        url: `/employees/:search`,
+        params,
+      }),
+      providesTags: ["Employees"],
+    }),
+    searchEmployeesByDepartment: build.query<
+      EmployeeResp[],
+      { departmentId: number; q: string }
+    >({
+      query: ({ departmentId, q }) => ({
+        url: `/employees/departments/${departmentId}/search`,
+        params: { q },
+      }),
+      providesTags: ["Employees"],
     }),
     updateEmployee: build.mutation<
       EmployeeResp,
@@ -258,6 +277,8 @@ export const {
   useGetEmployeesQuery,
   useGetEmployeesByDepartmentIdQuery,
   useGetEmployeeByIdQuery,
+  useSearchEmployeesQuery,
+  useSearchEmployeesByDepartmentQuery,
   useCreateEmployeeMutation,
   useUpdateEmployeeMutation,
   useDeleteEmployeeMutation,

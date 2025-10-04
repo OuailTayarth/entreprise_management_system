@@ -6,6 +6,10 @@ import EmployeesBoardView from "../EmployeesBoardView";
 import EmployeesListView from "../EmployeesListView";
 import EmployeesTableView from "../EmployeesTableView";
 import ModalNewEmployee from "@/components/ModalNewEmployee";
+import {
+  useGetEmployeesByDepartmentIdQuery,
+  useSearchEmployeesByDepartmentQuery,
+} from "@/app/state/api";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -13,8 +17,22 @@ type Props = {
 
 const Department = ({ params }: Props) => {
   const { id } = React.use(params);
-  const [activeTab, setActiveTab] = useState("Board");
-  const [isModalNewEmployeeOpen, setIsModalNewEmployeeOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("Board");
+  const [isModalNewEmployeeOpen, setIsModalNewEmployeeOpen] =
+    useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const { data: allEmployees, isLoading: isAllLoading } =
+    useGetEmployeesByDepartmentIdQuery(Number(id), { skip: !!searchTerm });
+
+  const { data: searchResults, isLoading: isSearchingLoading } =
+    useSearchEmployeesByDepartmentQuery(
+      { q: searchTerm, departmentId: Number(id) },
+      { skip: !searchTerm },
+    );
+
+  const employees = searchTerm ? searchResults : allEmployees;
+  const isLoading = searchTerm ? isSearchingLoading : isAllLoading;
 
   return (
     <div>
@@ -27,23 +45,29 @@ const Department = ({ params }: Props) => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         departmentId={id}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
       {activeTab === "Board" && (
         <EmployeesBoardView
           departmentId={id}
+          employees={employees || []}
+          isLoading={isLoading}
           setIsModalNewEmployeeOpen={setIsModalNewEmployeeOpen}
         />
       )}
       {activeTab === "List" && (
         <EmployeesListView
-          departmentId={id}
           setIsModalNewEmployeeOpen={setIsModalNewEmployeeOpen}
+          employees={employees || []}
+          isLoading={isLoading}
         />
       )}
       {activeTab === "Table" && (
         <EmployeesTableView
-          departmentId={id}
           setIsModalNewEmployeeOpen={setIsModalNewEmployeeOpen}
+          employees={employees || []}
+          isLoading={isLoading}
         />
       )}
     </div>

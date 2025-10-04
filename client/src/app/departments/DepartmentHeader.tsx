@@ -1,12 +1,5 @@
 import Header from "@/components/Header";
-import {
-  Building,
-  Filter,
-  List,
-  PlusSquare,
-  Share2,
-  Table,
-} from "lucide-react";
+import { Building, List, PlusSquare, Table } from "lucide-react";
 import React, { useState } from "react";
 import ModalNewEmployee from "@/components/ModalNewEmployee";
 import { useGetDepartmentsQuery } from "@/app/state/api";
@@ -15,12 +8,18 @@ interface DepartmentHeaderProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   departmentId: string;
+  searchTerm: string;
+  onSearchChange: (term: string) => void;
 }
+
+// add debounce for performance
 
 const DepartmentHeader: React.FC<DepartmentHeaderProps> = ({
   activeTab,
   setActiveTab,
   departmentId,
+  searchTerm,
+  onSearchChange,
 }) => {
   const { data: departments } = useGetDepartmentsQuery();
 
@@ -74,16 +73,12 @@ const DepartmentHeader: React.FC<DepartmentHeaderProps> = ({
           />
         </div>
         <div className="flex items-center gap-2">
-          <button className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300">
-            <Filter className="h-5 w-5" />
-          </button>
-          <button className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300">
-            <Share2 className="h-5 w-5" />
-          </button>
           <div className="relative">
             <input
               type="text"
               placeholder="Search Employee"
+              value={searchTerm}
+              onChange={(e) => onSearchChange(e.target.value)}
               className="rounded-md border py-1 pl-10 pr-4 focus:outline-none dark:border-dark-secondary dark:bg-dark-secondary dark:text-white"
             />
             <List className="absolute left-3 top-2 h-4 w-4 text-gray-400 dark:text-neutral-500" />

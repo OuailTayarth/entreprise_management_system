@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteEmployeeById = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
+exports.deleteEmployeeById = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.searchEmployees = exports.searchEmployeesByDepartment = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
 const validation_1 = require("@shared/validation");
 // Get all employees list : / GET /employees
@@ -48,6 +48,83 @@ const getEmployeesByDepartmentId = (req, res) => __awaiter(void 0, void 0, void 
     }
 });
 exports.getEmployeesByDepartmentId = getEmployeesByDepartmentId;
+// GET /employees/departments/:departmentId/search
+const searchEmployeesByDepartment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const parsedSearch = validation_1.SearchQuerySchema.safeParse(req.query);
+        const parsedDept = validation_1.IdParamSchema.safeParse(req.params);
+        if (!parsedSearch.success) {
+            res.status(400).json({
+                message: "Invalid search query",
+                errors: (0, validation_1.zodErrorFormatter)(parsedSearch.error),
+            });
+            return;
+        }
+        if (!parsedDept.success) {
+            res.status(400).json({
+                message: "Invalid departmentId",
+                errors: (0, validation_1.zodErrorFormatter)(parsedDept.error),
+            });
+            return;
+        }
+        const { q } = parsedSearch.data;
+        const searchTerm = q.toLowerCase();
+        const departmentId = parsedDept.data.id;
+        const employees = yield prismaClient_1.prisma.employee.findMany({
+            where: {
+                departmentId,
+                OR: [
+                    { firstName: { contains: searchTerm, mode: "insensitive" } },
+                    { lastName: { contains: searchTerm, mode: "insensitive" } },
+                    { email: { contains: searchTerm, mode: "insensitive" } },
+                    { username: { contains: searchTerm, mode: "insensitive" } },
+                    { jobTitle: { contains: searchTerm, mode: "insensitive" } },
+                ],
+            },
+        });
+        res.json(employees);
+    }
+    catch (e) {
+        res.status(500).json({
+            message: `Error searching department employees: ${e.message}`,
+        });
+    }
+});
+exports.searchEmployeesByDepartment = searchEmployeesByDepartment;
+// search all Employees
+const searchEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const parsedSearchSchema = validation_1.SearchQuerySchema.safeParse(req.query);
+        if (!parsedSearchSchema.success) {
+            res.status(400).json({
+                message: "Invalid search query",
+                errors: (0, validation_1.zodErrorFormatter)(parsedSearchSchema.error),
+            });
+            return;
+        }
+        const { q } = parsedSearchSchema.data;
+        const searchTerm = q.toLocaleLowerCase();
+        // search across multiple fields
+        const employees = yield prismaClient_1.prisma.employee.findMany({
+            where: {
+                OR: [
+                    { firstName: { contains: searchTerm, mode: "insensitive" } },
+                    { lastName: { contains: searchTerm, mode: "insensitive" } },
+                    { email: { contains: searchTerm, mode: "insensitive" } },
+                    { username: { contains: searchTerm, mode: "insensitive" } },
+                    { jobTitle: { contains: searchTerm, mode: "insensitive" } },
+                ],
+            },
+        });
+        res.json(employees);
+    }
+    catch (e) {
+        res
+            .status(500)
+            .json({ message: `Error searching employees: ${e.message}` });
+    }
+});
+exports.searchEmployees = searchEmployees;
 // GET /employees/:id
 const getEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

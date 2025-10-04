@@ -7,15 +7,17 @@ import {
   dataGridSxStyles,
   formatSalary,
 } from "@/lib/utils";
-import { useGetEmployeesByDepartmentIdQuery } from "@/app/state/api";
+
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { EmployeeResp } from "@shared/validation";
 
 import { format } from "date-fns";
 import React from "react";
 
 type Props = {
-  departmentId: string;
   setIsModalNewEmployeeOpen: (isOpen: boolean) => void;
+  employees: EmployeeResp[];
+  isLoading: boolean;
 };
 
 const columns: GridColDef[] = [
@@ -67,20 +69,20 @@ const columns: GridColDef[] = [
 ];
 
 const EmployeesTableView = ({
-  departmentId,
   setIsModalNewEmployeeOpen,
+  employees,
+  isLoading,
 }: Props) => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
-  const {
-    data: employees,
-    error,
-    isLoading,
-  } = useGetEmployeesByDepartmentIdQuery(Number(departmentId));
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !employees)
-    return <div>An error occurred while fetching employees</div>;
-
+  if (isLoading) {
+    return (
+      <div className="p-4">
+        <div className="flex h-64 items-center justify-center">
+          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="h-[540px] w-full px-4 pb-8 xl:px-6">
       <div className="pt-5">
