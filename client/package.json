@@ -14,8 +14,11 @@
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.2",
     "@mui/x-data-grid": "^8.12.1",
+    "@radix-ui/react-toast": "^1.2.15",
     "@reduxjs/toolkit": "^2.9.0",
     "axios": "^1.12.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "gantt-task-react": "^0.3.9",
@@ -29,6 +32,7 @@
     "react-redux": "^9.2.0",
     "recharts": "^3.2.1",
     "redux-persist": "^6.0.0",
+    "tailwindcss-animate": "^1.0.7",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

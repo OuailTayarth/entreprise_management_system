@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import DashboardWrapper from "./dashboardWrapper";
+import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={poppins.variable}>
         <DashboardWrapper>{children}</DashboardWrapper>
+        <Toaster />
       </body>
     </html>
   );

@@ -12,8 +12,6 @@ type Props = {
   departmentId: string;
 };
 
-// add Errors message based on success or failure
-
 const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
   const [createEmployee, { isLoading }] = useCreateEmployeeMutation();
   const { data: allTeams } = useGetTeamsQuery();

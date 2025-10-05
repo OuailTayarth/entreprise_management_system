@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DepartmentHeader from "@/app/departments/DepartmentHeader";
 import EmployeesBoardView from "../EmployeesBoardView";
 import EmployeesListView from "../EmployeesListView";
 import EmployeesTableView from "../EmployeesTableView";
 import ModalNewEmployee from "@/components/ModalNewEmployee";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useToast } from "@/components/ui/use-toast";
 import {
   useGetEmployeesByDepartmentIdQuery,
   useSearchEmployeesByDepartmentQuery,
@@ -17,10 +19,12 @@ type Props = {
 
 const Department = ({ params }: Props) => {
   const { id } = React.use(params);
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("Board");
   const [isModalNewEmployeeOpen, setIsModalNewEmployeeOpen] =
     useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const debouncedSearchTerm = useDebounce<string>(searchTerm);
 
   const { data: allEmployees, isLoading: isAllLoading } =
     useGetEmployeesByDepartmentIdQuery(Number(id), { skip: !!searchTerm });
@@ -28,11 +32,17 @@ const Department = ({ params }: Props) => {
   const { data: searchResults, isLoading: isSearchingLoading } =
     useSearchEmployeesByDepartmentQuery(
       { q: searchTerm, departmentId: Number(id) },
-      { skip: !searchTerm },
+      { skip: !debouncedSearchTerm },
     );
 
   const employees = searchTerm ? searchResults : allEmployees;
   const isLoading = searchTerm ? isSearchingLoading : isAllLoading;
+
+  useEffect(() => {
+    if (searchTerm && !isLoading && employees?.length === 0) {
+      toast({ title: `No employees found for "${searchTerm}"` });
+    }
+  }, [searchTerm, searchTerm, employees]);
 
   return (
     <div>
