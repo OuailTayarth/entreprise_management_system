@@ -8,7 +8,6 @@ const BaseEmployeeSchema = zod_1.z.object({
         .trim()
         .min(3)
         .transform((s) => s.toLowerCase()),
-    cognitoId: zod_1.z.string().min(1),
     email: zod_1.z.string().email(),
     firstName: zod_1.z.string().min(1),
     lastName: zod_1.z.string().min(1),

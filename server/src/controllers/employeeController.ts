@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../../src/prismaClient";
+import { v4 as uuidv4 } from "uuid";
 import {
   EmployeeCreateSchema,
   EmployeeUpdateSchema,
@@ -220,8 +221,13 @@ export const createEmployee = async (
       return;
     }
 
+    const employeeData = {
+      ...result.data,
+      cognitoId: uuidv4(),
+    };
+
     const newEmployee = await prisma.employee.create({
-      data: removeUndefined(result.data),
+      data: removeUndefined(employeeData),
     });
 
     res.status(201).json(newEmployee);

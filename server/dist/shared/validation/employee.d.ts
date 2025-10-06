@@ -13,7 +13,6 @@ export declare const EmployeeUpdateSchema: z.ZodObject<{
 }, z.core.$strip>;
 export declare const EmployeeCreateSchema: z.ZodObject<{
     username: z.ZodPipe<z.ZodString, z.ZodTransform<string, string>>;
-    cognitoId: z.ZodString;
     email: z.ZodString;
     firstName: z.ZodString;
     lastName: z.ZodString;
@@ -30,7 +29,6 @@ export type CreateEmployeeInput = z.infer<typeof EmployeeCreateSchema>;
 export type UpdateEmployeeInput = z.infer<typeof EmployeeUpdateSchema>;
 export declare const EmployeeRespSchema: z.ZodObject<{
     username: z.ZodPipe<z.ZodString, z.ZodTransform<string, string>>;
-    cognitoId: z.ZodString;
     email: z.ZodString;
     firstName: z.ZodString;
     lastName: z.ZodString;

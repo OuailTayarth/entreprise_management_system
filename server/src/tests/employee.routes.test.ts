@@ -49,7 +49,6 @@ test("POST /employees (invalid) -> 400", async () => {
     .send({
       // invalid email to trigger Zod
       username: `bad.user.${uniqueSuffix}`,
-      cognitoId: `c-bad-${uniqueSuffix}`,
       email: "not-an-email",
       firstName: "Bad",
       lastName: "User",

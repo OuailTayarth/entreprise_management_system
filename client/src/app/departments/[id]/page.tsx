@@ -7,7 +7,8 @@ import EmployeesListView from "../EmployeesListView";
 import EmployeesTableView from "../EmployeesTableView";
 import ModalNewEmployee from "@/components/ModalNewEmployee";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "react-toastify";
+
 import {
   useGetEmployeesByDepartmentIdQuery,
   useSearchEmployeesByDepartmentQuery,
@@ -19,7 +20,7 @@ type Props = {
 
 const Department = ({ params }: Props) => {
   const { id } = React.use(params);
-  const { toast } = useToast();
+
   const [activeTab, setActiveTab] = useState<string>("Board");
   const [isModalNewEmployeeOpen, setIsModalNewEmployeeOpen] =
     useState<boolean>(false);
@@ -39,10 +40,15 @@ const Department = ({ params }: Props) => {
   const isLoading = searchTerm ? isSearchingLoading : isAllLoading;
 
   useEffect(() => {
-    if (searchTerm && !isLoading && employees?.length === 0) {
-      toast({ title: `No employees found for "${searchTerm}"` });
+    if (
+      debouncedSearchTerm &&
+      debouncedSearchTerm.length >= 3 &&
+      !isLoading &&
+      employees?.length === 0
+    ) {
+      toast.info(`No employees found for "${searchTerm}"`);
     }
-  }, [searchTerm, searchTerm, employees]);
+  }, [debouncedSearchTerm, isLoading, employees]);
 
   return (
     <div>

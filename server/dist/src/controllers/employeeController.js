@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEmployeeById = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.searchEmployees = exports.searchEmployeesByDepartment = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
+const uuid_1 = require("uuid");
 const validation_1 = require("@shared/validation");
 // Get all employees list : / GET /employees
 const getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -193,8 +194,9 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
             return;
         }
+        const employeeData = Object.assign(Object.assign({}, result.data), { cognitoId: (0, uuid_1.v4)() });
         const newEmployee = yield prismaClient_1.prisma.employee.create({
-            data: (0, validation_1.removeUndefined)(result.data),
+            data: (0, validation_1.removeUndefined)(employeeData),
         });
         res.status(201).json(newEmployee);
     }

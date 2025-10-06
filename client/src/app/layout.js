@@ -1,7 +1,8 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import DashboardWrapper from "./dashboardWrapper";
-import { Toaster } from "@/components/ui/toaster";
+import { ToastContainer, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -19,8 +20,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={poppins.variable}>
-        <DashboardWrapper>{children}</DashboardWrapper>
-        <Toaster />
+        <DashboardWrapper>
+          {children}{" "}
+          <ToastContainer
+            position="bottom-right"
+            theme="dark"
+            transition={Slide}
+          />
+        </DashboardWrapper>
       </body>
     </html>
   );
