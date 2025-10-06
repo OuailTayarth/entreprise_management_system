@@ -70,6 +70,36 @@ export const dataGridSxStyles = (isDarkMode: boolean) => ({
   "& .MuiDataGrid-withBorderColor": {
     borderColor: isDarkMode ? "#2d3135" : "#e5e7eb",
   },
+
+  "& .MuiDataGrid-footerContainer": {
+    backgroundColor: isDarkMode ? "#1d1f21" : undefined,
+    borderTop: `1px solid ${isDarkMode ? "#2d3135" : "#e5e7eb"}`,
+    color: isDarkMode ? "#e5e7eb" : undefined,
+
+    // Pagination text
+    "& .MuiTablePagination-root, & .MuiTablePagination-toolbar, & .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
+      {
+        color: isDarkMode ? "#e5e7eb" : undefined,
+      },
+
+    // Pagination icons (arrows), select caret, etc.
+    "& .MuiTablePagination-actions .MuiIconButton-root, & .MuiSvgIcon-root, & .MuiSelect-icon":
+      {
+        color: isDarkMode ? "#e5e7eb" : undefined,
+        "&:hover": { color: isDarkMode ? "#ffffff" : undefined },
+        "&.Mui-disabled": { color: isDarkMode ? "#9ca3af" : undefined },
+      },
+
+    // Rows-per-page select input text
+    "& .MuiInputBase-input, & .MuiSelect-select": {
+      color: isDarkMode ? "#e5e7eb" : undefined,
+    },
+  },
+
+  // (Optional) selected row count (left side of footer, if present)
+  "& .MuiDataGrid-selectedRowCount": {
+    color: isDarkMode ? "#e5e7eb" : undefined,
+  },
 });
 
 export const keyToUrl = (key?: string | null | undefined) => {
