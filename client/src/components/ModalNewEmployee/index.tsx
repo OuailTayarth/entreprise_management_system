@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { CreateEmployeeInput, EmployeeResp } from "@shared/validation";
 import { Upload } from "lucide-react";
 import { normalizeSalary } from "@/lib/utils";
-import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
+import { useImageUpload } from "@/hooks/useImageUpload";
 
 type Props = {
   isOpen: boolean;
@@ -16,7 +16,8 @@ type Props = {
 const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
   const [createEmployee, { isLoading }] = useCreateEmployeeMutation();
   const { data: allTeams } = useGetTeamsQuery();
-  const [isUploading, setIsUploading] = useState(false);
+
+  const { uploadImage, isUploading } = useImageUpload();
 
   const [newEmployeeData, setNewEmployeeData] = useState<CreateEmployeeInput>({
     firstName: "",
@@ -39,31 +40,13 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
     }));
   };
 
-  const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file || isUploading) return;
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    setIsUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error("Upload failed");
-
-      const { key } = await response.json();
-      console.log(key);
-
+    const key = await uploadImage(file);
+    if (key) {
       handleFieldChange("profilePictureUrl", key);
-    } catch (error) {
-      console.log("Error uploadImage image:", error);
-    } finally {
-      setIsUploading(false);
     }
   };
 

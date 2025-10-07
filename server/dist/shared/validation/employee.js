@@ -31,6 +31,7 @@ exports.EmployeeUpdateSchema = BaseEmployeeSchema.pick({
     employmentType: true,
     departmentId: true,
     teamId: true,
+    profilePictureUrl: true,
 })
     .partial()
     .refine((obj) => Object.keys(obj).length > 0, {

@@ -1,12 +1,13 @@
-// components/ModalEditEmployee.tsx
 "use client";
 
 import React, { useState } from "react";
-import Modal from "./Modal";
+import Modal from "@/components/Modal";
 import { normalizeSalary } from "@/lib/utils";
 import { useUpdateEmployeeMutation } from "@/app/state/api";
-import { EmployeeResp } from "@shared/validation";
+import { EmployeeResp, UpdateEmployeeInput } from "@shared/validation";
 import { toast } from "react-toastify";
+import { Upload } from "lucide-react";
+import { useImageUpload } from "@/hooks/useImageUpload";
 
 type Props = {
   isOpen: boolean;
@@ -15,18 +16,26 @@ type Props = {
 };
 
 const ModalEditEmployee = ({ isOpen, onClose, employee }: Props) => {
-  const [updateEmployee, { isLoading }] = useUpdateEmployeeMutation();
+  const [updateEmployee, { isLoading: isUpdating }] =
+    useUpdateEmployeeMutation();
+
   const [formData, setFormData] = useState({
     firstName: employee.firstName,
     lastName: employee.lastName,
     email: employee.email,
     jobTitle: employee.jobTitle,
     salary: employee.salary,
+    profilePictureUrl: employee.profilePictureUrl,
     startDate: employee.startDate?.split("T")[0] || "",
     employmentType: employee.employmentType || "",
   });
 
-  const handleFieldChange = (field: keyof typeof formData, value: string) => {
+  const { uploadImage, isUploading } = useImageUpload();
+
+  const handleFieldChange = (
+    field: keyof UpdateEmployeeInput,
+    value: string,
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -38,7 +47,7 @@ const ModalEditEmployee = ({ isOpen, onClose, employee }: Props) => {
         id: employee.id,
         body: {
           ...formData,
-          salary: normalizeSalary(Number(formData.salary)),
+          salary: normalizeSalary(formData.salary),
           startDate: new Date(formData.startDate),
         },
       }).unwrap();
@@ -47,6 +56,17 @@ const ModalEditEmployee = ({ isOpen, onClose, employee }: Props) => {
       onClose();
     } catch (error) {
       toast.error("Failed to update employee");
+      console.error("Update error:", error);
+    }
+  };
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const key = await uploadImage(file);
+    if (key) {
+      handleFieldChange("profilePictureUrl", key);
     }
   };
 
@@ -115,16 +135,33 @@ const ModalEditEmployee = ({ isOpen, onClose, employee }: Props) => {
           <option value="Intern">Intern</option>
         </select>
 
+        <div className="flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-8 dark:border-gray-600">
+          <label className="flex cursor-pointer flex-col items-center">
+            <Upload className="mb-2 h-12 w-12 text-gray-500 dark:text-gray-400" />
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              {formData.profilePictureUrl
+                ? "Change Picture"
+                : "Upload Profile Picture"}
+            </span>
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*"
+              onChange={handleUpload}
+            />
+          </label>
+        </div>
+
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isUpdating || isUploading}
           className={`mt-4 flex w-full justify-center rounded-md px-4 py-2 text-white ${
-            isLoading
+            isUpdating || isUploading
               ? "cursor-not-allowed bg-gray-400"
               : "bg-blue-primary hover:bg-blue-600"
           }`}
         >
-          {isLoading ? "Updating..." : "Save Changes"}
+          {isUpdating || isUploading ? "Updating..." : "Save Changes"}
         </button>
       </form>
     </Modal>

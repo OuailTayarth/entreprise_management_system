@@ -3,7 +3,7 @@ import Image from "next/image";
 import {
   useGetEmployeesQuery,
   useSearchEmployeesQuery,
-  useUpdateDepartmentMutation,
+  useUpdateEmployeeMutation,
   useDeleteEmployeeMutation,
 } from "@/app/state/api";
 import React, { useState, useEffect } from "react";
@@ -15,7 +15,6 @@ import {
   dataGridSxStyles,
   keyToUrl,
   formatSalary,
-  normalizeSalary,
 } from "@/lib/utils";
 import { useAppSelector } from "@/app/redux";
 import { EmployeeResp, CreateEmployeeInput } from "@shared/validation";
@@ -23,6 +22,7 @@ import { format } from "date-fns";
 import { SearchBar } from "@/components/SearchBar";
 import { useDebounce } from "@/hooks/useDebounce";
 import { toast } from "react-toastify";
+import ModalEditEmployee from "@/components/ModalEditEmployee";
 
 export default function Employees() {
   const [paginationModel, setPaginationModel] = React.useState({
@@ -43,10 +43,9 @@ export default function Employees() {
     isLoading: isAllLoading,
     isError,
   } = useGetEmployeesQuery(undefined, { skip: !!searchTerm });
+
   const { data: searchResults, isLoading: isSearchingLoading } =
     useSearchEmployeesQuery({ q: searchTerm }, { skip: !debouncedSearchTerm });
-  const [updateEmployee, { isLoading: isUploading }] =
-    useUpdateDepartmentMutation();
   const [deleteEmployee, { isLoading: isDeleting }] =
     useDeleteEmployeeMutation();
 
@@ -73,37 +72,15 @@ export default function Employees() {
     setIsEditModalOpen(true);
   };
 
-  const handleUpdate = async (
-    updatedEmployee: Partial<CreateEmployeeInput>,
-  ) => {
-    try {
-      await updateEmployee({
-        id: editingEmployee?.id,
-        body: {
-          ...updatedEmployee,
-          salary: normalizeSalary(updatedEmployee.salary),
-          startDate: new Date(updatedEmployee.startDate),
-        },
-      }).unwrap();
-
-      toast.success("Employee updated successfully!");
-      setIsEditModalOpen(false);
-      setEditingEmployee(null);
-    } catch (error) {
-      toast.error("Failed to update employee");
-    }
-  };
-
   const handleDelete = async (id: number) => {
     try {
       await deleteEmployee(id).unwrap();
       toast.success("Employee deleted successfully!");
     } catch (error) {
       toast.error("Failed to delete employee");
-      console.error("Delete error:", error);
+      console.error("Error deleting", error);
     }
   };
-
   const columns: GridColDef[] = [
     {
       field: "profilePicture",
@@ -195,26 +172,16 @@ export default function Employees() {
       renderCell: (params) => {
         const employee = params.row as EmployeeResp;
 
-        const handleEdit = () => {
-          // Handle edit logic here
-          console.log("Edit employee:", employee.id);
-        };
-
-        const handleDelete = () => {
-          // Handle delete logic here
-          console.log("Delete employee:", employee.id);
-        };
-
         return (
           <div className="h-full w-full flex-1 items-center justify-center gap-2 p-0">
             <button
-              onClick={handleEdit}
+              onClick={() => handleEdit(employee)}
               className="rounded-md p-1 hover:bg-gray-200 dark:hover:bg-dark-tertiary"
             >
               <Pencil className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             </button>
             <button
-              onClick={handleDelete}
+              onClick={() => handleDelete(employee.id)}
               className="rounded-md p-1 hover:bg-red-100 dark:hover:bg-red-900/50"
             >
               <Trash className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -246,6 +213,16 @@ export default function Employees() {
           sx={dataGridSxStyles(isDarkMode)}
         />
       </div>
+      {editingEmployee && (
+        <ModalEditEmployee
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setEditingEmployee(null);
+          }}
+          employee={editingEmployee}
+        />
+      )}
     </div>
   );
 }

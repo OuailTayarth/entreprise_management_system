@@ -8,6 +8,7 @@ export declare const EmployeeUpdateSchema: z.ZodObject<{
     salary: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
     startDate: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     employmentType: z.ZodOptional<z.ZodString>;
+    profilePictureUrl: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     departmentId: z.ZodOptional<z.ZodOptional<z.ZodCoercedNumber<unknown>>>;
     teamId: z.ZodOptional<z.ZodOptional<z.ZodCoercedNumber<unknown>>>;
 }, z.core.$strip>;
