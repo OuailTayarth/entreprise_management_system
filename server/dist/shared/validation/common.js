@@ -10,7 +10,7 @@ const zodErrorFormatter = (err) => {
 };
 exports.zodErrorFormatter = zodErrorFormatter;
 exports.SearchQuerySchema = zod_1.z.object({
-    q: zod_1.z.string().min(2, "search term must be at least 2 characters").trim(),
+    q: zod_1.z.string().min(1, "search term must be at least 2 characters").trim(),
 });
 // Helper function to remove undefined values before passing them to Prisma
 const removeUndefined = (obj) => {

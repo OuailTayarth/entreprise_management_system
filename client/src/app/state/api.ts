@@ -131,7 +131,7 @@ export const api = createApi({
     }),
     searchEmployees: build.query<EmployeeResp[], SearchQueryInput>({
       query: (params) => ({
-        url: `/employees/:search`,
+        url: `/employees/search`,
         params,
       }),
       providesTags: ["Employees"],

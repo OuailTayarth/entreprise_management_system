@@ -1,7 +1,7 @@
 import Modal from "@/components/Modal";
 import { useCreateEmployeeMutation, useGetTeamsQuery } from "@/app/state/api";
 import React, { useState } from "react";
-import { CreateEmployeeInput } from "@shared/validation";
+import { CreateEmployeeInput, EmployeeResp } from "@shared/validation";
 import { Upload } from "lucide-react";
 import { normalizeSalary } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
@@ -150,14 +150,14 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <input
             type="text"
-            className="dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none w-full rounded border border-gray-300 p-2 shadow-sm"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="First Name"
             value={newEmployeeData.firstName}
             onChange={(e) => handleFieldChange("firstName", e.target.value)}
           />
           <input
             type="text"
-            className="dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none w-full rounded border border-gray-300 p-2 shadow-sm"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="Last Name"
             value={newEmployeeData.lastName}
             onChange={(e) => handleFieldChange("lastName", e.target.value)}
@@ -167,14 +167,14 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <input
             type="text"
-            className="dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none w-full rounded border border-gray-300 p-2 shadow-sm"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="Job Title"
             value={newEmployeeData.jobTitle}
             onChange={(e) => handleFieldChange("jobTitle", e.target.value)}
           />
 
           <select
-            className="dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white w-full rounded border border-gray-300 p-2 shadow-sm"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white"
             value={newEmployeeData.employmentType}
             onChange={(e) =>
               handleFieldChange("employmentType", e.target.value)
@@ -191,7 +191,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <input
             type="email"
-            className="dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none w-full rounded border border-gray-300 p-2 shadow-sm"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="Email"
             value={newEmployeeData.email}
             onChange={(e) => handleFieldChange("email", e.target.value)}
@@ -199,7 +199,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
 
           <input
             type="text"
-            className="dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none w-full rounded border border-gray-300 p-2 shadow-sm"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="Annual Salary"
             value={newEmployeeData.salary}
             onChange={(e) => handleFieldChange("salary", e.target.value)}
@@ -209,13 +209,13 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <input
             type="date"
-            className="dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none w-full rounded border border-gray-300 p-2 shadow-sm"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             value={newEmployeeData.startDate}
             onChange={(e) => handleFieldChange("startDate", e.target.value)}
           />
 
           <select
-            className="dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white w-full rounded border border-gray-300 p-2 shadow-sm"
+            className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white"
             value={newEmployeeData.teamId ?? ""}
             onChange={(e) =>
               handleFieldChange(
@@ -233,10 +233,10 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
           </select>
         </div>
 
-        <div className="dark:border-gray-600 flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-8">
+        <div className="flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-8 dark:border-gray-600">
           <label className="flex cursor-pointer flex-col items-center">
-            <Upload className="dark:text-gray-400 mb-2 h-12 w-12 text-gray-500" />
-            <span className="dark:text-gray-400 text-sm text-gray-500">
+            <Upload className="mb-2 h-12 w-12 text-gray-500 dark:text-gray-400" />
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               {newEmployeeData.profilePictureUrl
                 ? "Change Picture"
                 : "Upload Profile Picture"}

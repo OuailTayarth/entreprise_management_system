@@ -7,7 +7,7 @@ export const zodErrorFormatter = (err: ZodError) => {
 };
 
 export const SearchQuerySchema = z.object({
-  q: z.string().min(2, "search term must be at least 2 characters").trim(),
+  q: z.string().min(1, "search term must be at least 2 characters").trim(),
 });
 
 export type SearchQueryInput = z.infer<typeof SearchQuerySchema>;

@@ -118,6 +118,7 @@ export const searchEmployees = async (
     }
     const { q } = parsedSearchSchema.data;
     const searchTerm = q.toLocaleLowerCase();
+    
 
     // search across multiple fields
     const employees = await prisma.employee.findMany({
