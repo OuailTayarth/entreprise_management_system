@@ -29,9 +29,9 @@ model Employee {
   department Department? @relation(fields: [departmentId], references: [id])
   team       Team?       @relation(fields: [teamId], references: [id])
 
-  documents          Document[]
-  leaves             Leave[]
-  onboardingTasks    OnboardingTask[]
+  documents          Document[] 
+  leaves             Leave[]   
+  onboardingTasks    OnboardingTask[] 
   uploadedDocs       Document[]          @relation("Uploader")
   managerAssignments DepartmentManager[]
 }
@@ -62,7 +62,7 @@ model DepartmentManager {
   to           DateTime?
 
   department Department @relation(fields: [departmentId], references: [id])
-  employee   Employee   @relation(fields: [employeeId], references: [id])
+  employee   Employee   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
   @@unique([departmentId, to])
 }
@@ -77,8 +77,8 @@ model Document {
   signedAt     DateTime?
   uploadedById Int
   employeeId   Int
-  uploadedBy   Employee  @relation("Uploader", fields: [uploadedById], references: [id])
-  employee     Employee  @relation(fields: [employeeId], references: [id])
+  uploadedBy   Employee  @relation("Uploader", fields: [uploadedById], references: [id], onDelete: Cascade)
+  employee     Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 }
 
 // 🛌 LEAVE — Sick, Parental, Vacation
@@ -90,7 +90,7 @@ model Leave {
   status     String   @default("PENDING")
   reason     String
   employeeId Int
-  employee   Employee @relation(fields: [employeeId], references: [id])
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 }
 
 // ✅ ONBOARDING TASK — Checklist for new hires
@@ -102,5 +102,5 @@ model OnboardingTask {
   completed   Boolean   @default(false)
   completedAt DateTime?
   assigneeId  Int
-  assignee    Employee  @relation(fields: [assigneeId], references: [id])
+  assignee    Employee  @relation(fields: [assigneeId], references: [id], onDelete: Cascade)
 }
