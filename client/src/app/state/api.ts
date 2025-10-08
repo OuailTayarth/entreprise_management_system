@@ -20,6 +20,7 @@ import {
   UpdateTeamInput,
   TeamResp,
   SearchQueryInput,
+  TeamDetailResp,
 } from "@shared/validation";
 
 export const api = createApi({
@@ -246,6 +247,10 @@ export const api = createApi({
       }),
       invalidatesTags: ["Teams"],
     }),
+    getTeamsWithDetails: build.query<TeamDetailResp[], void>({
+      query: () => `/teams/details`,
+      providesTags: ["Teams"],
+    }),
     updateTeam: build.mutation<TeamResp, { id: number; body: UpdateTeamInput }>(
       {
         query: ({ id, body }) => ({
@@ -294,6 +299,7 @@ export const {
   // Teams
   useGetTeamsQuery,
   useGetTeamByIdQuery,
+  useGetTeamsWithDetailsQuery,
   useCreateTeamMutation,
   useUpdateTeamMutation,
 } = api;

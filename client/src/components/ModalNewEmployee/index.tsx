@@ -1,7 +1,7 @@
 import Modal from "@/components/Modal";
 import { useCreateEmployeeMutation, useGetTeamsQuery } from "@/app/state/api";
 import React, { useState } from "react";
-import { CreateEmployeeInput, EmployeeResp } from "@shared/validation";
+import { CreateEmployeeInput } from "@shared/validation";
 import { Upload } from "lucide-react";
 import { normalizeSalary } from "@/lib/utils";
 import { toast } from "react-toastify";
@@ -94,21 +94,6 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
 
     onClose();
   };
-
-  /**
-   * "id": 1,
-    "username": "alice.smith",
-    "cognitoId": "c-001",
-    "email": "alice@corp.com",
-    "firstName": "Alice",
-    "lastName": "Smith",
-    "jobTitle": "CEO",
-    "startDate": "2025-01-15T00:00:00.000Z",
-    "employmentType": "Full-time",
-    "departmentId": 1,
-    "teamId": null,
-    "profilePictureUrl": "EmployeesPhotos/employee_001_profile.jpg"
-   */
 
   const isFormValid = () => {
     return (

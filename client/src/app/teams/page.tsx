@@ -1,49 +1,37 @@
 "use client";
-
+import React, { useState } from "react";
 import { useAppSelector } from "@/app/redux";
 import Header from "@/components/Header";
-import {
-  dataGridClassNames,
-  dataGridSxStyles,
-  formatSalary,
-} from "@/lib/utils";
-
+import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { EmployeeResp } from "@shared/validation";
-
-import { format } from "date-fns";
-import React from "react";
-
-type Props = {
-  setIsModalNewEmployeeOpen: (isOpen: boolean) => void;
-  employees: EmployeeResp[];
-  isLoading: boolean;
-};
+import { useGetTeamsWithDetailsQuery } from "@/app/state/api";
+import ModalNewTeam from "@/components/ModalNewTeam";
 
 const columns: GridColDef[] = [
   {
-    field: "firstName",
+    field: "name",
     headerName: "Team Name",
     width: 160,
   },
   {
-    field: "lastName",
+    field: "departmentName",
     headerName: "Department",
     width: 160,
   },
   {
-    field: "email",
+    field: "employeeCount",
     headerName: "Employees Numbers",
     width: 160,
+    type: "number",
+    align: "center",
   },
 ];
 
-const EmployeesTableView = ({
-  setIsModalNewEmployeeOpen,
-  employees,
-  isLoading,
-}: Props) => {
+const Teams = () => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+  const { data: teams, isLoading } = useGetTeamsWithDetailsQuery();
+  const [isModalNewTeamOpen, setIsModalNewTeamOpen] = useState(false);
+
   if (isLoading) {
     return (
       <div className="p-4">
@@ -54,29 +42,36 @@ const EmployeesTableView = ({
     );
   }
   return (
-    <div className="h-[540px] w-full px-4 pb-8 xl:px-6">
-      <div className="pt-5">
-        <Header
-          name="Table"
-          buttonComponent={
-            <button
-              className="flex items-center rounded bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
-              onClick={() => setIsModalNewEmployeeOpen(true)}
-            >
-              Add Employee
-            </button>
-          }
-          isSmallText
+    <>
+      <div className="h-[540px] w-full px-4 pb-8 xl:px-6">
+        <div className="pt-5">
+          <Header
+            name="Team"
+            buttonComponent={
+              <button
+                className="flex items-center rounded bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+                onClick={() => setIsModalNewTeamOpen(true)}
+              >
+                Add New Team
+              </button>
+            }
+            isSmallText
+          />
+        </div>
+        <DataGrid
+          rows={teams || []}
+          columns={columns}
+          className={dataGridClassNames}
+          sx={dataGridSxStyles(isDarkMode)}
         />
       </div>
-      <DataGrid
-        rows={employees}
-        columns={columns}
-        className={dataGridClassNames}
-        sx={dataGridSxStyles(isDarkMode)}
+
+      <ModalNewTeam
+        isOpen={isModalNewTeamOpen}
+        onClose={() => setIsModalNewTeamOpen(false)}
       />
-    </div>
+    </>
   );
 };
 
-export default EmployeesTableView;
+export default Teams;
