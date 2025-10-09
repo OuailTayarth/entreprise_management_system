@@ -13,6 +13,7 @@ const BaseEmployeeSchema = z.object({
   salary: z.coerce.number().positive().max(99999999.99),
   startDate: z.coerce.date(),
   employmentType: z.string().min(1),
+  performanceScore: z.coerce.number().min(0).max(100).optional(),
 
   profilePictureUrl: z.string().optional(),
   endDate: z.coerce.date().optional(),
@@ -32,6 +33,7 @@ export const EmployeeUpdateSchema = BaseEmployeeSchema.pick({
   departmentId: true,
   teamId: true,
   profilePictureUrl: true,
+  performanceScore: true,
 })
   .partial()
   .refine((obj) => Object.keys(obj).length > 0, {

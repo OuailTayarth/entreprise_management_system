@@ -8,6 +8,7 @@ export declare const EmployeeUpdateSchema: z.ZodObject<{
     salary: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
     startDate: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     employmentType: z.ZodOptional<z.ZodString>;
+    performanceScore: z.ZodOptional<z.ZodOptional<z.ZodCoercedNumber<unknown>>>;
     profilePictureUrl: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     departmentId: z.ZodOptional<z.ZodOptional<z.ZodCoercedNumber<unknown>>>;
     teamId: z.ZodOptional<z.ZodOptional<z.ZodCoercedNumber<unknown>>>;
@@ -21,6 +22,7 @@ export declare const EmployeeCreateSchema: z.ZodObject<{
     salary: z.ZodCoercedNumber<unknown>;
     startDate: z.ZodCoercedDate<unknown>;
     employmentType: z.ZodString;
+    performanceScore: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
     profilePictureUrl: z.ZodOptional<z.ZodString>;
     endDate: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     departmentId: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
@@ -37,6 +39,7 @@ export declare const EmployeeRespSchema: z.ZodObject<{
     salary: z.ZodCoercedNumber<unknown>;
     startDate: z.ZodCoercedDate<unknown>;
     employmentType: z.ZodString;
+    performanceScore: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
     profilePictureUrl: z.ZodOptional<z.ZodString>;
     endDate: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     departmentId: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
