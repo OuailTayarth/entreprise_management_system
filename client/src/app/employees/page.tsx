@@ -9,7 +9,7 @@ import {
 import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil, CircleX } from "lucide-react";
 import {
   dataGridClassNames,
   dataGridSxStyles,
@@ -173,7 +173,7 @@ export default function Employees() {
         const employee = params.row as EmployeeResp;
 
         return (
-          <div className="h-full w-full flex-1 items-center justify-center gap-2 p-0">
+          <div className="flex h-full w-full items-center gap-2 p-0">
             <button
               onClick={() => handleEdit(employee)}
               className="rounded-md p-1 hover:bg-gray-200 dark:hover:bg-dark-tertiary"
@@ -184,7 +184,7 @@ export default function Employees() {
               onClick={() => handleDelete(employee.id)}
               className="rounded-md p-1 hover:bg-red-100 dark:hover:bg-red-900/50"
             >
-              <Trash className="h-4 w-4 text-red-600 dark:text-red-400" />
+              <CircleX className="h-4 w-4 text-red-600 dark:text-red-400" />
             </button>
           </div>
         );

@@ -38,7 +38,7 @@
     "**/*.ts",
     "**/*.tsx",
     "../shared/**/*.ts"
-  ],
+, "src/components/charts/HiringTrendsChart"  ],
   "exclude": [
     "node_modules"
   ]

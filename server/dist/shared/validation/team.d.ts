@@ -20,4 +20,12 @@ export declare const TeamRespSchema: z.ZodObject<{
     id: z.ZodNumber;
 }, z.core.$strip>;
 export type TeamResp = z.infer<typeof TeamRespSchema>;
+export declare const TeamDetailResSchema: z.ZodObject<{
+    name: z.ZodString;
+    departmentId: z.ZodCoercedNumber<unknown>;
+    id: z.ZodNumber;
+    departmentName: z.ZodString;
+    employmentCount: z.ZodNumber;
+}, z.core.$strip>;
+export type TeamDetailResp = z.infer<typeof TeamDetailResSchema>;
 //# sourceMappingURL=team.d.ts.map

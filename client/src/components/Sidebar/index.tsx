@@ -23,6 +23,10 @@ import {
   ShieldAlert,
   User,
   Users,
+  CircleUserRound,
+  LogIn,
+  LogOut,
+  Cog,
   X,
 } from "lucide-react";
 import Image from "next/image";
@@ -40,6 +44,7 @@ const Sidebar = () => {
 
   const [showDepartments, setShowDepartments] = useState(true);
   const [showDocuments, setShowDocuments] = useState(true);
+  const [showUserMenu, setShowUserMenu] = useState(true);
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
@@ -98,11 +103,9 @@ const Sidebar = () => {
             href="/reports"
           />
           <SidebarLink icon={Search} label="Search" href="/search" />
-          <SidebarLink icon={Settings} label="Settings" href="/settings" />
           <SidebarLink icon={User} label="Employees" href="/employees" />
           <SidebarLink icon={Users} label="Teams" href="/teams" />
         </nav>
-
         {/* DEPARTMENT SECTION */}
         <button
           onClick={() => setShowDepartments((prev) => !prev)}
@@ -149,6 +152,31 @@ const Sidebar = () => {
               href={`/documents/${document.id}`}
             />
           ))}
+
+        <button
+          onClick={() => setShowUserMenu((prev) => !prev)}
+          className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
+        >
+          <span>Account</span>
+          {showUserMenu ? (
+            <ChevronUp className="h-5 w-5" />
+          ) : (
+            <ChevronDown className="h-5 w-5" />
+          )}
+        </button>
+        {/* Accounts */}
+        {showUserMenu && (
+          <>
+            <SidebarLink
+              icon={CircleUserRound}
+              label="Profile"
+              href="/profile"
+            />
+            <SidebarLink icon={Settings} label="Settings" href="/settings" />
+            <SidebarLink icon={LogIn} label="LogIn" href="/login" />
+            {/* <SidebarLink icon={LogOut} label="Logout" href="/logout" /> */}
+          </>
+        )}
       </div>
     </div>
   );

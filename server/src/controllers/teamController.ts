@@ -46,6 +46,41 @@ export const getTeamById = async (
   }
 };
 
+// GET /teams/details : return team with department and employee count
+
+export const getTeamWithDetails = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const teams = await prisma.team.findMany({
+      select: {
+        id: true,
+        name: true,
+        department: {
+          select: { name: true },
+        },
+        _count: {
+          select: { employees: true },
+        },
+      },
+    });
+
+    const teamDetails = teams.map((team) => ({
+      id: team.id,
+      name: team.name,
+      departmentName: team.department.name,
+      employeeCount: team._count.employees,
+    }));
+
+    res.status(200).json(teamDetails);
+  } catch (e: any) {
+    res.status(500).json({
+      message: `Error retrieving teams with details: ${e.message}`,
+    });
+  }
+};
+
 // POST /teams
 export const createTeam = async (
   req: Request,

@@ -22,6 +22,11 @@ export const dataGridSxStyles = (isDarkMode: boolean) => ({
     fontSize: "1rem",
   },
 
+  "& .MuiDataGrid-row.Mui-selected .MuiDataGrid-cell": {
+    backgroundColor: isDarkMode ? "#2d3135" : "#e0e7ff",
+    color: isDarkMode ? "#e5e7eb" : undefined,
+  },
+
   "& .MuiDataGrid-cell, & .MuiDataGrid-cellContent, & .MuiDataGrid-columnHeaderTitle":
     {
       fontFamily: "var(--font-poppins), system-ui, sans-serif !important",

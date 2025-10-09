@@ -21,3 +21,10 @@ export const TeamRespSchema = TeamCreateSchema.extend({
   id: z.number().int().positive(),
 });
 export type TeamResp = z.infer<typeof TeamRespSchema>;
+
+export const TeamDetailResSchema = TeamRespSchema.extend({
+  departmentName: z.string(),
+  employmentCount: z.number().int().positive(),
+});
+
+export type TeamDetailResp = z.infer<typeof TeamDetailResSchema>;

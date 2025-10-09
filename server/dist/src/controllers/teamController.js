@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTeamById = exports.createTeam = exports.getTeamById = exports.getTeams = void 0;
+exports.updateTeamById = exports.createTeam = exports.getTeamWithDetails = exports.getTeamById = exports.getTeams = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
 const validation_1 = require("@shared/validation");
 // GET /teams
@@ -48,6 +48,36 @@ const getTeamById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getTeamById = getTeamById;
+// GET /teams/details : return team with department and employee count
+const getTeamWithDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const teams = yield prismaClient_1.prisma.team.findMany({
+            select: {
+                id: true,
+                name: true,
+                department: {
+                    select: { name: true },
+                },
+                _count: {
+                    select: { employees: true },
+                },
+            },
+        });
+        const teamDetails = teams.map((team) => ({
+            id: team.id,
+            name: team.name,
+            departmentName: team.department.name,
+            employeeCount: team._count.employees,
+        }));
+        res.status(200).json(teamDetails);
+    }
+    catch (e) {
+        res.status(500).json({
+            message: `Error retrieving teams with details: ${e.message}`,
+        });
+    }
+});
+exports.getTeamWithDetails = getTeamWithDetails;
 // POST /teams
 const createTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
