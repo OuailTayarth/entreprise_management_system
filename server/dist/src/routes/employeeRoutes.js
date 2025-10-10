@@ -5,6 +5,7 @@ const employeeController_1 = require("../controllers/employeeController");
 const router = (0, express_1.Router)();
 router.get("/", employeeController_1.getEmployees); // GET /all employees
 router.get("/by-department/:id", employeeController_1.getEmployeesByDepartmentId); // GET / employees by departmentId
+router.get("/performance-trends", employeeController_1.getPerformanceTrends); // GET/ performance trends by each for months for each employee
 router.get("/departments/:id/search", employeeController_1.searchEmployeesByDepartment); // GET /employees/departments/:departmentId/search
 router.get("/search", employeeController_1.searchEmployees); // GET /employees/search
 router.get("/:id", employeeController_1.getEmployeeById); // GET / employee by id

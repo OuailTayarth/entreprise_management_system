@@ -8,12 +8,14 @@ import {
   getEmployeesByDepartmentId,
   searchEmployees,
   searchEmployeesByDepartment,
+  getPerformanceTrends,
 } from "../controllers/employeeController";
 
 const router = Router();
 
 router.get("/", getEmployees); // GET /all employees
 router.get("/by-department/:id", getEmployeesByDepartmentId); // GET / employees by departmentId
+router.get("/performance-trends", getPerformanceTrends); // GET/ performance trends by each for months for each employee
 router.get("/departments/:id/search", searchEmployeesByDepartment); // GET /employees/departments/:departmentId/search
 router.get("/search", searchEmployees); // GET /employees/search
 router.get("/:id", getEmployeeById); // GET / employee by id

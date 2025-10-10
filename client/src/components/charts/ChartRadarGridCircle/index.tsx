@@ -38,7 +38,7 @@ const chartConfig = {
 
 export function ChartRadarGridCircle() {
   return (
-    <Card>
+    <Card className="dark:bg-dark-bg">
       <CardHeader className="items-center pb-4">
         <CardTitle>Radar Chart - Grid Circle</CardTitle>
         <CardDescription>

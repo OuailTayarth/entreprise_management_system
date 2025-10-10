@@ -51,3 +51,17 @@ export const EmployeeRespSchema = BaseEmployeeSchema.extend({
   leaveBalance: z.number(),
 });
 export type EmployeeResp = z.infer<typeof EmployeeRespSchema>;
+
+// -- Performance trends
+export const PerformanceTrendBaseSchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), // YYYY-MM-DD format
+  avgPerformance: z.number().min(0).max(100),
+});
+
+export const PerformanceTrendsResponseSchema = z.array(
+  PerformanceTrendBaseSchema
+);
+
+export type PerformanceTrendsRes = z.infer<
+  typeof PerformanceTrendsResponseSchema
+>;

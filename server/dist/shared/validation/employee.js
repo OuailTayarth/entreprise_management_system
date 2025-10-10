@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EmployeeRespSchema = exports.EmployeeCreateSchema = exports.EmployeeUpdateSchema = void 0;
+exports.PerformanceTrendsResponseSchema = exports.PerformanceTrendBaseSchema = exports.EmployeeRespSchema = exports.EmployeeCreateSchema = exports.EmployeeUpdateSchema = void 0;
 const zod_1 = require("zod");
 const BaseEmployeeSchema = zod_1.z.object({
     username: zod_1.z
@@ -44,4 +44,10 @@ exports.EmployeeRespSchema = BaseEmployeeSchema.extend({
     id: zod_1.z.number().int().positive(),
     leaveBalance: zod_1.z.number(),
 });
+// -- Performance trends
+exports.PerformanceTrendBaseSchema = zod_1.z.object({
+    date: zod_1.z.string().regex(/^\d{4}-\d{2}-\d{2}$/), // YYYY-MM-DD format
+    avgPerformance: zod_1.z.number().min(0).max(100),
+});
+exports.PerformanceTrendsResponseSchema = zod_1.z.array(exports.PerformanceTrendBaseSchema);
 //# sourceMappingURL=employee.js.map

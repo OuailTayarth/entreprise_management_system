@@ -47,7 +47,6 @@ export const getTeamById = async (
 };
 
 // GET /teams/details : return team with department and employee count
-
 export const getTeamWithDetails = async (
   req: Request,
   res: Response

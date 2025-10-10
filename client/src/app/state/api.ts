@@ -21,7 +21,9 @@ import {
   TeamResp,
   SearchQueryInput,
   TeamDetailResp,
+  PerformanceTrendsRes,
 } from "@shared/validation";
+import Employees from "../employees/page";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -121,7 +123,10 @@ export const api = createApi({
         { type: "Employees", departmentId: `DEPT_${departmentId}` },
       ],
     }),
-
+    getPerformanceTrends: build.query<PerformanceTrendsRes, void>({
+      query: () => `/employees/performance-trends`,
+      providesTags: ["Employees"],
+    }),
     createEmployee: build.mutation<EmployeeResp, CreateEmployeeInput>({
       query: (body) => ({
         url: `/employees`,
@@ -168,6 +173,7 @@ export const api = createApi({
       }),
       invalidatesTags: ["Employees"],
     }),
+
     // --- Leaves ---
     getLeaves: build.query<LeaveResp[], void>({
       query: () => `/leaves`,
@@ -280,6 +286,7 @@ export const {
   useDeleteDocumentMutation,
   // Employees
   useGetEmployeesQuery,
+  useGetPerformanceTrendsQuery,
   useGetEmployeesByDepartmentIdQuery,
   useGetEmployeeByIdQuery,
   useSearchEmployeesQuery,

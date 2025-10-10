@@ -48,4 +48,13 @@ export declare const EmployeeRespSchema: z.ZodObject<{
     leaveBalance: z.ZodNumber;
 }, z.core.$strip>;
 export type EmployeeResp = z.infer<typeof EmployeeRespSchema>;
+export declare const PerformanceTrendBaseSchema: z.ZodObject<{
+    date: z.ZodString;
+    avgPerformance: z.ZodNumber;
+}, z.core.$strip>;
+export declare const PerformanceTrendsResponseSchema: z.ZodArray<z.ZodObject<{
+    date: z.ZodString;
+    avgPerformance: z.ZodNumber;
+}, z.core.$strip>>;
+export type PerformanceTrendsRes = z.infer<typeof PerformanceTrendsResponseSchema>;
 //# sourceMappingURL=employee.d.ts.map

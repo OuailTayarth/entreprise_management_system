@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteEmployeeById = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.searchEmployees = exports.searchEmployeesByDepartment = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
+exports.deleteEmployeeById = exports.getPerformanceTrends = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.searchEmployees = exports.searchEmployeesByDepartment = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
 const uuid_1 = require("uuid");
 const validation_1 = require("@shared/validation");
@@ -207,6 +207,28 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.createEmployee = createEmployee;
+// GET /employees/performance-trends
+const getPerformanceTrends = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // query average performance scores by month
+        const trends = yield prismaClient_1.prisma.employee.groupBy({
+            by: ["startDate"],
+            _avg: { performanceScore: true },
+            orderBy: { startDate: "asc" },
+        });
+        const chartData = trends.map((item) => ({
+            date: item.startDate.toISOString().split("T")[0],
+            avgPerformance: item._avg.performanceScore || 0,
+        }));
+        res.json(chartData);
+    }
+    catch (error) {
+        res
+            .status(500)
+            .json({ message: `Error getting performance trends : ${error.message}` });
+    }
+});
+exports.getPerformanceTrends = getPerformanceTrends;
 // DELETE /employees/:id
 const deleteEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

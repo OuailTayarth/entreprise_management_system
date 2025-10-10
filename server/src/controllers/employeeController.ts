@@ -118,7 +118,6 @@ export const searchEmployees = async (
     }
     const { q } = parsedSearchSchema.data;
     const searchTerm = q.toLocaleLowerCase();
-    
 
     // search across multiple fields
     const employees = await prisma.employee.findMany({
@@ -236,6 +235,32 @@ export const createEmployee = async (
     res
       .status(500)
       .json({ message: `Error creating employee: ${error.message}` });
+  }
+};
+
+// GET /employees/performance-trends
+export const getPerformanceTrends = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    // query average performance scores by month
+    const trends = await prisma.employee.groupBy({
+      by: ["startDate"],
+      _avg: { performanceScore: true },
+      orderBy: { startDate: "asc" },
+    });
+
+    const chartData = trends.map((item) => ({
+      date: item.startDate.toISOString().split("T")[0],
+      avgPerformance: item._avg.performanceScore || 0,
+    }));
+
+    res.json(chartData);
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: `Error getting performance trends : ${error.message}` });
   }
 };
 

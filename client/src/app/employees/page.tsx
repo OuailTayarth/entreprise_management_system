@@ -23,6 +23,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { useDebounce } from "@/hooks/useDebounce";
 import { toast } from "react-toastify";
 import ModalEditEmployee from "@/components/ModalEditEmployee";
+import EmployeeDeleteDialog from "@/components/EmployeeDeleteDialog";
 
 export default function Employees() {
   const [paginationModel, setPaginationModel] = React.useState({
@@ -34,6 +35,13 @@ export default function Employees() {
   const [editingEmployee, setEditingEmployee] = useState<EmployeeResp | null>(
     null,
   );
+  const [employeeToDelete, setEmployeeToDelete] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+
   const debouncedSearchTerm = useDebounce<string>(searchTerm);
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
@@ -72,13 +80,28 @@ export default function Employees() {
     setIsEditModalOpen(true);
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDeleteClick = (employee: EmployeeResp) => {
+    // set the employee id and complete name
+    setEmployeeToDelete({
+      id: employee.id,
+      name: `${employee.firstName} ${employee.lastName}`,
+    });
+
+    // set the dialog to open
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!employeeToDelete) return;
     try {
-      await deleteEmployee(id).unwrap();
+      await deleteEmployee(employeeToDelete.id).unwrap();
       toast.success("Employee deleted successfully!");
     } catch (error) {
       toast.error("Failed to delete employee");
       console.error("Error deleting", error);
+    } finally {
+      setIsDeleteDialogOpen(false);
+      setEmployeeToDelete(null);
     }
   };
   const columns: GridColDef[] = [
@@ -181,7 +204,7 @@ export default function Employees() {
               <Pencil className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             </button>
             <button
-              onClick={() => handleDelete(employee.id)}
+              onClick={() => handleDeleteClick(employee)}
               className="rounded-md p-1 hover:bg-red-100 dark:hover:bg-red-900/50"
             >
               <CircleX className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -223,6 +246,14 @@ export default function Employees() {
           employee={editingEmployee}
         />
       )}
+
+      <EmployeeDeleteDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={handleDeleteConfirm}
+        isDeleting={isDeleting}
+        employeeName={employeeToDelete?.name}
+      />
     </div>
   );
 }
