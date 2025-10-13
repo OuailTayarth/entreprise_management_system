@@ -234,7 +234,7 @@ const getAvgPerformanceByMonth = (req, res) => __awaiter(void 0, void 0, void 0,
     try {
         const sixMonthsAgo = new Date();
         sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-        // Get all employees (no grouping)
+        // Get all employees with employee were hired 6 months ago
         const employees = yield prismaClient_1.prisma.employee.findMany({
             where: {
                 startDate: { gte: sixMonthsAgo },
@@ -264,10 +264,12 @@ const getAvgPerformanceByMonth = (req, res) => __awaiter(void 0, void 0, void 0,
         });
         // Calculate average per month
         const chartData = months.map((month) => {
+            // Find employees hired in this specific month
             const monthEmployees = employees.filter((emp) => {
                 const d = new Date(emp.startDate);
                 return monthNames[d.getMonth()] === month;
             });
+            // Calculate average performance for this month for the found employees
             const avg = monthEmployees.length > 0
                 ? parseFloat((monthEmployees.reduce((sum, emp) => sum + emp.performanceScore, 0) / monthEmployees.length).toFixed(2))
                 : 0;
