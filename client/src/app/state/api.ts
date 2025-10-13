@@ -25,12 +25,19 @@ import {
 } from "@shared/validation";
 import Employees from "../employees/page";
 
+// add it to shared zod validation folder
 export type TeamProductivityTrend = {
   date: string;
   fullStack: number;
   talent: number;
   growth: number;
 };
+
+export interface SearchResults {
+  employees: EmployeeResp[];
+  teams: TeamResp[];
+  departments: DepartmentResp[];
+}
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -289,6 +296,13 @@ export const api = createApi({
       query: () => "/teams/productivity-trends",
       providesTags: ["TeamProductivity"],
     }),
+    search: build.query<SearchResults, { q: string }>({
+      query: (params) => ({
+        url: `/search/all`,
+        params: params,
+      }),
+      providesTags: ["Employees", "Teams", "Departments"],
+    }),
   }),
 });
 
@@ -330,4 +344,7 @@ export const {
   useGetTeamProductivityTrendsQuery,
   useCreateTeamMutation,
   useUpdateTeamMutation,
+
+  // Search all
+  useSearchQuery,
 } = api;

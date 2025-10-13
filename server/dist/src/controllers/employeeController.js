@@ -92,7 +92,7 @@ const searchEmployeesByDepartment = (req, res) => __awaiter(void 0, void 0, void
     }
 });
 exports.searchEmployeesByDepartment = searchEmployeesByDepartment;
-// search all Employees
+// // GET / search all Employees
 const searchEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const parsedSearchSchema = validation_1.SearchQuerySchema.safeParse(req.query);

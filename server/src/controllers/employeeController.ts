@@ -102,7 +102,7 @@ export const searchEmployeesByDepartment = async (
   }
 };
 
-// search all Employees
+// // GET / search all Employees
 export const searchEmployees = async (
   req: Request,
   res: Response

@@ -12,6 +12,7 @@ import departmentRoutes from "./routes/departmentRoutes";
 import leaveRoutes from "./routes/leaveRoutes";
 import onboardingRoutes from "./routes/onboardingRoutes";
 import documentRoutes from "./routes/documentRoutes";
+import searchRoutes from "./routes/searchRoutes";
 
 // CONFIGURATION
 dotenv.config();
@@ -33,5 +34,6 @@ app.use("/employees", employeeRoutes);
 app.use("/teams", teamRoutes);
 app.use("/departments", departmentRoutes);
 app.use("/leaves", leaveRoutes);
+app.use("/search", searchRoutes);
 app.use("/onboarding-tasks", onboardingRoutes);
 app.use("/documents", documentRoutes);
