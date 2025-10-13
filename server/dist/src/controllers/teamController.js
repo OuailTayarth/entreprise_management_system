@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTeamById = exports.createTeam = exports.getTeamWithDetails = exports.getTeamById = exports.getTeams = void 0;
+exports.updateTeamById = exports.createTeam = exports.getTeamWithDetails = exports.getTeamById = exports.getTeamProductivityTrends = exports.getTeams = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
 const validation_1 = require("@shared/validation");
 // GET /teams
@@ -23,6 +23,54 @@ const getTeams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getTeams = getTeams;
+// GET /teams/productivity-trends
+// @NOTE: This endpoint simulates historical data for demo purposes
+// In a real system, this would track actual daily productivity metrics
+const getTeamProductivityTrends = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Get current team productivity scores
+        const teams = yield prismaClient_1.prisma.team.findMany({
+            select: {
+                name: true,
+                productivityScore: true,
+            },
+        });
+        // Generate 30 days of simulated data
+        const chartData = [];
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setDate(endDate.getDate() - 30);
+        // Create data points for each day
+        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+            const dateStr = d.toISOString().split("T")[0];
+            // Get scores for each team by name
+            const getTeamScore = (teamName) => {
+                const team = teams.find((t) => t.name === teamName);
+                return team ? team.productivityScore : 0;
+            };
+            const fullStackBase = getTeamScore("Full-Stack Development");
+            const talentBase = getTeamScore("Talent Development");
+            const growthBase = getTeamScore("Growth & Marketing");
+            // Add small random variations to make it look realistic
+            const fullStack = Math.max(70, Math.min(100, fullStackBase + (Math.random() * 10 - 5)));
+            const talent = Math.max(70, Math.min(100, talentBase + (Math.random() * 10 - 5)));
+            const growth = Math.max(70, Math.min(100, growthBase + (Math.random() * 10 - 5)));
+            chartData.push({
+                date: dateStr,
+                fullStack: Math.round(fullStack),
+                talent: Math.round(talent),
+                growth: Math.round(growth),
+            });
+        }
+        res.json(chartData);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Error getting team productivity trends: ${error.message}`,
+        });
+    }
+});
+exports.getTeamProductivityTrends = getTeamProductivityTrends;
 // GET /teams/:id
 const getTeamById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

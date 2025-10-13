@@ -1,5 +1,26 @@
 [
-  { "id": 1, "name": "Frontend", "departmentId": 1 },
-  { "id": 2, "name": "PeopleOps", "departmentId": 2 },
-  { "id": 3, "name": "Growth", "departmentId": 3 }
+  {
+    "id": 1,
+    "name": "Full-Stack Development",
+    "departmentId": 1,
+    "collaborationScore": 85,
+    "productivityScore": 90,
+    "qualityScore": 88
+  },
+  {
+    "id": 2,
+    "name": "Talent Development",
+    "departmentId": 2,
+    "collaborationScore": 92,
+    "productivityScore": 85,
+    "qualityScore": 90
+  },
+  {
+    "id": 3,
+    "name": "Growth & Marketing",
+    "departmentId": 3,
+    "collaborationScore": 80,
+    "productivityScore": 88,
+    "qualityScore": 82
+  }
 ]

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteEmployeeById = exports.getPerformanceTrends = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.searchEmployees = exports.searchEmployeesByDepartment = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
+exports.deleteEmployeeById = exports.getAvgPerformanceByMonth = exports.getPerformanceTrends = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.searchEmployees = exports.searchEmployeesByDepartment = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
 const uuid_1 = require("uuid");
 const validation_1 = require("@shared/validation");
@@ -207,7 +207,7 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.createEmployee = createEmployee;
-// GET /employees/performance-trends
+// GET /employees/performance-trends // clean it
 const getPerformanceTrends = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // query average performance scores by month
@@ -229,6 +229,60 @@ const getPerformanceTrends = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.getPerformanceTrends = getPerformanceTrends;
+// GET /employees/avg-performance-by-month
+const getAvgPerformanceByMonth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+        // Get all employees (no grouping)
+        const employees = yield prismaClient_1.prisma.employee.findMany({
+            where: {
+                startDate: { gte: sixMonthsAgo },
+                performanceScore: { gt: 0 },
+            },
+            select: { performanceScore: true, startDate: true },
+        });
+        // Generate last 6 months (in chronological order)
+        const monthNames = [
+            "january",
+            "february",
+            "march",
+            "april",
+            "may",
+            "june",
+            "july",
+            "august",
+            "september",
+            "october",
+            "november",
+            "december",
+        ];
+        const now = new Date();
+        const months = Array.from({ length: 6 }, (_, i) => {
+            const d = new Date(now.getFullYear(), now.getMonth() - 5 + i, 1);
+            return monthNames[d.getMonth()];
+        });
+        // Calculate average per month
+        const chartData = months.map((month) => {
+            const monthEmployees = employees.filter((emp) => {
+                const d = new Date(emp.startDate);
+                return monthNames[d.getMonth()] === month;
+            });
+            const avg = monthEmployees.length > 0
+                ? parseFloat((monthEmployees.reduce((sum, emp) => sum + emp.performanceScore, 0) / monthEmployees.length).toFixed(2))
+                : 0;
+            return {
+                month: month ? month.charAt(0).toUpperCase() + month.slice(1) : "",
+                performance: avg,
+            };
+        });
+        res.json(chartData);
+    }
+    catch (error) {
+        res.status(500).json({ message: `Error: ${error.message}` });
+    }
+});
+exports.getAvgPerformanceByMonth = getAvgPerformanceByMonth;
 // DELETE /employees/:id
 const deleteEmployeeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

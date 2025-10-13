@@ -7,6 +7,7 @@ router.get("/", employeeController_1.getEmployees); // GET /all employees
 router.get("/by-department/:id", employeeController_1.getEmployeesByDepartmentId); // GET / employees by departmentId
 router.get("/performance-trends", employeeController_1.getPerformanceTrends); // GET/ performance trends by each for months for each employee
 router.get("/departments/:id/search", employeeController_1.searchEmployeesByDepartment); // GET /employees/departments/:departmentId/search
+router.get("/avg-performance-by-month", employeeController_1.getAvgPerformanceByMonth);
 router.get("/search", employeeController_1.searchEmployees); // GET /employees/search
 router.get("/:id", employeeController_1.getEmployeeById); // GET / employee by id
 router.post("/", employeeController_1.createEmployee); // POST / employees

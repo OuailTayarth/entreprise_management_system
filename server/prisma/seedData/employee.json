@@ -12,7 +12,8 @@
     "departmentId": 1,
     "teamId": null,
     "profilePictureUrl": "EmployeesPhotos/employee_001_profile.jpg",
-    "salary": 250000
+    "salary": 250000,
+    "performanceScore": 95
   },
   {
     "id": 2,
@@ -27,7 +28,8 @@
     "departmentId": 1,
     "teamId": 1,
     "profilePictureUrl": "EmployeesPhotos/employee_005_profile.jpg",
-    "salary": 180000
+    "salary": 180000,
+    "performanceScore": 90
   },
   {
     "id": 3,
@@ -40,9 +42,10 @@
     "startDate": "2025-02-15T00:00:00.000Z",
     "employmentType": "Full-time",
     "departmentId": 2,
-    "teamId": null,
+    "teamId": 2,
     "profilePictureUrl": "EmployeesPhotos/employee_003_profile.jpg",
-    "salary": 120000
+    "salary": 120000,
+    "performanceScore": 85
   },
   {
     "id": 4,
@@ -57,7 +60,8 @@
     "departmentId": 1,
     "teamId": 1,
     "profilePictureUrl": "EmployeesPhotos/employee_007_profile.jpg",
-    "salary": 150000
+    "salary": 150000,
+    "performanceScore": 82
   },
   {
     "id": 5,
@@ -72,7 +76,8 @@
     "departmentId": 1,
     "teamId": 1,
     "profilePictureUrl": "EmployeesPhotos/employee_002_profile.jpg",
-    "salary": 110000
+    "salary": 110000,
+    "performanceScore": 88
   },
   {
     "id": 6,
@@ -85,9 +90,10 @@
     "startDate": "2025-05-01T00:00:00.000Z",
     "employmentType": "Full-time",
     "departmentId": 3,
-    "teamId": null,
+    "teamId": 3,
     "profilePictureUrl": "EmployeesPhotos/employee_006_profile.jpg",
-    "salary": 130000
+    "salary": 130000,
+    "performanceScore": 80
   },
   {
     "id": 7,
@@ -97,12 +103,13 @@
     "firstName": "Grace",
     "lastName": "Taylor",
     "jobTitle": "Content Strategist",
-    "startDate": "2025-06-01T00:00:00.000Z",
+    "startDate": "2025-06-15T00:00:00.000Z",
     "employmentType": "Full-time",
     "departmentId": 3,
-    "teamId": null,
+    "teamId": 3,
     "profilePictureUrl": "EmployeesPhotos/employee_004_profile.jpg",
-    "salary": 90000
+    "salary": 90000,
+    "performanceScore": 75
   },
   {
     "id": 8,
@@ -112,13 +119,14 @@
     "firstName": "Henry",
     "lastName": "Anderson",
     "jobTitle": "Social Media Specialist",
-    "startDate": "2025-07-01T00:00:00.000Z",
+    "startDate": "2025-09-10T00:00:00.000Z",
     "endDate": "2025-09-30T00:00:00.000Z",
     "employmentType": "Full-time",
     "departmentId": 3,
-    "teamId": null,
+    "teamId": 3,
     "profilePictureUrl": "EmployeesPhotos/employee_008_profile.jpg",
-    "salary": 75000
+    "salary": 75000,
+    "performanceScore": 78
   },
   {
     "id": 9,
@@ -133,7 +141,8 @@
     "departmentId": 1,
     "teamId": 1,
     "profilePictureUrl": "EmployeesPhotos/employee_009_profile.jpg",
-    "salary": 140000
+    "salary": 140000,
+    "performanceScore": 85
   },
   {
     "id": 10,
@@ -143,11 +152,12 @@
     "firstName": "Jessica",
     "lastName": "Clark",
     "jobTitle": "HR Specialist",
-    "startDate": "2025-08-15T00:00:00.000Z",
+    "startDate": "2025-07-20T00:00:00.000Z",
     "employmentType": "Full-time",
     "departmentId": 2,
-    "teamId": null,
+    "teamId": 2,
     "profilePictureUrl": "EmployeesPhotos/employee_0010_profile.jpg",
-    "salary": 85000
+    "salary": 85000,
+    "performanceScore": 82
   }
 ]

@@ -238,7 +238,7 @@ export const createEmployee = async (
   }
 };
 
-// GET /employees/performance-trends
+// GET /employees/performance-trends // clean it
 export const getPerformanceTrends = async (
   req: Request,
   res: Response
@@ -261,6 +261,76 @@ export const getPerformanceTrends = async (
     res
       .status(500)
       .json({ message: `Error getting performance trends : ${error.message}` });
+  }
+};
+
+// GET /employees/avg-performance-by-month
+export const getAvgPerformanceByMonth = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    // Get all employees (no grouping)
+    const employees = await prisma.employee.findMany({
+      where: {
+        startDate: { gte: sixMonthsAgo },
+        performanceScore: { gt: 0 },
+      },
+      select: { performanceScore: true, startDate: true },
+    });
+
+    // Generate last 6 months (in chronological order)
+    const monthNames = [
+      "january",
+      "february",
+      "march",
+      "april",
+      "may",
+      "june",
+      "july",
+      "august",
+      "september",
+      "october",
+      "november",
+      "december",
+    ];
+    const now = new Date();
+    const months = Array.from({ length: 6 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - 5 + i, 1);
+      return monthNames[d.getMonth()];
+    });
+
+    // Calculate average per month
+    const chartData = months.map((month) => {
+      const monthEmployees = employees.filter((emp) => {
+        const d = new Date(emp.startDate);
+        return monthNames[d.getMonth()] === month;
+      });
+
+      const avg =
+        monthEmployees.length > 0
+          ? parseFloat(
+              (
+                monthEmployees.reduce(
+                  (sum, emp) => sum + emp.performanceScore,
+                  0
+                ) / monthEmployees.length
+              ).toFixed(2)
+            )
+          : 0;
+
+      return {
+        month: month ? month.charAt(0).toUpperCase() + month.slice(1) : "",
+        performance: avg,
+      };
+    });
+
+    res.json(chartData);
+  } catch (error: any) {
+    res.status(500).json({ message: `Error: ${error.message}` });
   }
 };
 

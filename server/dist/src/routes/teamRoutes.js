@@ -5,6 +5,7 @@ const teamController_1 = require("../controllers/teamController");
 const router = (0, express_1.Router)();
 router.get("/", teamController_1.getTeams); // GET /teams
 router.get("/details", teamController_1.getTeamWithDetails);
+router.get("/productivity-trends", teamController_1.getTeamProductivityTrends); // GET/productivity-trends
 router.get("/:id", teamController_1.getTeamById); // GET /teams/:id
 router.post("/", teamController_1.createTeam); // POST /teams
 router.patch("/:id", teamController_1.updateTeamById); // PATCH /teams/:id

@@ -1,10 +1,8 @@
 "use client";
 import React from "react";
 import Header from "@/components/Header";
-import { HiringTrendsChart } from "@/components/charts/HiringTrendsChart";
-import { ChartPieInteractive } from "@/components/charts/ChartPieInteractive";
-import { ChartRadialSimple } from "@/components/charts/ChartRadialSimple";
-import { ChartRadarGridCircle } from "@/components/charts/ChartRadarGridCircle";
+import { TeamProductivityChart } from "@/components/charts/TeamProductivityChart";
+import { PerformanceTrendChart } from "@/components/charts/PerformanceTrendChart";
 
 const Reports = () => {
   return (
@@ -13,12 +11,12 @@ const Reports = () => {
         <Header name="Reports" isSmallText />
       </div>
 
-      <HiringTrendsChart />
+      <TeamProductivityChart />
 
-      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <ChartPieInteractive />
-        <ChartRadarGridCircle />
-        <ChartRadialSimple />
+      <div className="mt-6 flex justify-center">
+        <div className="w-full max-w-4xl px-2">
+          <PerformanceTrendChart />
+        </div>
       </div>
     </div>
   );

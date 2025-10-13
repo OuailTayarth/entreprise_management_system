@@ -40,10 +40,7 @@ import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const { data: departments } = useGetDepartmentsQuery();
-  const { data: documents } = useGetDocumentsQuery();
-
   const [showDepartments, setShowDepartments] = useState(true);
-  const [showDocuments, setShowDocuments] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(true);
 
   const dispatch = useAppDispatch();
@@ -127,29 +124,6 @@ const Sidebar = () => {
               icon={Building}
               label={department.name}
               href={`/departments/${department.id}`}
-            />
-          ))}
-
-        <button
-          className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
-          onClick={() => setShowDocuments((prev) => !prev)}
-        >
-          <span>Documents</span>
-          {showDocuments ? (
-            <ChevronUp className="h-5 w-5" />
-          ) : (
-            <ChevronDown className="h-5 w-5" />
-          )}
-        </button>
-
-        {/* OnBoarding Tasks */}
-        {showDocuments &&
-          documents?.map((document) => (
-            <SidebarLink
-              key={document.id}
-              icon={FileText}
-              label={document.type}
-              href={`/documents/${document.id}`}
             />
           ))}
 

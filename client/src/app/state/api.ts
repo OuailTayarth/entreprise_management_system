@@ -25,6 +25,13 @@ import {
 } from "@shared/validation";
 import Employees from "../employees/page";
 
+export type TeamProductivityTrend = {
+  date: string;
+  fullStack: number;
+  talent: number;
+  growth: number;
+};
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -38,6 +45,7 @@ export const api = createApi({
     "Leaves",
     "OnboardingTasks",
     "Teams",
+    "TeamProductivity",
   ],
   endpoints: (build) => ({
     // ---Departments ---
@@ -125,6 +133,13 @@ export const api = createApi({
     }),
     getPerformanceTrends: build.query<PerformanceTrendsRes, void>({
       query: () => `/employees/performance-trends`,
+      providesTags: ["Employees"],
+    }),
+    getAvgPerformanceByMonth: build.query<
+      { month: string; performance: number }[],
+      void
+    >({
+      query: () => `/employees/avg-performance-by-month`,
       providesTags: ["Employees"],
     }),
     createEmployee: build.mutation<EmployeeResp, CreateEmployeeInput>({
@@ -270,6 +285,10 @@ export const api = createApi({
         ],
       },
     ),
+    getTeamProductivityTrends: build.query<TeamProductivityTrend[], void>({
+      query: () => "/teams/productivity-trends",
+      providesTags: ["TeamProductivity"],
+    }),
   }),
 });
 
@@ -288,6 +307,7 @@ export const {
   useGetEmployeesQuery,
   useGetPerformanceTrendsQuery,
   useGetEmployeesByDepartmentIdQuery,
+  useGetAvgPerformanceByMonthQuery,
   useGetEmployeeByIdQuery,
   useSearchEmployeesQuery,
   useSearchEmployeesByDepartmentQuery,
@@ -307,6 +327,7 @@ export const {
   useGetTeamsQuery,
   useGetTeamByIdQuery,
   useGetTeamsWithDetailsQuery,
+  useGetTeamProductivityTrendsQuery,
   useCreateTeamMutation,
   useUpdateTeamMutation,
 } = api;
