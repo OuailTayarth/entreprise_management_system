@@ -34,13 +34,7 @@ export const SearchAll = async (req: Request, res: Response): Promise<void> => {
       },
     });
 
-    const departments = await prisma.department.findMany({
-      where: {
-        OR: [{ name: { contains: searchTerm, mode: "insensitive" } }],
-      },
-    });
-
-    res.json({ employees, teams, departments });
+    res.json({ employees, teams });
   } catch (e: any) {
     res
       .status(500)

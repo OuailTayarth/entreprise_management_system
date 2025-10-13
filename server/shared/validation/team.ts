@@ -3,6 +3,9 @@ import { z } from "zod";
 export const TeamCreateSchema = z.object({
   name: z.string().min(1),
   departmentId: z.coerce.number().int().positive(),
+  collaborationScore: z.coerce.number().min(0).max(100),
+  productivityScore: z.coerce.number().min(0).max(100),
+  qualityScore: z.coerce.number().min(0).max(100),
 });
 
 export const TeamUpdateSchema = TeamCreateSchema.partial()

@@ -40,12 +40,7 @@ const SearchAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 OR: [{ name: { contains: searchTerm, mode: "insensitive" } }],
             },
         });
-        const departments = yield prismaClient_1.prisma.department.findMany({
-            where: {
-                OR: [{ name: { contains: searchTerm, mode: "insensitive" } }],
-            },
-        });
-        res.json({ employees, teams, departments });
+        res.json({ employees, teams });
     }
     catch (e) {
         res
