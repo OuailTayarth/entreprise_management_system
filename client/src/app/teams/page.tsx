@@ -55,7 +55,6 @@ const Teams = () => {
                 Add New Team
               </button>
             }
-            isSmallText
           />
         </div>
         <DataGrid

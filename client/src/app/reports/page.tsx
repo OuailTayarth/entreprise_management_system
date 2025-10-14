@@ -8,7 +8,7 @@ const Reports = () => {
   return (
     <div className="px-4 pb-8 xl:px-6">
       <div className="pt-5">
-        <Header name="Reports" isSmallText />
+        <Header name="Reports" />
       </div>
 
       <TeamProductivityChart />

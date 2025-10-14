@@ -27,11 +27,13 @@ const config: Config = {
           "400": "#60a5fa",
           "500": "#3b82f6",
         },
-        "dark-bg": "#101214",
-        "dark-secondary": "#1d1f21",
+        "dark-bg": "#0a0a0a",
+        "dark-secondary": "#171717",
+        "dark-bg-3": "oklch(20.02% 0 0)",
         "dark-tertiary": "#3b3d40",
         "blue-primary": "#0275ff",
         "stroke-dark": "#2d3135",
+
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
