@@ -14,6 +14,7 @@ import {
   ChartNoAxesCombined,
   ChevronDown,
   ChevronUp,
+  LayoutDashboard,
   Home,
   Layers3,
   LockIcon,
@@ -93,7 +94,7 @@ const Sidebar = () => {
 
         {/* NAVBAR LINKS */}
         <nav className="z-10 w-full">
-          <SidebarLink icon={Home} label="Home" href="/" />
+          <SidebarLink icon={LayoutDashboard} label="Dashboard" href="/" />
           <SidebarLink
             icon={ChartNoAxesCombined}
             label="Reports"

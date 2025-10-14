@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 
 import Header from "@/components/Header";
@@ -9,7 +8,7 @@ const Dashboard = () => {
   return (
     <div className="px-4 pb-8 xl:px-6">
       <div className="pt-5">
-        <Header name="Dashboard" />
+        <Header name="Welcome" />
       </div>
 
       <StatsCards />

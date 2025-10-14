@@ -27,8 +27,6 @@ const iconMap = {
 };
 
 export function StatsCards({
-  title = "Key Metrics",
-  description = "Track your success with these important numbers",
   stats = [
     {
       value: "2.5M",
@@ -85,24 +83,10 @@ export function StatsCards({
                 type: "spring",
                 stiffness: 100,
               }}
-              className="group relative cursor-pointer overflow-hidden rounded-[6px] border-none p-6 text-gray-900 transition-all hover:scale-105 hover:shadow-xl dark:bg-dark-secondary"
+              className="group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-6 transition-all hover:scale-105 hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30"
             >
               {/* Icon */}
-              <motion.div
-                className="mb-2 text-3xl dark:text-gray-200"
-                initial={{ rotate: -10, scale: 0.8 }}
-                animate={
-                  isInView
-                    ? { rotate: 0, scale: 1 }
-                    : { rotate: -10, scale: 0.8 }
-                }
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1 + 0.2,
-                  type: "spring",
-                  stiffness: 200,
-                }}
-              >
+              <motion.div className="mb-2 text-3xl dark:text-gray-200">
                 {React.createElement(
                   iconMap[stat.icon as keyof typeof iconMap] || DollarSign,
                   {
@@ -112,17 +96,7 @@ export function StatsCards({
               </motion.div>
 
               {/* Value */}
-              <motion.div
-                className="mb-1 text-2xl font-bold text-foreground lg:text-2xl"
-                initial={{ scale: 0.5 }}
-                animate={isInView ? { scale: 1 } : { scale: 0.5 }}
-                transition={{
-                  duration: 0.8,
-                  delay: index * 0.1 + 0.3,
-                  type: "spring",
-                  stiffness: 200,
-                }}
-              >
+              <motion.div className="mb-1 text-2xl font-bold text-foreground lg:text-2xl">
                 {stat.value}
               </motion.div>
 

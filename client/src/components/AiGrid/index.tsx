@@ -3,12 +3,12 @@
 import { Mic } from "lucide-react";
 import { motion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
 const AiGrid = () => {
   return (
-    <section className="py-12">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 md:grid-cols-2">
-        {/* AI Agents Card */}
+    <section className="py-6">
+      <div className="mx-auto grid max-w-7xl cursor-pointer grid-cols-1 gap-6 px-4 md:grid-cols-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,7 +50,8 @@ const AiGrid = () => {
             Voice Assistant
           </h3>
           <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            Interact with our AI using natural voice commands
+            Interact with our AI using natural voice commands. Experience
+            seamless voice-driven interactions with advanced speech recognition.
           </p>
           <VoiceAssistant />
         </motion.div>
@@ -59,13 +60,19 @@ const AiGrid = () => {
   );
 };
 
-// Voice Assistant Component
-const VoiceAssistant = () => {
+function VoiceAssistant() {
   const [submitted, setSubmitted] = useState(false);
   const [time, setTime] = useState(0);
+  const [isClient, setIsClient] = useState(false);
+  const [isDemo, setIsDemo] = useState(true);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
+
     if (submitted) {
       intervalId = setInterval(() => {
         setTime((t) => t + 1);
@@ -73,54 +80,92 @@ const VoiceAssistant = () => {
     } else {
       setTime(0);
     }
+
     return () => clearInterval(intervalId);
   }, [submitted]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  useEffect(() => {
+    if (!isDemo) return;
+
+    let timeoutId: NodeJS.Timeout;
+    const runAnimation = () => {
+      setSubmitted(true);
+      timeoutId = setTimeout(() => {
+        setSubmitted(false);
+        timeoutId = setTimeout(runAnimation, 1000);
+      }, 3000);
+    };
+
+    const initialTimeout = setTimeout(runAnimation, 100);
+    return () => {
+      clearTimeout(timeoutId);
+      clearTimeout(initialTimeout);
+    };
+  }, [isDemo]);
+
+  const handleClick = () => {
+    if (isDemo) {
+      setIsDemo(false);
+      setSubmitted(false);
+    } else {
+      setSubmitted((prev) => !prev);
+    }
   };
 
   return (
-    <div className="py-4">
-      <div className="relative mx-auto flex w-full max-w-xs flex-col items-center gap-3">
+    <div className="w-full py-4">
+      <div className="relative mx-auto flex w-full max-w-xl flex-col items-center gap-2">
         <button
-          className={`flex h-16 w-16 items-center justify-center rounded-xl transition-colors ${
+          className={cn(
+            "group flex h-16 w-16 items-center justify-center rounded-xl transition-colors",
             submitted
               ? "bg-none"
-              : "bg-none hover:bg-black/10 dark:hover:bg-white/10"
-          }`}
-          onClick={() => setSubmitted(!submitted)}
+              : "bg-none hover:bg-black/10 dark:hover:bg-white/10",
+          )}
+          type="button"
+          onClick={handleClick}
         >
           {submitted ? (
-            <div className="h-6 w-6 animate-spin rounded-sm bg-black dark:bg-white" />
+            <div
+              className="pointer-events-auto h-6 w-6 animate-spin cursor-pointer rounded-sm bg-black dark:bg-white"
+              style={{ animationDuration: "3s" }}
+            />
           ) : (
             <Mic className="h-6 w-6 text-black/70 dark:text-white/70" />
           )}
         </button>
 
         <span
-          className={`font-mono text-sm ${
+          className={cn(
+            "font-mono text-sm transition-opacity duration-300",
             submitted
               ? "text-black/70 dark:text-white/70"
-              : "text-black/30 dark:text-white/30"
-          }`}
+              : "text-black/30 dark:text-white/30",
+          )}
         >
           {formatTime(time)}
         </span>
 
-        <div className="flex h-4 w-full items-center justify-center gap-0.5">
-          {Array.from({ length: 48 }).map((_, i) => (
+        <div className="flex h-4 w-64 items-center justify-center gap-0.5">
+          {[...Array(48)].map((_, i) => (
             <div
               key={`voice-bar-${i}`}
-              className={`w-0.5 rounded-full transition-all duration-300 ${
+              className={cn(
+                "w-0.5 rounded-full transition-all duration-300",
                 submitted
                   ? "animate-pulse bg-black/50 dark:bg-white/50"
-                  : "h-1 bg-black/10 dark:bg-white/10"
-              }`}
+                  : "h-1 bg-black/10 dark:bg-white/10",
+              )}
               style={
-                submitted
+                submitted && isClient
                   ? {
                       height: `${20 + Math.random() * 80}%`,
                       animationDelay: `${i * 0.05}s`,
@@ -131,15 +176,14 @@ const VoiceAssistant = () => {
           ))}
         </div>
 
-        <p className="text-xs text-black/70 dark:text-white/70">
+        <p className="h-4 text-xs text-black/70 dark:text-white/70">
           {submitted ? "Listening..." : "Click to speak"}
         </p>
       </div>
     </div>
   );
-};
+}
 
-// Add this component at the bottom of your file (before export)
 const TypingCodeFeature = ({ text }: { text: string }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
