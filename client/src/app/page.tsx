@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import AiGrid from "@/components/AiGrid";
 import { StatsCards } from "@/components/StatsCards";
+import { TopEmployees } from "@/components/TopEmployees";
 
 const Dashboard = () => {
   return (
@@ -12,7 +13,17 @@ const Dashboard = () => {
       </div>
 
       <StatsCards />
-      <AiGrid />
+
+      <section className="mb-14">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="md:col-span-2">
+            <AiGrid />
+          </div>
+          <div className="md:col-span-1">
+            <TopEmployees />
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
