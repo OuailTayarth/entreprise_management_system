@@ -1,7 +1,7 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { useGetAvgPerformanceByMonthQuery } from "@/app/state/api";
 
 import {
@@ -19,7 +19,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export function PerformanceTrendChart() {
+export function PerformanceTrendChartArea() {
   const { data: chartData = [], isLoading } =
     useGetAvgPerformanceByMonthQuery();
 
@@ -45,10 +45,10 @@ export function PerformanceTrendChart() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[200px] w-full">
-          <LineChart
+          <AreaChart
             accessibilityLayer
             data={chartData}
-            margin={{ left: 12, right: 12 }}
+            margin={{ left: 5, right: 12 }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
@@ -62,19 +62,18 @@ export function PerformanceTrendChart() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Line
+            <Area
               dataKey="performance"
               type="natural"
+              fill="var(--color-performance)"
+              fillOpacity={0.4}
               stroke="var(--color-performance)"
               strokeWidth={2}
-              dot={{
-                fill: "var(--color-performance)",
-              }}
               activeDot={{
                 r: 6,
               }}
             />
-          </LineChart>
+          </AreaChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">

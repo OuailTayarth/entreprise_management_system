@@ -77,7 +77,7 @@ export function TeamProductivityChart() {
 
   if (isError || !chartData) {
     return (
-      <Card className="pt-0">
+      <Card className="rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-5 pt-0 transition-all hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30">
         <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
           <div className="grid flex-1 gap-1">
             <CardTitle>Team Productivity</CardTitle>
@@ -108,7 +108,7 @@ export function TeamProductivityChart() {
   });
 
   return (
-    <Card className="pt-0">
+    <Card className="rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-5 pt-0 transition-all hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle>Team Productivity Trends</CardTitle>

@@ -12,12 +12,12 @@ export function TopEmployees() {
 
   return (
     <div className="h-full">
-      <section className="py-6">
+      <section className="py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-5">
           <div className="h-full">
             <motion.div
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-              className="overflow-hidden rounded-xl border border-neutral-200/50 bg-gradient-to-b from-neutral-50/80 to-neutral-50 transition-all duration-300 hover:border-neutral-400/30 hover:shadow-lg hover:shadow-neutral-200/20 dark:border-neutral-800/50 dark:from-neutral-900/80 dark:to-neutral-900 dark:hover:border-neutral-600/30 dark:hover:shadow-neutral-900/20 md:col-span-1"
+              className="cursor-pointer overflow-hidden rounded-xl border border-neutral-200/50 bg-gradient-to-b from-neutral-50/80 to-neutral-50 transition-all duration-300 hover:border-neutral-400/30 hover:shadow-lg hover:shadow-neutral-200/20 dark:border-neutral-800/50 dark:from-neutral-900/80 dark:to-neutral-900 dark:hover:border-neutral-600/30 dark:hover:shadow-neutral-900/20 md:col-span-1"
             >
               <div className="flex h-full flex-col p-5">
                 <div className="mb-4 flex items-center justify-between">
@@ -29,7 +29,6 @@ export function TopEmployees() {
                   Our most valuable contributors across all departments
                 </p>
 
-                {/* Changed grid from 3-cols to 2-cols */}
                 <div className="grid grid-cols-2 gap-4">
                   {topEmployees.map((employee, index) => (
                     <motion.div

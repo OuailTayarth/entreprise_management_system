@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import AiGrid from "@/components/AiGrid";
 import { StatsCards } from "@/components/StatsCards";
 import { TopEmployees } from "@/components/TopEmployees";
+import { PerformanceTrendChartArea } from "@/components/charts/PerformanceTrendChartArea";
 
 const Dashboard = () => {
   return (
@@ -17,8 +18,16 @@ const Dashboard = () => {
       <section className="mb-14">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div className="md:col-span-2">
-            <AiGrid />
+            <div className="grid grid-rows-2 gap-6">
+              <div>
+                <PerformanceTrendChartArea />
+              </div>
+              <div>
+                <AiGrid />
+              </div>
+            </div>
           </div>
+
           <div className="md:col-span-1">
             <TopEmployees />
           </div>

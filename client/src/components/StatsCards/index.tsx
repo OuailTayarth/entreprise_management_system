@@ -71,18 +71,6 @@ export function StatsCards({
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 30, scale: 0.9 }}
-              animate={
-                isInView
-                  ? { opacity: 1, y: 0, scale: 1 }
-                  : { opacity: 0, y: 30, scale: 0.9 }
-              }
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                type: "spring",
-                stiffness: 100,
-              }}
               className="group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-6 transition-all hover:scale-105 hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30"
             >
               {/* Icon */}
