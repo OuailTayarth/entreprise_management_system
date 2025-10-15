@@ -1,65 +1,62 @@
 "use client";
 
 import React, { useRef } from "react";
-import { DollarSign, Smartphone, Star, Users } from "lucide-react";
+import { Users, Building, TrendingUp, CheckCircle } from "lucide-react";
 import { motion, useInView } from "motion/react";
+import {
+  useGetEmployeesQuery,
+  useGetTeamsQuery,
+  useGetAvgPerformanceByMonthQuery,
+} from "@/app/state/api";
 
-interface StatsCardsProps {
-  title?: string;
-  description?: string;
-  stats?: Array<{
-    value: string;
-    label: string;
-    description?: string;
-    icon?: string;
-    trend?: {
-      value: string;
-      direction: "up" | "down";
-    };
-  }>;
-}
+export function StatsCards() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
 
-const iconMap = {
-  DollarSign: DollarSign,
-  Users: Users,
-  Star: Star,
-  Smartphone: Smartphone,
-};
+  const { data: employees } = useGetEmployeesQuery();
+  const { data: teams } = useGetTeamsQuery();
+  const { data: performanceData } = useGetAvgPerformanceByMonthQuery();
 
-export function StatsCards({
-  stats = [
+  const totalEmployees = employees?.length || 0;
+  const activeTeams = teams?.length || 0;
+  const activeEmployees = employees?.filter((e) => !e.endDate).length || 0;
+  const currentMonth = performanceData?.[performanceData.length - 1];
+  const lastUpdated = new Date().toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const stats = [
     {
-      value: "2.5M",
-      label: "Revenue",
-      description: "Annual recurring revenue",
-      icon: "DollarSign",
+      value: totalEmployees,
+      label: "Total Employees",
+      description: `Last updated: ${lastUpdated}`,
+      icon: "Users",
       trend: { value: "+12%", direction: "up" },
     },
     {
-      value: "45K",
-      label: "Customers",
-      description: "Happy customers worldwide",
-      icon: "Users",
+      value: activeTeams,
+      label: "Active Teams",
+      description: `Last updated: ${lastUpdated}`,
+      icon: "Building",
       trend: { value: "+8%", direction: "up" },
     },
     {
-      value: "98%",
-      label: "Satisfaction",
-      description: "Customer satisfaction rate",
-      icon: "Star",
+      value: currentMonth ? `${currentMonth.performance}%` : "N/A",
+      label: "Avg Performance",
+      description: `Last updated: ${lastUpdated}`,
+      icon: "TrendingUp",
       trend: { value: "+2%", direction: "up" },
     },
     {
-      value: "1.2M",
-      label: "Downloads",
-      description: "Total app downloads",
-      icon: "Smartphone",
-      trend: { value: "+15%", direction: "up" },
+      value: activeEmployees.toLocaleString(),
+      label: "Active Employees",
+      description: `Last updated: ${lastUpdated}`,
+      icon: "CheckCircle",
+      trend: { value: "+5%", direction: "up" },
     },
-  ],
-}: StatsCardsProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  ];
 
   return (
     <section className="py-5">
@@ -69,38 +66,36 @@ export function StatsCards({
           className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
         >
           {stats.map((stat, index) => (
-            <motion.div
+            <div
               key={stat.label}
-              className="group relative cursor-pointer overflow-hidden rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-6 transition-all hover:scale-105 hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30"
+              className="relative cursor-pointer overflow-hidden rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-6 shadow transition-all hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30"
             >
-              {/* Icon */}
               <motion.div className="mb-2 text-3xl dark:text-gray-200">
-                {React.createElement(
-                  iconMap[stat.icon as keyof typeof iconMap] || DollarSign,
-                  {
-                    className: "h-5 w-5",
-                  },
+                {stat.icon === "Users" ? (
+                  <Users className="h-5 w-5" />
+                ) : stat.icon === "Building" ? (
+                  <Building className="h-5 w-5" />
+                ) : stat.icon === "TrendingUp" ? (
+                  <TrendingUp className="h-5 w-5" />
+                ) : (
+                  <CheckCircle className="h-5 w-5" />
                 )}
               </motion.div>
 
-              {/* Value */}
               <motion.div className="mb-1 text-2xl font-bold text-foreground lg:text-2xl">
                 {stat.value}
               </motion.div>
 
-              {/* Label */}
               <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-foreground">
                 {stat.label}
               </h3>
 
-              {/* Description */}
               {stat.description && (
                 <p className="mb-3 text-xs text-foreground/70">
                   {stat.description}
                 </p>
               )}
 
-              {/* Trend */}
               {stat.trend && (
                 <motion.div
                   className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
@@ -120,15 +115,7 @@ export function StatsCards({
                   {stat.trend.value}
                 </motion.div>
               )}
-
-              {/* Hover effect background */}
-              <motion.div
-                className="from-brand/10 absolute inset-0 bg-gradient-to-br via-transparent to-transparent opacity-0 group-hover:opacity-100"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

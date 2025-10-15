@@ -25,7 +25,7 @@ export function PerformanceTrendChart() {
 
   if (isLoading)
     return (
-      <Card>
+      <Card className="rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-5 transition-all hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30">
         <CardContent>Loading...</CardContent>
       </Card>
     );

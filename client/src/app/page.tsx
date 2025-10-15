@@ -10,7 +10,8 @@ const Dashboard = () => {
   return (
     <div className="px-4 pb-8 xl:px-6">
       <div className="pt-5">
-        <Header name="Welcome" />
+        <Header name="Welcome" />{" "}
+        {/** Todo: add dynamic name(user login name) */}
       </div>
 
       <StatsCards />
@@ -18,11 +19,14 @@ const Dashboard = () => {
       <section className="mb-14">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div className="md:col-span-2">
-            <div className="grid grid-rows-2 gap-6">
+            <div className="mt-3 grid grid-rows-2 gap-6">
               <div>
                 <PerformanceTrendChartArea />
               </div>
               <div>
+                <h2 className="mb-0 pb-2 text-xl font-medium dark:text-white">
+                  Our Upcoming AI Products
+                </h2>
                 <AiGrid />
               </div>
             </div>

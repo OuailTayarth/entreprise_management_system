@@ -1,10 +1,10 @@
-// components/TopEmployees.tsx
 "use client";
 
 import React from "react";
 import { motion } from "motion/react";
 import { useGetEmployeesQuery } from "@/app/state/api";
 import { keyToUrl } from "@/lib/utils";
+import Image from "next/image";
 
 export function TopEmployees() {
   const { data: employees = [] } = useGetEmployeesQuery();
@@ -17,7 +17,7 @@ export function TopEmployees() {
           <div className="h-full">
             <motion.div
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-              className="cursor-pointer overflow-hidden rounded-xl border border-neutral-200/50 bg-gradient-to-b from-neutral-50/80 to-neutral-50 transition-all duration-300 hover:border-neutral-400/30 hover:shadow-lg hover:shadow-neutral-200/20 dark:border-neutral-800/50 dark:from-neutral-900/80 dark:to-neutral-900 dark:hover:border-neutral-600/30 dark:hover:shadow-neutral-900/20 md:col-span-1"
+              className="cursor-pointer overflow-hidden rounded-xl border border-neutral-200/50 bg-gradient-to-b from-neutral-50/80 to-neutral-50 shadow transition-all duration-300 hover:border-neutral-400/30 hover:shadow-lg hover:shadow-neutral-200/20 dark:border-neutral-800/50 dark:from-neutral-900/80 dark:to-neutral-900 dark:hover:border-neutral-600/30 dark:hover:shadow-neutral-900/20 md:col-span-1"
             >
               <div className="flex h-full flex-col p-5">
                 <div className="mb-4 flex items-center justify-between">
@@ -38,15 +38,21 @@ export function TopEmployees() {
                       transition={{ delay: index * 0.1 }}
                       className="group flex flex-col items-center gap-2 rounded-xl border border-neutral-200/50 bg-gradient-to-b from-neutral-100/80 to-neutral-100 p-3 transition-all duration-300 hover:border-neutral-300 dark:border-neutral-700/50 dark:from-neutral-800/80 dark:to-neutral-800 dark:hover:border-neutral-600"
                     >
-                      <div className="relative flex h-8 w-8 items-center justify-center">
+                      <div className="relative flex items-center justify-center">
                         {employee.profilePictureUrl ? (
-                          <img
-                            src={keyToUrl(employee.profilePictureUrl)}
-                            alt={`${employee.firstName} ${employee.lastName}`}
-                            className="h-7 w-7 rounded-full object-cover"
-                          />
+                          <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white dark:border-dark-tertiary">
+                            <Image
+                              src={keyToUrl(employee.profilePictureUrl)}
+                              alt={employee.username || "Employee"}
+                              width={40}
+                              height={40}
+                              quality={100}
+                              className="h-full w-full object-cover"
+                              priority
+                            />
+                          </div>
                         ) : (
-                          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 dark:bg-dark-tertiary">
+                          <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white dark:border-dark-tertiary">
                             <span className="text-xs text-gray-600 dark:text-gray-400">
                               {employee.firstName[0]}
                               {employee.lastName[0]}

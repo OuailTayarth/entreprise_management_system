@@ -241,10 +241,9 @@ const EmployeeCard = ({ employee, leave, status }: EmployeeCardProps) => {
                   <Image
                     src={keyToUrl(employee.profilePictureUrl)}
                     alt={`${employee.firstName} ${employee.lastName}`}
-                    width={40}
-                    height={40}
-                    sizes="40px"
-                    quality={90}
+                    width={44}
+                    height={44}
+                    quality={100}
                     className="h-full w-full object-cover"
                     priority
                   />

@@ -120,9 +120,11 @@ export default function Employees() {
                 <Image
                   src={keyToUrl(employee.profilePictureUrl)}
                   alt={employee.username || "Employee"}
-                  width={100}
-                  height={50}
+                  width={40}
+                  height={40}
+                  quality={100}
                   className="h-full w-full object-cover"
+                  priority
                 />
               </div>
             ) : (
