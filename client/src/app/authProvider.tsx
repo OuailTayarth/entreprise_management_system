@@ -44,7 +44,7 @@ const formFields = {
 
 const AuthProvider = ({ children }: any) => {
   return (
-    <div>
+    <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
       <Authenticator formFields={formFields}>
         {({ user }: any) =>
           user ? <div>{children}</div> : <div>Please sign in below</div>

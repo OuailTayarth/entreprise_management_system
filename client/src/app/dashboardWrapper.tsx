@@ -6,7 +6,9 @@ import Sidebar from "@/components/Sidebar";
 import StoreProvider from "./redux";
 import { useAppSelector } from "@/app/redux";
 import AuthProvider from "./authProvider";
-//
+import { ThemeProvider } from "@aws-amplify/ui-react";
+import { myTheme } from "./theme";
+
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
@@ -38,9 +40,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <StoreProvider>
-      <AuthProvider>
-        <DashboardLayout>{children}</DashboardLayout>
-      </AuthProvider>
+      <ThemeProvider theme={myTheme}>
+        <AuthProvider>
+          <DashboardLayout>{children}</DashboardLayout>
+        </AuthProvider>
+      </ThemeProvider>
     </StoreProvider>
   );
 };
