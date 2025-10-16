@@ -2,7 +2,9 @@ import React from "react";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
+import DarkVeil from "@/components/DarkVeil";
 
+// todo have the Authenticator in a seperate file or keep it here?
 Amplify.configure({
   Auth: {
     Cognito: {
@@ -44,12 +46,26 @@ const formFields = {
 
 const AuthProvider = ({ children }: any) => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
-      <Authenticator formFields={formFields}>
-        {({ user }: any) =>
-          user ? <div>{children}</div> : <div>Please sign in below</div>
-        }
-      </Authenticator>
+    <div className="relative h-screen w-full overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <DarkVeil
+          hueShift={0}
+          noiseIntensity={0}
+          scanlineIntensity={0.3}
+          speed={0.5}
+          scanlineFrequency={0}
+          warpAmount={0}
+          resolutionScale={2}
+        />
+      </div>
+
+      <div className="relative z-10 flex min-h-screen items-center justify-center">
+        <Authenticator formFields={formFields}>
+          {({ user }: any) =>
+            user ? <div>{children}</div> : <div>Please sign in below</div>
+          }
+        </Authenticator>
+      </div>
     </div>
   );
 };
