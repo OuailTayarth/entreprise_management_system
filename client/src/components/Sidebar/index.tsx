@@ -3,6 +3,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/app/state";
 import { useGetDepartmentsQuery, useGetDocumentsQuery } from "@/app/state/api";
+import { signOut } from "aws-amplify/auth";
 
 import {
   AlertCircle,
@@ -26,6 +27,7 @@ import {
   Users,
   CircleUserRound,
   LogIn,
+  SignOut,
   LogOut,
   Cog,
   X,
@@ -34,10 +36,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
-
-// @TODO :Add Reports tab on th sidebar with different tabs(e,g board, list) can be salary, performance, hiring
-// where is tab represent specific topic
-// @TODO: In home should be a mix of Chart employee and teams
 
 const Sidebar = () => {
   const { data: departments } = useGetDepartmentsQuery();
@@ -48,6 +46,14 @@ const Sidebar = () => {
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error sign out: ", error);
+    }
+  };
 
   const sidebarClassNames = `fixed flex flex-col h-screen justify-between shadow-xl
   transition-all duration-300 z-40 dark:bg-black overflow-hidden bg-white
@@ -142,14 +148,15 @@ const Sidebar = () => {
         {/* Accounts */}
         {showUserMenu && (
           <>
-            <SidebarLink
-              icon={CircleUserRound}
-              label="Profile"
-              href="/profile"
-            />
             <SidebarLink icon={Settings} label="Settings" href="/settings" />
-            <SidebarLink icon={LogIn} label="LogIn" href="/login" />
-            {/* <SidebarLink icon={LogOut} label="Logout" href="/logout" /> */}
+            <button onClick={handleSignOut} className="w-full text-left">
+              <div className="relative flex cursor-pointer items-center justify-start gap-3 px-8 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">
+                <LogOut className="h-6 w-6 text-gray-800 dark:text-gray-100" />
+                <span className="font-medium text-gray-800 dark:text-gray-100">
+                  SignOut
+                </span>
+              </div>
+            </button>
           </>
         )}
       </div>
