@@ -11,9 +11,9 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    serverExternalPackages: ["@aws-sdk/client-s3", "sharp"],
-  },
+  // experimental: {
+  //   serverExternalPackages: ["@aws-sdk/client-s3", "sharp"],
+  // },
 };
 
 export default nextConfig;
