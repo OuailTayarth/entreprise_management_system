@@ -12,7 +12,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ["@aws-sdk/client-s3", "sharp"],
+    serverExternalPackages: ["@aws-sdk/client-s3", "sharp"],
   },
 };
 

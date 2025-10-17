@@ -26,7 +26,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
     salary: 0,
     email: "",
     jobTitle: "",
-    startDate: "",
+    startDate: new Date(),
     profilePictureUrl: "",
     employmentType: "",
     departmentId: Number(departmentId),
@@ -178,7 +178,11 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
           <input
             type="date"
             className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
-            value={newEmployeeData.startDate}
+            value={
+              newEmployeeData.startDate
+                ? newEmployeeData.startDate.toISOString().split("T")[0]
+                : ""
+            }
             onChange={(e) => handleFieldChange("startDate", e.target.value)}
           />
 

@@ -67,9 +67,9 @@ export default function Employees() {
       !isLoading &&
       employees?.length === 0
     ) {
-      toast.info(`No employees found for "${searchTerm}"`);
+      toast.info(`No employees found for ${searchTerm}`);
     }
-  }, [debouncedSearchTerm, isLoading, employees]);
+  }, [debouncedSearchTerm, isLoading, employees, searchTerm]);
 
   if (isLoading) return <div className="p-8">Loading...</div>;
   if (isError || !employees)

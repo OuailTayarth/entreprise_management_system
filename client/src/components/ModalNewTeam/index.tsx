@@ -15,6 +15,9 @@ const ModalNewTeam = ({ isOpen, onClose }: Props) => {
   const [newTeamData, setNewTeamData] = useState<CreateTeamInput>({
     name: "",
     departmentId: 0,
+    collaborationScore: 0,
+    productivityScore: 0,
+    qualityScore: 0,
   });
 
   const { data: allDepartments } = useGetDepartmentsQuery();

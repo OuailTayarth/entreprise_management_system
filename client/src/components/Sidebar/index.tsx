@@ -27,7 +27,6 @@ import {
   Users,
   CircleUserRound,
   LogIn,
-  SignOut,
   LogOut,
   Cog,
   X,

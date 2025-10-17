@@ -26,7 +26,9 @@ const ModalEditEmployee = ({ isOpen, onClose, employee }: Props) => {
     jobTitle: employee.jobTitle,
     salary: employee.salary,
     profilePictureUrl: employee.profilePictureUrl,
-    startDate: employee.startDate?.split("T")[0] || "",
+    startDate: employee.startDate
+      ? employee.startDate.toISOString().split("T")[0]
+      : "",
     employmentType: employee.employmentType || "",
   });
 

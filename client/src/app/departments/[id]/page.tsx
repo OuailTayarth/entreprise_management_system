@@ -46,9 +46,9 @@ const Department = ({ params }: Props) => {
       !isLoading &&
       employees?.length === 0
     ) {
-      toast.info(`No employees found for "${searchTerm}"`);
+      toast.info(`No employees found for ${searchTerm}`);
     }
-  }, [debouncedSearchTerm, isLoading, employees]);
+  }, [debouncedSearchTerm, isLoading, employees, searchTerm]);
 
   return (
     <div>

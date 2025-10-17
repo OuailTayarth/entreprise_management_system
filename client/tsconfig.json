@@ -30,7 +30,8 @@
     "**/*.ts",
     "**/*.tsx",
     "../shared/**/*.ts",
-    "src/components/charts/TeamProductivityChart"
+    "src/components/charts/TeamProductivityChart",
+    "src/components/DarkVeil"
   ],
   "exclude": ["node_modules"]
 }

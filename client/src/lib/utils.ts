@@ -112,5 +112,5 @@ export const formatSalary = (value: string | number) => {
 };
 
 export const normalizeSalary = (value: number): number => {
-  return Number(value.replace(/[^0-9]/g, ""));
+  return Number(String(value).replace(/[^0-9]/g, ""));
 };

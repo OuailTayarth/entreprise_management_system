@@ -73,7 +73,7 @@ const Search = () => {
             !results.departments?.length &&
             debouncedSearchTerm && (
               <p className="py-8 text-center text-muted-foreground dark:text-white">
-                No results found for "{searchTerm}"
+                No results found for &quot;{searchTerm}&quot;
               </p>
             )}
         </div>
