@@ -1,0 +1,28 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm ci --cache .npm --prefer-offline
+        build:
+          commands:
+            # Recreate env file for the client app
+            - rm -f client/.env.production
+            - touch client/.env.production
+            # Expose ONLY what you need:
+            # 1) All browser-safe vars (NEXT_PUBLIC_*)
+            - env | grep -e NEXT_PUBLIC_ >> client/.env.production || true
+            # 2) Server-side secrets needed at runtime/build (avoid if possible; use IAM)
+            - env | grep -e S3_ACCESS_KEY_ID -e S3_SECRET_ACCESS_KEY >> client/.env.production || true
+            # Build the Next.js app
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - .next/cache/**/*
+          - .npm/**/*
+    appRoot: client
