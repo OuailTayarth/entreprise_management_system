@@ -33,8 +33,11 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
     teamId: undefined,
   });
 
-  const handleFieldChange = (field: keyof CreateEmployeeInput, value: any) => {
-    setNewEmployeeData((prev: CreateEmployeeInput) => ({
+  const handleFieldChange = <K extends keyof CreateEmployeeInput>(
+    field: K,
+    value: CreateEmployeeInput[K],
+  ) => {
+    setNewEmployeeData((prev) => ({
       ...prev,
       [field]: value,
     }));
@@ -170,7 +173,9 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
             className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="Annual Salary"
             value={newEmployeeData.salary}
-            onChange={(e) => handleFieldChange("salary", e.target.value)}
+            onChange={(e) =>
+              handleFieldChange("salary", Number(e.target.value))
+            }
           />
         </div>
 
@@ -183,7 +188,9 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
                 ? newEmployeeData.startDate.toISOString().split("T")[0]
                 : ""
             }
-            onChange={(e) => handleFieldChange("startDate", e.target.value)}
+            onChange={(e) =>
+              handleFieldChange("startDate", new Date(e.target.value))
+            }
           />
 
           <select
