@@ -34,7 +34,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
   });
 
   const handleFieldChange = (field: keyof CreateEmployeeInput, value: any) => {
-    setNewEmployeeData((prev) => ({
+    setNewEmployeeData((prev: CreateEmployeeInput) => ({
       ...prev,
       [field]: value,
     }));
