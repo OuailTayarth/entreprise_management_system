@@ -5,9 +5,9 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import StoreProvider from "./redux";
 import { useAppSelector } from "@/app/redux";
-import AuthProvider from "./authProvider";
-import { ThemeProvider } from "@aws-amplify/ui-react";
+import { ThemeProvider, Authenticator } from "@aws-amplify/ui-react";
 import { myTheme } from "./theme";
+import { usePathname } from "next/navigation";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isSidebarCollapsed = useAppSelector(
@@ -37,13 +37,23 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+const LayoutShell = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
+  const isLogin = pathname?.startsWith("/login");
+  return isLogin ? (
+    <>{children}</>
+  ) : (
+    <DashboardLayout>{children}</DashboardLayout>
+  );
+};
+
 const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <StoreProvider>
       <ThemeProvider theme={myTheme}>
-        <AuthProvider>
-          <DashboardLayout>{children}</DashboardLayout>
-        </AuthProvider>
+        <Authenticator.Provider>
+          <LayoutShell>{children}</LayoutShell>
+        </Authenticator.Provider>
       </ThemeProvider>
     </StoreProvider>
   );

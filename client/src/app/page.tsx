@@ -11,7 +11,6 @@ const Dashboard = () => {
     <div className="px-4 pb-8 xl:px-6">
       <div className="pt-5">
         <Header name="Welcome" />{" "}
-        {/** Todo: add dynamic name(user login name) */}
       </div>
 
       <StatsCards />

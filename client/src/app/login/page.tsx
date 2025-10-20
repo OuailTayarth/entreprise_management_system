@@ -1,19 +1,11 @@
-import React from "react";
-import { Authenticator } from "@aws-amplify/ui-react";
-import { Amplify } from "aws-amplify";
+"use client";
+
+import React, { useEffect } from "react";
+import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import DarkVeil from "@/components/DarkVeil";
-
-// todo have the Authenticator in a seperate file or keep it here?
-Amplify.configure({
-  Auth: {
-    Cognito: {
-      userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "",
-      userPoolClientId:
-        process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "",
-    },
-  },
-});
+import { useRouter } from "next/navigation";
+import { configureAmplify } from "@/app/amplify-client";
 
 const formFields = {
   signUp: {
@@ -47,7 +39,18 @@ const formFields = {
   },
 };
 
-const AuthProvider = ({ children }: any) => {
+configureAmplify();
+
+export default function LoginPage() {
+  const router = useRouter();
+  const { route } = useAuthenticator((context) => [context.route]);
+
+  useEffect(() => {
+    if (route === "authenticated") {
+      router.push("/");
+    }
+  }, [route, router]);
+
   return (
     <div className="relative h-screen w-full overflow-hidden">
       <div className="absolute inset-0 z-0">
@@ -64,13 +67,13 @@ const AuthProvider = ({ children }: any) => {
 
       <div className="relative z-10 flex min-h-screen items-center justify-center">
         <Authenticator formFields={formFields}>
-          {({ user }: any) =>
-            user ? <div>{children}</div> : <div>Please sign in below</div>
-          }
+          {({ user }) => (
+            <div className="mt-4 text-center text-sm text-gray-500">
+              Welcome, {user?.username}! Redirecting...
+            </div>
+          )}
         </Authenticator>
       </div>
     </div>
   );
-};
-
-export default AuthProvider;
+}

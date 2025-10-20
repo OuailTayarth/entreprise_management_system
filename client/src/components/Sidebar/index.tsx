@@ -3,6 +3,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/app/state";
 import { useGetDepartmentsQuery, useGetDocumentsQuery } from "@/app/state/api";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 import { signOut } from "aws-amplify/auth";
 
 import {
@@ -40,12 +41,15 @@ const Sidebar = () => {
   const { data: departments } = useGetDepartmentsQuery();
   const [showDepartments, setShowDepartments] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(true);
+  const pathname = usePathname();
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
 
+  const { user } = useAuthenticator((context) => [context.user]);
+  console.log("user", user);
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -148,14 +152,28 @@ const Sidebar = () => {
         {showUserMenu && (
           <>
             <SidebarLink icon={Settings} label="Settings" href="/settings" />
-            <button onClick={handleSignOut} className="w-full text-left">
-              <div className="relative flex cursor-pointer items-center justify-start gap-3 px-8 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">
-                <LogOut className="h-6 w-6 text-gray-800 dark:text-gray-100" />
-                <span className="font-medium text-gray-800 dark:text-gray-100">
-                  SignOut
-                </span>
-              </div>
-            </button>
+            {user ? (
+              <button onClick={handleSignOut} className="w-full text-left">
+                <div className="relative flex cursor-pointer items-center justify-start gap-3 px-8 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <LogOut className="h-6 w-6 text-gray-800 dark:text-gray-100" />
+                  <span className="font-medium text-gray-800 dark:text-gray-100">
+                    SignOut
+                  </span>
+                </div>
+              </button>
+            ) : (
+              <Link
+                href={{ pathname: "/login", query: { next: pathname || "/" } }}
+                className="w-full text-left"
+              >
+                <div className="relative flex cursor-pointer items-center justify-start gap-3 px-8 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <LogIn className="h-6 w-6 text-gray-800 dark:text-gray-100" />
+                  <span className="font-medium text-gray-800 dark:text-gray-100">
+                    Sign In
+                  </span>
+                </div>
+              </Link>
+            )}
           </>
         )}
       </div>
