@@ -25,11 +25,28 @@ const columns: GridColDef[] = [
     type: "number",
     align: "center",
   },
+
+  {
+    field: "collaborationScore",
+    headerName: "Collaboration Score",
+    width: 160,
+  },
+  {
+    field: "productivityScore",
+    headerName: "Productivity Score",
+    width: 160,
+  },
+  {
+    field: "qualityScore",
+    headerName: "Quality Score",
+    width: 160,
+  },
 ];
 
 const Teams = () => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const { data: teams, isLoading } = useGetTeamsWithDetailsQuery();
+  console.log("teams", teams);
   const [isModalNewTeamOpen, setIsModalNewTeamOpen] = useState(false);
 
   if (isLoading) {

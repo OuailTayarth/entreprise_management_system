@@ -103,6 +103,9 @@ const getTeamWithDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
             select: {
                 id: true,
                 name: true,
+                collaborationScore: true,
+                productivityScore: true,
+                qualityScore: true,
                 department: {
                     select: { name: true },
                 },
@@ -114,6 +117,9 @@ const getTeamWithDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const teamDetails = teams.map((team) => ({
             id: team.id,
             name: team.name,
+            collaborationScore: team.collaborationScore,
+            productivityScore: team.productivityScore,
+            qualityScore: team.qualityScore,
             departmentName: team.department.name,
             employeeCount: team._count.employees,
         }));

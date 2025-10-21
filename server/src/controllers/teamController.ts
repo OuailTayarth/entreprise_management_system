@@ -126,6 +126,9 @@ export const getTeamWithDetails = async (
       select: {
         id: true,
         name: true,
+        collaborationScore: true,
+        productivityScore: true,
+        qualityScore: true,
         department: {
           select: { name: true },
         },
@@ -138,6 +141,9 @@ export const getTeamWithDetails = async (
     const teamDetails = teams.map((team) => ({
       id: team.id,
       name: team.name,
+      collaborationScore: team.collaborationScore,
+      productivityScore: team.productivityScore,
+      qualityScore: team.qualityScore,
       departmentName: team.department.name,
       employeeCount: team._count.employees,
     }));

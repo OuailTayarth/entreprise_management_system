@@ -26,11 +26,17 @@ export const dataGridSxStyles = (isDarkMode: boolean) => ({
     backgroundColor: isDarkMode ? "#2d3135" : "#e0e7ff",
     color: isDarkMode ? "#e5e7eb" : undefined,
   },
-
+  "& .MuiDataGrid-columnHeaderTitleContainer": {
+    justifyContent: "center",
+  },
+  "& .MuiDataGrid-cell, & .MuiDataGrid-cellContent": {
+    textAlign: "center",
+  },
   "& .MuiDataGrid-cell, & .MuiDataGrid-cellContent, & .MuiDataGrid-columnHeaderTitle":
     {
       fontFamily: "var(--font-poppins), system-ui, sans-serif !important",
       fontSize: "0.875rem !important",
+      textAlign: "center",
     },
   "& .MuiDataGrid-columnHeaderTitle": {
     fontWeight: 500,

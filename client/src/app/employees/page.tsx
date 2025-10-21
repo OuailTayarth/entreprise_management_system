@@ -104,6 +104,7 @@ export default function Employees() {
       setEmployeeToDelete(null);
     }
   };
+
   const columns: GridColDef[] = [
     {
       field: "profilePicture",
@@ -159,16 +160,7 @@ export default function Employees() {
       headerName: "Job Title",
       width: 150,
     },
-    {
-      field: "employmentType",
-      headerName: "Employment Type",
-      width: 180,
-      renderCell: (params) => (
-        <span className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800">
-          {params.value || "N/A"}
-        </span>
-      ),
-    },
+
     {
       field: "salary",
       headerName: "Salary",
@@ -184,11 +176,12 @@ export default function Employees() {
       width: 120,
     },
     {
-      field: "endDate",
-      headerName: "End Date",
-      valueFormatter: (value) =>
-        value ? format(new Date(value), "PP") : "N/A",
+      field: "performanceScore",
+      headerName: "Score",
+      headerAlign: "center",
       width: 120,
+      type: "number",
+      align: "center",
     },
     {
       field: "actions",
@@ -198,7 +191,7 @@ export default function Employees() {
         const employee = params.row as EmployeeResp;
 
         return (
-          <div className="flex h-full w-full items-center gap-2 p-0">
+          <div className="flex h-full w-full items-center justify-center gap-2 p-0">
             <button
               onClick={() => handleEdit(employee)}
               className="rounded-md p-1 hover:bg-gray-200 dark:hover:bg-dark-tertiary"
