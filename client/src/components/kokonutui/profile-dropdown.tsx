@@ -17,6 +17,7 @@ type ProfileDropdownProps = React.HTMLAttributes<HTMLDivElement> & {
   email: string;
   avatar: string;
   onSignOut?: () => void;
+  
 };
 
 export default function ProfileDropdown({

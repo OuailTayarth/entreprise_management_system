@@ -1,18 +1,18 @@
 import React from "react";
 import { Menu, Search, Settings, Sun, Moon } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
-import Link from "next/link";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/app/state";
 import { signOut } from "aws-amplify/auth";
 import ProfileDropdown from "@/components/kokonutui/profile-dropdown";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useCognitoProfile } from "@/hooks/useCognitoProfile";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
-  const { user } = useAuthenticator((context) => [context.user]);
+  const profile = useCognitoProfile();
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -34,13 +34,15 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center">
-        <ProfileDropdown
-          onSignOut={handleSignOut}
-          avatar={"/assets/profil.jpg"}
-          name={"Ouail Tayarth"}
-          email={"ouailtayarth@gmail.com"}
-          className="ml-2"
-        />
+        {profile && (
+          <ProfileDropdown
+            onSignOut={handleSignOut}
+            avatar={profile.avatar}
+            name={profile.name}
+            email={profile.email}
+            className="ml-2"
+          />
+        )}
         <button
           onClick={() => dispatch(setIsDarkMode(!isDarkMode))}
           className={`ml-3 rounded p-2 ${isDarkMode ? "dark:hover:bg-gray-700" : "hover:bg-gray-100"}`}

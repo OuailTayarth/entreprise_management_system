@@ -5,12 +5,14 @@ import AiGrid from "@/components/AiGrid";
 import { StatsCards } from "@/components/StatsCards";
 import { TopEmployees } from "@/components/TopEmployees";
 import { PerformanceTrendChartArea } from "@/components/charts/PerformanceTrendChartArea";
+import { useCognitoProfile } from "@/hooks/useCognitoProfile";
 
 const Dashboard = () => {
+  const profile = useCognitoProfile();
   return (
     <div className="px-4 pb-8 xl:px-6">
       <div className="pt-5">
-        <Header name="Welcome" />{" "}
+        <Header name={profile?.name ? `Welcome ${profile.name}` : "Welcome"} />
       </div>
 
       <StatsCards />

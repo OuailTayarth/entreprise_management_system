@@ -8,6 +8,9 @@ import { useAppSelector } from "@/app/redux";
 import { ThemeProvider, Authenticator } from "@aws-amplify/ui-react";
 import { myTheme } from "./theme";
 import { usePathname } from "next/navigation";
+import { configureAmplify } from "@/app/amplify-client";
+
+configureAmplify();
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isSidebarCollapsed = useAppSelector(

@@ -7,10 +7,6 @@ import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import Threads from "@/components/Threads";
-import { configureAmplify } from "@/app/amplify-client";
-
-configureAmplify();
 
 const formFields = {
   signUp: {

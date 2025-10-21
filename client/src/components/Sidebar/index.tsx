@@ -4,7 +4,9 @@ import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/app/state";
 import { useGetDepartmentsQuery, useGetDocumentsQuery } from "@/app/state/api";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
 import { signOut } from "aws-amplify/auth";
+import { useCognitoProfile } from "@/hooks/useCognitoProfile";
 
 import {
   AlertCircle,
@@ -48,8 +50,10 @@ const Sidebar = () => {
     (state) => state.global.isSidebarCollapsed,
   );
 
+  const profile = useCognitoProfile();
+
   const { user } = useAuthenticator((context) => [context.user]);
-  console.log("user", user);
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -81,18 +85,17 @@ const Sidebar = () => {
           )}
         </div>
 
-        {/* TEAM */}
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
           <Image
-            src="/assets/profil.jpg"
+            src={profile?.avatar ?? "/placeholder.jpg"}
             alt="Logo"
-            width={40}
-            height={40}
-            className="rounded"
+            width={50}
+            height={50}
+            className="rounded object-cover"
           />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
-              Ouail Tayarth
+              {profile?.name}
             </h3>
             <div className="mt-1 flex items-start gap-2">
               <LockIcon className="mt-[0.1rem] h-3 w-3 text-gray-500 dark:text-gray-400" />
