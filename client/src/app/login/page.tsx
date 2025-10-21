@@ -1,11 +1,16 @@
 "use client";
 
 import React, { useEffect } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import DarkVeil from "@/components/DarkVeil";
-import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import Threads from "@/components/Threads";
 import { configureAmplify } from "@/app/amplify-client";
+
+configureAmplify();
 
 const formFields = {
   signUp: {
@@ -39,31 +44,31 @@ const formFields = {
   },
 };
 
-configureAmplify();
-
 export default function LoginPage() {
   const router = useRouter();
-  const { route } = useAuthenticator((context) => [context.route]);
+  const { route } = useAuthenticator((c) => [c.route]);
+  const next = useSearchParams().get("next") || "/";
 
   useEffect(() => {
-    if (route === "authenticated") {
-      router.push("/");
-    }
-  }, [route, router]);
+    if (route === "authenticated") router.replace(next);
+  }, [route, next, router]);
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <DarkVeil
-          hueShift={0}
-          noiseIntensity={0}
-          scanlineIntensity={0.3}
-          speed={0.5}
-          scanlineFrequency={0}
-          warpAmount={0}
-          resolutionScale={2}
-        />
-      </div>
+      <nav className="fixed left-2 top-2 z-30">
+        <Button asChild variant="ghost" className="group px-2 py-2">
+          <Link href={next} aria-label="Back to Home">
+            <ArrowLeft
+              size={16}
+              aria-hidden="true"
+              className="transition-transform group-hover:-translate-x-0.5"
+            />
+            <span className="text-sm font-medium">Back to Home</span>
+          </Link>
+        </Button>
+      </nav>
+
+      <div className="absolute inset-0 z-0"></div>
 
       <div className="relative z-10 flex min-h-screen items-center justify-center">
         <Authenticator formFields={formFields}>
