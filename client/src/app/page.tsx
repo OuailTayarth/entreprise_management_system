@@ -22,13 +22,13 @@ const Dashboard = () => {
           <div className="md:col-span-2">
             <div className="mt-3 grid grid-rows-2 gap-6">
               <div>
-                <PerformanceTrendChartArea />
-              </div>
-              <div>
                 <h2 className="mb-0 pb-2 text-xl font-medium dark:text-white">
                   Our Upcoming AI Products
                 </h2>
                 <AiGrid />
+              </div>
+              <div>
+                <PerformanceTrendChartArea />
               </div>
             </div>
           </div>

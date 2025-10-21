@@ -24,6 +24,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { toast } from "react-toastify";
 import ModalEditEmployee from "@/components/ModalEditEmployee";
 import EmployeeDeleteDialog from "@/components/EmployeeDeleteDialog";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 export default function Employees() {
   const [paginationModel, setPaginationModel] = React.useState({
@@ -44,6 +45,11 @@ export default function Employees() {
 
   const debouncedSearchTerm = useDebounce<string>(searchTerm);
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+
+  // check the authenticator is an admin or not
+  const { user } = useAuthenticator((ctx) => [ctx.user]);
+  const isAdmin = user?.userId === process.env.NEXT_PUBLIC_ADMIN_AUTH_ID;
+  console.log("is Admin ", isAdmin);
 
   //API data
   const {
@@ -188,6 +194,7 @@ export default function Employees() {
       headerName: "Actions",
       width: 120,
       renderCell: (params) => {
+        if (!isAdmin) return [];
         const employee = params.row as EmployeeResp;
 
         return (
@@ -227,6 +234,7 @@ export default function Employees() {
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10]}
+          columnVisibilityModel={{ actions: isAdmin }}
           className={dataGridClassNames}
           sx={dataGridSxStyles(isDarkMode)}
         />
