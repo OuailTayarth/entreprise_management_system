@@ -144,17 +144,16 @@ const Sidebar = () => {
           onClick={() => setShowUserMenu((prev) => !prev)}
           className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
         >
-          <span>Account</span>
+          <span>Authentication</span>
           {showUserMenu ? (
             <ChevronUp className="h-5 w-5" />
           ) : (
             <ChevronDown className="h-5 w-5" />
           )}
         </button>
-        {/* Accounts */}
+
         {showUserMenu && (
           <>
-            <SidebarLink icon={Settings} label="Settings" href="/settings" />
             {user ? (
               <button onClick={handleSignOut} className="w-full text-left">
                 <div className="relative flex cursor-pointer items-center justify-start gap-3 px-8 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">
