@@ -29,7 +29,7 @@ const Search = () => {
         <input
           type="text"
           placeholder="Search employees, or teams..."
-          className="w-full max-w-2xl rounded border p-3 shadow"
+          className="w-full max-w-2xl rounded border p-3 shadow dark:text-black"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
