@@ -6,7 +6,7 @@ import { StatsCards } from "@/components/StatsCards";
 import { TopEmployees } from "@/components/TopEmployees";
 import { PerformanceTrendChartArea } from "@/components/charts/PerformanceTrendChartArea";
 import { useCognitoProfile } from "@/hooks/useCognitoProfile";
-
+//
 const Dashboard = () => {
   const profile = useCognitoProfile();
   return (
