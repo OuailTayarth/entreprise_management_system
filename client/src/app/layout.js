@@ -4,7 +4,6 @@ import DashboardWrapper from "./dashboardWrapper";
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -17,11 +16,9 @@ export const metadata = {
     "Comprehensive HR platform for managing employees, departments, onboarding, leave requests, and HR documentation. Streamline your workforce operations with real-time analytics and workflow automation.",
 };
 
-
-
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={poppins.variable}>
         <DashboardWrapper>
           {children}{" "}
