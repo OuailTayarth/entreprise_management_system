@@ -12,7 +12,7 @@ export function TopEmployees() {
 
   return (
     <div className="h-full">
-      <section className="py-10">
+      <section className="py-3 xl:py-4">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-5">
           <div className="h-full">
             <motion.div
@@ -40,7 +40,7 @@ export function TopEmployees() {
                     >
                       <div className="relative flex items-center justify-center">
                         {employee.profilePictureUrl ? (
-                          <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white dark:border-dark-tertiary">
+                          <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white dark:border-dark-tertiary sm:h-12 sm:w-12">
                             <Image
                               src={keyToUrl(employee.profilePictureUrl)}
                               alt={employee.username || "Employee"}

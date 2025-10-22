@@ -6,12 +6,10 @@ type Props = {
   isSmallText?: boolean;
 };
 
-const Header = ({ name, buttonComponent, isSmallText = false }: Props) => {
+const Header = ({ name, buttonComponent }: Props) => {
   return (
-    <div className="mb-5 flex w-full items-center justify-between">
-      <h1
-        className={`${isSmallText ? "text-lg" : "text-2xl"} font-semibold dark:text-white`}
-      >
+    <div className="mb-5 flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-2xl lg:text-3xl">
         {name}
       </h1>
       {buttonComponent}

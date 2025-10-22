@@ -8,12 +8,12 @@ import { cn } from "@/lib/utils";
 const AiGrid = () => {
   return (
     <section className="py-3">
-      <div className="mx-auto grid max-w-7xl cursor-pointer grid-cols-1 gap-6 px-4 md:grid-cols-2">
+      <div className="mx-auto grid max-w-7xl cursor-pointer grid-cols-1 gap-4 px-4 sm:gap-6 sm:px-6 md:grid-cols-2 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-5 shadow transition-all hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30"
+          className="rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-5 shadow transition-all hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30 sm:p-5 lg:p-6"
         >
           <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
             AI Agents & Automation
@@ -39,12 +39,11 @@ const AiGrid = () => {
           />
         </motion.div>
 
-        {/* Voice Assistant Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-5 shadow transition-all hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30"
+          className="rounded-xl border border-neutral-200/60 bg-gradient-to-b from-neutral-50/60 via-neutral-50/40 to-neutral-50/30 p-4 p-5 shadow transition-all hover:shadow-lg dark:border-neutral-800/60 dark:from-neutral-900/60 dark:via-neutral-900/40 dark:to-neutral-900/30 sm:p-5 lg:p-6"
         >
           <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
             Voice Assistant
@@ -154,7 +153,7 @@ function VoiceAssistant() {
           {formatTime(time)}
         </span>
 
-        <div className="flex h-4 w-64 items-center justify-center gap-0.5">
+        <div className="flex h-4 w-56 items-center justify-center gap-0.5 sm:w-64 md:w-80">
           {[...Array(48)].map((_, i) => (
             <div
               key={`voice-bar-${i}`}
@@ -213,7 +212,7 @@ const TypingCodeFeature = ({ text }: { text: string }) => {
       </div>
       <div
         ref={terminalRef}
-        className="h-[150px] overflow-y-auto rounded-md bg-neutral-900 p-3 font-mono text-xs text-neutral-100 dark:bg-black"
+        className="h-[140px] overflow-y-auto rounded-md bg-neutral-900 p-3 font-mono text-xs text-neutral-100 dark:bg-black sm:h-[180px] md:h-[220px]"
       >
         <pre className="whitespace-pre-wrap">
           {displayedText}

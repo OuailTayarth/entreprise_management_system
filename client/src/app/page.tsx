@@ -10,7 +10,7 @@ import { useCognitoProfile } from "@/hooks/useCognitoProfile";
 const Dashboard = () => {
   const profile = useCognitoProfile();
   return (
-    <div className="px-4 pb-8 xl:px-6">
+    <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
       <div className="pt-5">
         <Header name={profile?.name ? `Welcome ${profile.name}` : "Welcome"} />
       </div>
@@ -18,9 +18,9 @@ const Dashboard = () => {
       <StatsCards />
 
       <section className="mb-14">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="md:col-span-2">
-            <div className="mt-3 grid grid-rows-2 gap-6">
+        <div className="grid grid-cols-1 gap-y-4 sm:gap-x-6 sm:gap-y-6 xl:grid-cols-3 xl:gap-x-8">
+          <div className="xl:col-span-2">
+            <div className="mt-3 grid grid-cols-1 gap-6">
               <div>
                 <h2 className="mb-0 pb-2 text-xl font-medium dark:text-white">
                   Our Upcoming AI Products
@@ -33,7 +33,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="md:col-span-1">
+          <div className="mt-1 xl:col-span-1 xl:mt-0">
             <TopEmployees />
           </div>
         </div>
