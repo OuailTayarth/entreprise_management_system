@@ -173,9 +173,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
             className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="Annual Salary"
             value={newEmployeeData.salary}
-            onChange={(e) =>
-              handleFieldChange("salary", Number(e.target.value))
-            }
+            onChange={(e) => handleFieldChange("salary", e.target.value)}
           />
         </div>
 
