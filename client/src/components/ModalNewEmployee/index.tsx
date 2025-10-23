@@ -169,7 +169,7 @@ const ModalNewEmployee = ({ isOpen, onClose, departmentId }: Props) => {
           />
 
           <input
-            type="text"
+            type="number"
             className="w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none"
             placeholder="Annual Salary"
             value={newEmployeeData.salary}

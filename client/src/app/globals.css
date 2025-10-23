@@ -84,6 +84,7 @@ body,
   width: 100%;
 }
 
+/* Amplify login page styling */
 .amplify-tabs__item {
   font-size: 14px !important;
   padding: 12px !important;
@@ -134,4 +135,16 @@ body,
 
 .amplify-tabs__list {
   border: none !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
