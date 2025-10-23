@@ -6,6 +6,7 @@ import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useGetTeamsWithDetailsQuery } from "@/app/state/api";
 import ModalNewTeam from "@/components/ModalNewTeam";
+import { PlusSquare } from "lucide-react";
 
 const columns: GridColDef[] = [
   {
@@ -69,7 +70,8 @@ const Teams = () => {
                 className="flex items-center rounded bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
                 onClick={() => setIsModalNewTeamOpen(true)}
               >
-                Add New Team
+                <PlusSquare className="mr-2 h-5 w-5" />
+                New Team
               </button>
             }
           />
