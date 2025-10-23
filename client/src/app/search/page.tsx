@@ -21,9 +21,9 @@ const Search = () => {
       skip: !debouncedSearchTerm,
     },
   );
-
+    
   return (
-    <div className="p-8">
+    <div className="p-8 dark:text-black">
       <Header name="Search" />
       <div className="mb-6">
         <input
