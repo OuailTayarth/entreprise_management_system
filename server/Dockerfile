@@ -18,7 +18,8 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 USER node
 EXPOSE 8000
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
+CMD ["sh","-c","npx prisma migrate deploy && node dist/src/index.js"]
+
 
 
 
