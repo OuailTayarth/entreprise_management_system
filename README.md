@@ -27,6 +27,7 @@ I built it as a deep-dive learning project to strengthen my skills with **AWS we
 - **Front-end**: Next.js, Redux Toolkit, Tailwind CSS, TypeScript
 - **Back-end**: Node.js, Express, Prisma, PostgreSQL, TypeScript
 - **Cloud (AWS)**: AWS EC2, AWS RDS, AWS API Gateway, AWS Amplify, AWS S3, AWS Cognito
+- **DevOps**: Docker
 - **Testing**: Vitest, Supertest
 
 ## Getting Started
