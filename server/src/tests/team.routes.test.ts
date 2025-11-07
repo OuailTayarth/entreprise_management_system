@@ -35,7 +35,7 @@ test("POST /teams(invalid) -> 400", async () => {
   expect(res.status).toBe(400);
 });
 
-/* GET /teams/:id */
+/* GET /teams/:id */ ///
 test("GET /teams/:id -> 200 found", async () => {
   const id = createdTeamId;
   const res = await request(app).get(`/teams/${id}`);
