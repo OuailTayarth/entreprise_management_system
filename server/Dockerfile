@@ -13,6 +13,7 @@ FROM node:22-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/dist ./dist
+COPY --from=build /app/prisma/seedData ./dist/prisma/seedData
 COPY --from=build /app/prisma ./prisma
 COPY package*.json ./
 RUN npm ci --omit=dev
