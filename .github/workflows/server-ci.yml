@@ -37,8 +37,8 @@ jobs:
           cache-dependency-path: server/package-lock.json
       - run: npm ci
       - run: npx prisma generate
-      - run: npx prisma migrate deploy
-      - run: sleep 10
-      - run: npm run seed
-      - run: npm test
       - run: npm run build
+      - run: until pg_isready -h db -U postgres; do sleep 1; done
+      - run: npx prisma migrate deploy
+      - run: npm run seed
+      - run: npm test -- --fileParallelism=false
