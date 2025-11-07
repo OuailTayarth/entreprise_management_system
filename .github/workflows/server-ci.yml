@@ -10,6 +10,7 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    container: node:22-alpine
     defaults:
       run:
         working-directory: server
@@ -34,5 +35,6 @@ jobs:
           cache-dependency-path: server/package-lock.json
       - run: npm ci
       - run: npx prisma generate
+      - run: npx prisma migrate deploy
       - run: npm test
       - run: npm run build

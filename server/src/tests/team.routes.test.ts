@@ -11,7 +11,7 @@ afterAll(async () => {
   await prisma.$disconnect();
 });
 
-/* GET /teams */
+/* GET /teams */ /////
 test("GET /teams -> 200 & array", async () => {
   const res = await request(app).get("/teams");
   expect(res.status).toBe(200);
