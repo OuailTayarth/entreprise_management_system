@@ -27,7 +27,7 @@ jobs:
           --health-cmd "pg_isready -U postgres"
           --health-interval 10s --health-retries 10
     env:
-      DATABASE_URL: ${{secrets.DATABASE_URL}}
+      DATABASE_URL: postgresql://postgres:${{secrets.POSTGRES_PASSWORD}}@db:5432/projectManagement?schema=public
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
