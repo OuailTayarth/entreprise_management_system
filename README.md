@@ -2,7 +2,7 @@
 
 A full-stack HR dashboard to manage employees, teams and departments, role-based access, and analytics charts.
 
-I built it as a deep-dive learning project to strengthen my skills with **AWS web services** (EC2, RDS, API Gateway, Amplify, S3, Cognito), **PostgreSQL + Prisma**, **Redux Toolkit**, and in designing a **scalable end-to-end** web application on AWS.
+I built it as a deep-dive to strengthen my skills with **AWS web services** (EC2, RDS, API Gateway, Amplify, S3, Cognito), **PostgreSQL + Prisma**, **Redux Toolkit**, and in designing a **scalable end-to-end** web application on AWS.
 
 <a href="https://myvediosportfolio.s3.eu-north-1.amazonaws.com/DashboardScreen.png">
   <img src="https://myvediosportfolio.s3.eu-north-1.amazonaws.com/DashboardScreen.png" alt="Enterprise HR Management Dashboard" border="0">
@@ -27,7 +27,7 @@ I built it as a deep-dive learning project to strengthen my skills with **AWS we
 - **Front-end**: Next.js, Redux Toolkit, Tailwind CSS, TypeScript
 - **Back-end**: Node.js, Express, Prisma, PostgreSQL, TypeScript
 - **Cloud (AWS)**: AWS EC2, AWS RDS, AWS API Gateway, AWS Amplify, AWS S3, AWS Cognito
-- **DevOps**: Docker
+- **DevOps**: Docker, Docker Compose, GitHub Actions (CI/CD)
 - **Testing**: Vitest, Supertest
 
 ## Getting Started
