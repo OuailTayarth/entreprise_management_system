@@ -2,7 +2,9 @@ name: server-ci
 on:
   push:
     branches: [master]
-    paths: ["server/**"]
+    paths:
+      - "server/**"
+      - ".github/workflows/server-ci.yml"
   pull_request:
     branches: [master]
     paths: ["server/**"]
@@ -36,5 +38,7 @@ jobs:
       - run: npm ci
       - run: npx prisma generate
       - run: npx prisma migrate deploy
+      - run: sleep 10
+      - run: npm run seed
       - run: npm test
       - run: npm run build
