@@ -1,8 +1,8 @@
 # Enterprise HR Management Dashboard
 
-A full-stack HR dashboard to manage employees, teams and departments, role-based access, and analytics charts.
+A full-stack HR dashboard application to manage employees, teams, and departments with role-based access and analytics charts, containerized with Docker and fully deployed on AWS.
 
-I built it as a deep-dive to strengthen my skills with **AWS web services** (EC2, RDS, API Gateway, Amplify, S3, Cognito), **PostgreSQL + Prisma**, **Redux Toolkit**, and in designing a **scalable end-to-end** web application on AWS.
+I built this project as a deep dive to strengthen my skills with **AWS web services** (EC2, RDS, API Gateway, Amplify, S3, Cognito), **PostgreSQL + Prisma**, **Redux Toolkit**, and in designing a **scalable end-to-end** web application on AWS.
 
 <a href="https://myvediosportfolio.s3.eu-north-1.amazonaws.com/DashboardScreen.png">
   <img src="https://myvediosportfolio.s3.eu-north-1.amazonaws.com/DashboardScreen.png" alt="Enterprise HR Management Dashboard" border="0">
