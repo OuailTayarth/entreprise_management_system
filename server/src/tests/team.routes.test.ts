@@ -14,6 +14,7 @@ afterAll(async () => {
 /* GET /teams */ /////
 test("GET /teams -> 200 & array", async () => {
   const res = await request(app).get("/teams");
+  console.log(res.body);
   expect(res.status).toBe(200);
   expect(Array.isArray(res.body)).toBe(true);
 });
