@@ -10,7 +10,8 @@
     "dev": "npm run build && concurrently \"npx tsc -w\" \"nodemon --exec ts-node -r tsconfig-paths/register src/index.ts\"",
     "seed:dev": "ts-node prisma/seed.ts",
     "seed": "prisma db seed",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "test:docker": "vitest --mode docker"
   },
   "prisma": {
     "seed": "node dist/prisma/seed.js"

@@ -18,9 +18,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    env_file: .env
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
+    env_file: .env.docker
     ports: ["8000:8000"]
 volumes:
   pg:
