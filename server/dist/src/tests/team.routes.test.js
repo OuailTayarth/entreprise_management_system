@@ -22,9 +22,10 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     }
     yield prismaClient_1.prisma.$disconnect();
 }));
-/* GET /teams */
+/* GET /teams */ /////
 test("GET /teams -> 200 & array", () => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield (0, supertest_1.default)(app_1.app).get("/teams");
+    console.log(res.body);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
 }));
@@ -43,7 +44,7 @@ test("POST /teams(invalid) -> 400", () => __awaiter(void 0, void 0, void 0, func
         .send({ name: "", departmentId: "2" });
     expect(res.status).toBe(400);
 }));
-/* GET /teams/:id */
+/* GET /teams/:id */ ///
 test("GET /teams/:id -> 200 found", () => __awaiter(void 0, void 0, void 0, function* () {
     const id = createdTeamId;
     const res = yield (0, supertest_1.default)(app_1.app).get(`/teams/${id}`);

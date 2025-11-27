@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SearchAll = void 0;
-const validation_1 = require("@shared/validation");
-const prismaClient_1 = require("src/prismaClient");
+const validation_1 = require("../../shared/validation");
+const prismaClient_1 = require("../../src/prismaClient");
 const SearchAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const parsedSearchSchema = validation_1.SearchQuerySchema.safeParse(req.query);

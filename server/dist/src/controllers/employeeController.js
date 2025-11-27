@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEmployeeById = exports.getAvgPerformanceByMonth = exports.getPerformanceTrends = exports.createEmployee = exports.updateEmployeeById = exports.getEmployeeById = exports.searchEmployees = exports.searchEmployeesByDepartment = exports.getEmployeesByDepartmentId = exports.getEmployees = void 0;
 const prismaClient_1 = require("../../src/prismaClient");
 const uuid_1 = require("uuid");
-const validation_1 = require("@shared/validation");
+const validation_1 = require("../../shared/validation");
 // Get all employees list : / GET /employees
 const getEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

@@ -1,14 +1,14 @@
 # Enterprise HR Management Dashboard
 
-A full-stack HR dashboard application to manage employees, teams, and departments with role-based access and analytics charts, containerized with Docker and fully deployed on AWS.
+A full-stack HR dashboard application to manage employees, teams, and departments with role-based access and analytics charts, containerized with Docker and deployed on Render and Neon.
 
-I built this project as a deep dive to strengthen my skills with **AWS web services** (EC2, RDS, API Gateway, Amplify, S3, Cognito), **PostgreSQL + Prisma**, **Redux Toolkit**, and in designing a **scalable end-to-end** web application on AWS.
+I built this project as a deep dive to strengthen my skills with **Render**, **Neon**, **AWS web services**, **PostgreSQL** + **Prisma**, **Redux Toolkit**, and in designing a scalable end-to-end web application.
 
 <a href="https://myvediosportfolio.s3.eu-north-1.amazonaws.com/DashboardScreen.png">
   <img src="https://myvediosportfolio.s3.eu-north-1.amazonaws.com/DashboardScreen.png" alt="Enterprise HR Management Dashboard" border="0">
 </a>
 
-**Live Demo:** <a href="https://master.dvqxjngzatj72.amplifyapp.com/" target="_blank">https://master.dvqxjngzatj72.amplifyapp.com/</a>  
+**Live Demo:** <a href="https://master.duoj24imqub25.amplifyapp.com/" target="_blank">https://master.duoj24imqub25.amplifyapp.com/</a>  
 **Video Demo:** <a href="https://myvediosportfolio.s3.eu-north-1.amazonaws.com/dashboard.mp4" target="_blank">https://myvediosportfolio.s3.eu-north-1.amazonaws.com/dashboard.mp4</a>
 
 ## Features
@@ -26,7 +26,7 @@ I built this project as a deep dive to strengthen my skills with **AWS web servi
 
 - **Front-end**: Next.js, Redux Toolkit, Tailwind CSS, TypeScript
 - **Back-end**: Node.js, Express, Prisma, PostgreSQL, TypeScript
-- **Cloud (AWS)**: AWS EC2, AWS RDS, AWS API Gateway, AWS Amplify, AWS S3, AWS Cognito
+- **Cloud**: Render (Backend Deployment), Neon (PostgreSQL Database), AWS (API, Amplify, S3, Cognito)
 - **DevOps**: Docker, Docker Compose, GitHub Actions (CI/CD)
 - **Testing**: Vitest, Supertest
 

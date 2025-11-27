@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateOnboardingTaskById = exports.createOnboardingTask = exports.getOnboardingTasks = void 0;
 const prismaClient_1 = require("../prismaClient");
-const validation_1 = require("@shared/validation");
+const validation_1 = require("../../shared/validation");
 // GET /onboarding-tasks
 const getOnboardingTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
