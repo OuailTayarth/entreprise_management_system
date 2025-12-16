@@ -41,7 +41,7 @@ jobs:
       - run: npm ci
       - run: npx prisma generate
       - run: npx prisma migrate deploy
-
+      - run: sleep 10
       - run: npm run seed
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.seed }}
 
