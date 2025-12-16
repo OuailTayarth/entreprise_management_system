@@ -107,3 +107,40 @@ model OnboardingTask {
   assigneeId  Int
   assignee    Employee  @relation(fields: [assigneeId], references: [id], onDelete: Cascade)
 }
+
+
+
+// 👤 AUTHOR
+model Author {
+  id        Int      @id @default(autoincrement())
+  name      String
+  bio       String?
+  rating    Float    @default(0)
+  createdAt DateTime @default(now())
+
+  books     Book[]
+}
+
+// 📚 BOOK
+model Book {
+  id          Int      @id @default(autoincrement())
+  title       String
+  price       Decimal  @db.Decimal(10, 2)
+  publishedAt DateTime?
+  inStock     Boolean  @default(true)
+  authorId    Int
+
+  author      Author   @relation(fields: [authorId], references: [id])
+  reviews     Review[]
+}
+
+// ⭐ REVIEW
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  bookId    Int
+
+  book      Book     @relation(fields: [bookId], references: [id])
+}

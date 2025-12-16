@@ -30,7 +30,9 @@ export function TopEmployees() {
                 </p>
 
                 <div className="grid grid-cols-2 gap-4">
-                  {topEmployees.map((employee, index) => (
+                  {topEmployees.map((employee, index) => {
+                    console.log('employee profilePictureUrl!!',employee.profilePictureUrl);
+                    return (
                     <motion.div
                       key={employee.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -64,7 +66,8 @@ export function TopEmployees() {
                         {employee.firstName} {employee.lastName}
                       </span>
                     </motion.div>
-                  ))}
+                  );
+                  })}
                 </div>
               </div>
             </motion.div>

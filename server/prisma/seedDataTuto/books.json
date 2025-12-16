@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "The Wandering Witches",
+    "price": "19.99",
+    "publishedAt": "2022-03-10T00:00:00.000Z",
+    "inStock": true,
+    "authorId": 1
+  },
+  {
+    "id": 2,
+    "title": "Throne of Winters",
+    "price": "24.50",
+    "publishedAt": "2021-11-01T00:00:00.000Z",
+    "inStock": true,
+    "authorId": 2
+  },
+  {
+    "id": 3,
+    "title": "Echoes of Tokyo",
+    "price": "18.00",
+    "publishedAt": "2020-06-20T00:00:00.000Z",
+    "inStock": true,
+    "authorId": 3
+  },
+  {
+    "id": 4,
+    "title": "Pemberley Days",
+    "price": "14.99",
+    "publishedAt": "2019-02-14T00:00:00.000Z",
+    "inStock": true,
+    "authorId": 4
+  },
+  {
+    "id": 5,
+    "title": "Midnight in Maine",
+    "price": "21.00",
+    "publishedAt": "2023-08-05T00:00:00.000Z",
+    "inStock": true,
+    "authorId": 5
+  }
+]
